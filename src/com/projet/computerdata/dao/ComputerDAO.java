@@ -1,12 +1,10 @@
 package com.projet.computerdata.dao;
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -18,106 +16,21 @@ import javax.naming.Reference;
 import javax.naming.StringRefAddr;
 import javax.sql.DataSource;*/
 
-//import java.text.SimpleDateFormat;
-//import java.sql.Timestamp;
-
-
-
-import java.util.logging.Logger;
+//import java.util.logging.Logger;
 
 import com.projet.computerdata.model.Company;
 import com.projet.computerdata.model.Computer;
+import com.projet.computerdata.service.ComputerDataService;
 
 public enum ComputerDAO {
 
 	INSTANCE;
 
-	private Connection cn;
 	private PreparedStatement preparedStatement;
 	private Statement statement;
 	private ResultSet resultSet ;
 
-	/**
-	 * Méthode pour se connecter à la base de donnée
-	 * 
-	 * @throws IllegalAccessException
-	 * @throws NamingException 
-	 */
-	public void connect() throws IllegalAccessException {
-
-		try {
-
-			//Context ct  = new InitialContext();
-			//if(ct !=null){
-			//	System.out.println("contexte initialisé ");
-			//}
-			//DataSource ds = (DataSource) ct.lookup("java:/comp/env/jdbc/commerce");
-			Class.forName("com.mysql.jdbc.Driver").newInstance();
-			this.cn = DriverManager
-					.getConnection(
-							"jdbc:mysql://localhost:3306/computer-database-db?zeroDateTimeBehavior=convertToNull",
-							"root", "root");
-
-			//this.cn = ds.getConnection();
-			Logger logger = Logger.getLogger("com.projet.computerdata.daoComputerDAO");
-			logger.info("connexion à la base de données établie");
-		} catch (SQLException e) {
-			System.out.println("erreur sql: " + e.getMessage());
-
-		} catch (ClassNotFoundException e2) {
-			System.out.println("impossible de charger la classe du driver: "
-					+ e2.getMessage());
-		} catch (InstantiationException e3) {
-			System.out.println("instanciation du driver impossible: "
-					+ e3.getMessage());
-		}
-	}
-
-	/**
-	 * méthode pour se déconnecter de la base
-	 */
-	public void disconnect() {
-		try {
-			if ((!cn.isClosed()) && (cn != null) ){
-				if ( resultSet != null ) {
-					try {
-						resultSet.close();
-					} catch ( SQLException ignore ) {
-					}
-				}
-
-				if ( preparedStatement != null ) {
-					try {
-						preparedStatement.close();
-					} catch ( SQLException ignore ) {
-					}
-				}
-				
-				if ( statement != null ) {
-					try {
-						statement.close();
-					} catch ( SQLException ignore ) {
-					}
-				}
-				
-				try {
-					cn.close();
-					System.out.println("Déconnecté");
-					Logger logger = Logger.getLogger("com.projet.computerdata.daoComputerDAO");
-					logger.info("déconnexion à la base de données réussi");
-				}catch ( SQLException ignore ) {
-				}			
-			} else {
-				System.out
-				.println("inutile de déconnecter car déja déconnecté");
-			}
-		} catch (SQLException e) {
-			System.out.println("erreur sql: " + e.getMessage());
-		} catch (NullPointerException npe) {
-			System.out.println("connection inexistante");
-		}
-
-	}
+	
 
 	/**
 	 * méthode pour récupérer la liste des computeresultSet
@@ -128,12 +41,27 @@ public enum ComputerDAO {
 	 * @throws NamingException 
 	 * @throws SQLException 
 	 */
-	public ArrayList<Computer> getAllComputer() throws IllegalAccessException,
-	ParseException, SQLException {
+	public ArrayList<Computer> getAllComputer(int order) {
 		ArrayList<Computer> computeresultSet = new ArrayList<Computer>();
+		Connection cn = null ;
 		try {
-			connect();
-			String query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id";
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
+			String query ="select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id ";;
+			
+			switch(order){
+			case 0 : query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id order by cp.name";
+			break;
+			case 1: query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id order by intr";
+			break;
+
+			case 2: query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id order by dis";
+			break;
+
+			case 3:query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id order by compa";
+			break;
+			}
+			
 			preparedStatement = cn.prepareStatement(query);
 			resultSet = preparedStatement.executeQuery();
 			// SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
@@ -155,8 +83,10 @@ public enum ComputerDAO {
 			return computeresultSet;
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet, preparedStatement, statement, cn);
 		}
 		return computeresultSet;
 	}
@@ -172,12 +102,28 @@ public enum ComputerDAO {
 	 * @throws NamingException 
 	 * @throws SQLException 
 	 */
-	public ArrayList<Computer> filterComputerByName(String name)
-			throws IllegalAccessException, SQLException {
+	public ArrayList<Computer> filterComputerByName(String name, int order){
 		ArrayList<Computer> computeresultSet = new ArrayList<Computer>();
+		Connection cn = null ;
 		try {
-			connect();			
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;			
 			String query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cp.name like '%"+name+"%'";
+			
+			
+			switch(order){
+			case 0 : query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cp.name like '%"+name+"%' order by cp.name";
+			break;
+			case 1: query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cp.name like '%"+name+"%' order by cp.introduced";
+			break;
+
+			case 2: query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cp.name like '%"+name+"%' order by cp.discontinued";
+			break;
+
+			case 3:query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cp.name like '%"+name+"%' order by cm.name";
+			break;
+			}
+			
 			statement = cn.createStatement();
 			resultSet = statement.executeQuery(query);
 			while (resultSet.next()) {
@@ -199,8 +145,10 @@ public enum ComputerDAO {
 			return computeresultSet;
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet, preparedStatement, statement, cn);
 		}
 		return computeresultSet;
 	}
@@ -215,12 +163,12 @@ public enum ComputerDAO {
 	 * @throws NamingException 
 	 * @throws SQLException 
 	 */
-	public ArrayList<Computer> filterComputerByDate(String date)
-			throws IllegalAccessException, SQLException {
+	public ArrayList<Computer> filterComputerByDate(String date){
 		ArrayList<Computer> computeresultSet = new ArrayList<Computer>();
+		Connection cn = null ;
 		try {
-			connect();
-
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
 			String query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cp.introduced = ";
 			preparedStatement = cn.prepareStatement(query);
 			preparedStatement.setString(1,date);			
@@ -244,8 +192,10 @@ public enum ComputerDAO {
 			return computeresultSet;
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet, preparedStatement, statement, cn);
 		}
 		return computeresultSet;
 	}
@@ -259,11 +209,12 @@ public enum ComputerDAO {
 	 * @throws NamingException 
 	 * @throws SQLException 
 	 */
-	public ArrayList<Computer> filterComputerByCompany(String name)
-			throws IllegalAccessException, SQLException {
+	public ArrayList<Computer> filterComputerByCompany(String name){
 		ArrayList<Computer> computeresultSet = new ArrayList<Computer>();
+		Connection cn = null ;
 		try {
-			connect();
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
 			String query = "select cp.id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cm.name like '%"
 					+ name + "%'";
 			preparedStatement = cn.prepareStatement(query);
@@ -287,8 +238,10 @@ public enum ComputerDAO {
 			return computeresultSet;
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet, preparedStatement, statement, cn);
 		}
 		return computeresultSet;
 	}
@@ -302,8 +255,9 @@ public enum ComputerDAO {
 	 * @throws SQLException 
 	 * @throws Exception 
 	 */
-	public int addComputer(Computer c) throws IllegalAccessException, SQLException  {
+	public int addComputer(Computer c){
 
+		Connection cn = null ;
 		if(existComputer(c) == 0){
 			try {			
 
@@ -321,7 +275,8 @@ public enum ComputerDAO {
 
 
 				Long idCom = c.getCompany().getId();
-				connect();
+				ComputerDataService.INSTANCE.connect();
+				cn =  ComputerDataService.INSTANCE.getCn();;
 				// Insertion des données du computer dans la base
 				String query = "insert into computer(name, introduced, discontinued, company_id) values(?,?,?,?)";
 				preparedStatement = cn.prepareStatement(query);
@@ -337,8 +292,10 @@ public enum ComputerDAO {
 			} catch (SQLException e) {
 				System.out.println("sql error: " + e.getMessage());
 				return -1;
+			} catch (IllegalAccessException e1) {
+				System.out.println("illegal access error: " + e1.getMessage());
 			} finally {
-				disconnect();
+				ComputerDataService.INSTANCE.disconnect(resultSet, preparedStatement, statement, cn);
 			}
 		}
 		else if(existComputer(c) == -1){
@@ -358,10 +315,12 @@ public enum ComputerDAO {
 	 * @throws NamingException 
 	 * @throws SQLException 
 	 */
-	public int existComputer(Computer c) throws IllegalAccessException, SQLException {
+	public int existComputer(Computer c){
 
+		Connection cn = null ;
 		try {
-			connect();
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
 			String query = "select id from computer where name = ?";
 			preparedStatement = cn.prepareStatement(query);
 			preparedStatement.setString(1, c.getName() );
@@ -372,8 +331,10 @@ public enum ComputerDAO {
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
 			return -1;
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {		
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet, preparedStatement, statement, cn);
 		}
 		return 0;
 	}
@@ -384,21 +345,30 @@ public enum ComputerDAO {
 	 * @param c as computer object
 	 * @throws IllegalAccessException 
 	 */
-	public void updateComputer(Computer c) throws IllegalAccessException{
+	public void updateComputer(Computer c) {
+		
+		Connection cn = null ;
 		try {			
-			connect();
-			String query = "update computer set name = ? , introduced = ?, discontinued = ? where id=?";
+			System.out.println(c.toString());
+			System.out.println("nouvelles dates "+new java.sql.Date(c.getDiscontinued().getTime()));
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
+			String query = "update computer set name = ? , introduced = ?, discontinued = ?, company_id = ? where id=?";
 			preparedStatement = cn.prepareStatement(query);
 			preparedStatement.setString(1, c.getName());
 			preparedStatement.setDate(2, new java.sql.Date(c.getIntroduced().getTime()));
 			preparedStatement.setDate(3, new java.sql.Date(c.getDiscontinued().getTime()));
-			preparedStatement.setLong(4, c.getId());
+			preparedStatement.setLong(4, c.getCompany().getId());
+			preparedStatement.setLong(5, c.getId());
 			int checkUpdate = preparedStatement.executeUpdate();
+			System.out.println("update ok? : "+checkUpdate);
 
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet, preparedStatement, statement, cn);
 		}
 	}
 	
@@ -408,26 +378,34 @@ public enum ComputerDAO {
 	 * @throws SQLException 
 	 * @throws IllegalAccessException 
 	 */
-	public void deleteComputer(Long id) throws IllegalAccessException, SQLException{
+	public void deleteComputer(Long id) {
 
+		Connection cn = null ;
 		try {			
-			connect();
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
 			String query = "delete from computer where id=?";
 			preparedStatement = cn.prepareStatement(query);
 			preparedStatement.setLong(1, id);
 			int checkDelete = preparedStatement.executeUpdate();
+			System.out.println("checkDelete = "+ checkDelete);
 
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet,preparedStatement, statement, cn);
 		}
 }
 
 	
-	public int TotalCount() throws IllegalAccessException{
+	public int TotalCount() {
+		
+		Connection cn = null ;
 		try {			
-			connect();
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
 			String query = "select count(*) as total from computer";
 			statement = cn.createStatement();
 			resultSet = statement.executeQuery(query);
@@ -436,18 +414,22 @@ public enum ComputerDAO {
 			}
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet,preparedStatement, statement, cn);
 		}
 		return 0;
 	}
 	
 	
-	public Computer getComputerById(Long id) throws IllegalAccessException{
+	public Computer getComputerById(Long id) {
 		
-		Computer res  = new Computer(); 		
+		Computer res  = new Computer(); 	
+		Connection cn = null ;
 		try {			
-			connect();
+			ComputerDataService.INSTANCE.connect();
+			cn =  ComputerDataService.INSTANCE.getCn();;
 			String query = "select  cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa, cm.id as idcompa from computer as cp join company as cm on cp.company_id = cm.id where cp.id="+id;
 			statement = cn.createStatement();
 			resultSet = statement.executeQuery(query);
@@ -475,8 +457,10 @@ public enum ComputerDAO {
 			
 		} catch (SQLException e) {
 			System.out.println("sql error: " + e.getMessage());
+		} catch (IllegalAccessException e1) {
+			System.out.println("illegal access error: " + e1.getMessage());
 		} finally {
-			disconnect();
+			ComputerDataService.INSTANCE.disconnect(resultSet,preparedStatement,statement, cn);
 		}
 		return res;
 		

@@ -1,7 +1,6 @@
-package com.projet.computerdata.servlets;
+package com.projet.computerdata.controler;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.projet.computerdata.dao.CompanyDAO;
 import com.projet.computerdata.dao.ComputerDAO;
-import com.projet.computerdata.model.Company;
 import com.projet.computerdata.model.Computer;
+import com.projet.computerdata.validator.*;
 
 /**
  * Servlet implementation class UpdateComputer
@@ -36,27 +35,21 @@ public class UpdateComputer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		System.out.println("l'id est "+request.getParameter("idUpdate"));
-		List<Company> companies = new ArrayList<Company>();
-		Computer computer = new Computer();
+		List<String> companies = new ArrayList<String>();
+		ComputerDTO computerDto = new ComputerDTO();
+		CompanyDTO companyDto = new CompanyDTO();
+		String computer;
 		if((request.getParameter("idUpdate") != null) && (!request.getParameter("idUpdate").equals(""))){
 			Long idComputer = Long.parseLong(request.getParameter("idUpdate").trim());
-			try {
-				computer = ComputerDAO.INSTANCE.getComputerById(idComputer);
-				companies = CompanyDAO.INSTANCE.getAllCompany();
-				System.out.println(companies.get(0).getName());
-				request.setAttribute("computer", computer);
-				request.setAttribute("companies", companies);
-				this.getServletContext().getRequestDispatcher( "/updateComputer.jsp" ).forward( request, response );
-			} catch (IllegalAccessException e) {
-				System.out.println("Une erreur catché donc pas de update");
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
+			computer  = computerDto.fromDTO(ComputerDAO.INSTANCE.getComputerById(idComputer));
+			companies = companyDto.fromDTOList( CompanyDAO.INSTANCE.getAllCompany());
+			request.setAttribute("computer", computer);
+			request.setAttribute("companies", companies);
+			request.setAttribute("idUpdate", request.getParameter("idUpdate"));
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/updateComputer.jsp" ).forward( request, response );
 		}
 		else{
-			System.out.println("l'id n'est pas arrivé");
+			System.out.println("l'id du computer n'a pas été reçu par la servlet");
 		}
 	}
 
@@ -64,7 +57,15 @@ public class UpdateComputer extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+		ValidatorForm acf = new ValidatorForm();
+		Computer computer;
+		computer = acf.addComputer(request);
+		if(acf.getResult().equals("Success")){
+			ComputerDAO.INSTANCE.updateComputer(computer);
+		}
+		request.setAttribute( "update", acf.getResult());
+		//this.getServletContext().getRequestDispatcher( "/dashboard.jsp" ).forward( request, response );
+		response.sendRedirect("Dashboard");
 	}
 
 }

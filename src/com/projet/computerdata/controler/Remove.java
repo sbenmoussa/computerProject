@@ -1,7 +1,6 @@
-package com.projet.computerdata.servlets;
+package com.projet.computerdata.controler;
 
 import java.io.IOException;
-import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -41,21 +40,8 @@ public class Remove extends HttpServlet {
 		
 		if ((request.getParameter("idComputer") !=null) && (!request.getParameter("idComputer").equals(""))){
 			System.out.println(request.getParameter("idComputer"));
-			try {
-				ComputerDAO.INSTANCE.deleteComputer(Long.parseLong(request.getParameter("idComputer")));
-			} catch (NumberFormatException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (IllegalAccessException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			} catch (SQLException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			finally{
-				this.getServletContext().getRequestDispatcher( "/dashboard.jsp" ).forward( request, response );
-			}
+			ComputerDAO.INSTANCE.deleteComputer(Long.parseLong(request.getParameter("idComputer")));
+			this.getServletContext().getRequestDispatcher( "/WEB-INF/dashboard.jsp" ).forward( request, response );
 		}
 		else{
 			System.out.println("vide");
