@@ -65,7 +65,7 @@ public enum ComputerDataService {
 	 */
 	public void disconnect(ResultSet resultSet, PreparedStatement preparedStatement, Statement statement, Connection connection) {
 		try {
-			if ((!cn.isClosed()) && (cn != null) ){
+			if ((!connection.isClosed()) && (connection != null) ){
 				if ( resultSet != null ) {
 					try {
 						resultSet.close();
@@ -87,11 +87,9 @@ public enum ComputerDataService {
 					}
 				}
 				
-				try {
-					connection.close();
-					System.out.println("Déconnecté");
-				}catch ( SQLException ignore ) {
-				}			
+				connection.close();
+				System.out.println("Déconnecté");
+				
 			} else {
 				System.out
 				.println("inutile de déconnecter car déja déconnecté");

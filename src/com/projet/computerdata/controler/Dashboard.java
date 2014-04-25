@@ -62,6 +62,9 @@ public class Dashboard extends HttpServlet {
 		if(request.getParameter( "page" ) != null){
 			request.setAttribute("page", request.getParameter( "page" ));
 		}	
+		else{
+			request.setAttribute("page", 0);
+		}
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/dashboard.jsp" ).forward( request, response );
 			
 	}

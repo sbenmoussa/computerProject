@@ -1,6 +1,7 @@
 <jsp:include page="include/header.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*" %>
+<%@ taglib uri="/WEB-INF/utile.tld" prefix="utile" %>
 
 
 <section id="main">
@@ -86,6 +87,10 @@
 			</tbody>
 		</table>
 		<!--  begin="${page * 10}" end="${page + 9}	-->
+		<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}" />
+		<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
+		
+		<!--
 			<ul id="pagination-clean" >
 				<c:choose>
 					<c:when test='${page == 0}'>
@@ -117,8 +122,9 @@
     				</c:otherwise>
 				</c:choose>
    	    
-			</ul>  
+			</ul>  -->
 		</form>
+		
 </section>
 
 <jsp:include page="include/footer.jsp" />
