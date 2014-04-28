@@ -4,16 +4,25 @@
 
 <section id="main">
 
+
+
 	<c:if test="${ computer == null }" var="result">
 		<%
-			response.sendRedirect("dashboard.jsp");
+			//response.sendRedirect("dashboard.jsp");
 		%>
 	</c:if>
 
 	<h1>Update Computer</h1>
 
+	<c:if test='${ (update != null)  && (update =="Success") }' var="result">
+		<h2 style="color: red">successful update    <a href="Dashboard" class="btn">return to dashboard</a></h2> 
+	</c:if>
+	
+	<c:if test='${ (update != null)  && (update=="Fail") }' var="result">
+		<h2 style="color: red" >Fail to update computer <a href="Dashboard" class="btn">dashboard</a></h2>
+	</c:if>
 
-
+	<c:if test="${ computer != null }" var="result">
 	<form action="UpdateComputer" method="POST" id="formulaire">
 		<fieldset>
 			<input type="hidden" name="idUpdate" id="idUpdate"
@@ -67,14 +76,14 @@
 			or <a href="Dashboard" class="btn">Cancel</a>
 		</div>
 	</form>
-
+	</c:if>
 
 	<script src="jquery.js"></script>
 	<script src="jquery.validate.js"></script>
 	<script>
 		$(document).ready(function() {
 			$("#formulaire").validate();
-		});
+		 });
 	</script>
 
 </section>

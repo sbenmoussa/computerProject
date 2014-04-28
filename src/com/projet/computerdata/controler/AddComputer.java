@@ -1,6 +1,7 @@
 package com.projet.computerdata.controler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,10 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.projet.computerdata.dao.CompanyDAO;
-import com.projet.computerdata.dao.ComputerDAO;
-import com.projet.computerdata.model.Company;
 import com.projet.computerdata.model.Computer;
+import com.projet.computerdata.service.ComputerDataService;
 import com.projet.computerdata.validator.ValidatorForm;
 
 /**
@@ -28,7 +27,6 @@ public class AddComputer extends HttpServlet {
      */
     public AddComputer() {
         super();
-        // TODO Auto-generated constructor stub
     }
 
 	/**
@@ -36,8 +34,13 @@ public class AddComputer extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
-		List<Company> companies = new ArrayList<Company>();
-		companies = CompanyDAO.INSTANCE.getAllCompany();
+		List<Object> companies = new ArrayList<Object>();
+		try {
+			companies = ComputerDataService.INSTANCE.getAll("company",0);
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		request.setAttribute("companies", companies);
 		this.getServletContext().getRequestDispatcher( "/WEB-INF/addComputer.jsp" ).forward( request, response );
 		
@@ -51,11 +54,16 @@ public class AddComputer extends HttpServlet {
 		Computer newComputer;
 		newComputer = acf.addComputer(request);
 		if(acf.getResult().equals("Success")){
-			ComputerDAO.INSTANCE.addComputer(newComputer);
+			try {
+				ComputerDataService.INSTANCE.insert("computer", newComputer);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 		request.setAttribute( "add", acf.getResult());
-		//this.getServletContext().getRequestDispatcher( "/dashboard.jsp" ).forward( request, response );
-		response.sendRedirect("Dashboard");
+		this.getServletContext().getRequestDispatcher( "/WEB-INF/addComputer.jsp" ).forward( request, response );
+		//response.sendRedirect("Dashboard");
 	}
 
 }

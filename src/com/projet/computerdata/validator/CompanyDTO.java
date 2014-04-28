@@ -19,10 +19,10 @@ public class CompanyDTO {
 		return company.getId()+","+company.getName();
 	}
 	
-	public ArrayList<String> fromDTOList(ArrayList<Company> companies){
+	public ArrayList<String> fromDTOList(ArrayList<Object> companies){
 		ArrayList<String> result = new ArrayList<String>();
-		for(Company c : companies){
-			result.add(fromDTO(c));
+		for(Object c : companies){
+			result.add(fromDTO((Company)c));
 		}
 		return result;		
 	}

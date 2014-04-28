@@ -1,6 +1,7 @@
 package com.projet.computerdata.controler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,9 +11,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.projet.computerdata.dao.CompanyDAO;
-import com.projet.computerdata.dao.ComputerDAO;
 import com.projet.computerdata.model.Computer;
+import com.projet.computerdata.service.ComputerDataService;
 import com.projet.computerdata.validator.*;
 
 /**
@@ -38,11 +38,16 @@ public class UpdateComputer extends HttpServlet {
 		List<String> companies = new ArrayList<String>();
 		ComputerDTO computerDto = new ComputerDTO();
 		CompanyDTO companyDto = new CompanyDTO();
-		String computer;
+		String computer = null;
 		if((request.getParameter("idUpdate") != null) && (!request.getParameter("idUpdate").equals(""))){
 			Long idComputer = Long.parseLong(request.getParameter("idUpdate").trim());
-			computer  = computerDto.fromDTO(ComputerDAO.INSTANCE.getComputerById(idComputer));
-			companies = companyDto.fromDTOList( CompanyDAO.INSTANCE.getAllCompany());
+			try {
+				computer  = computerDto.fromDTO((Computer) ComputerDataService.INSTANCE.getElementById("computer", idComputer));
+				companies = companyDto.fromDTOList( ComputerDataService.INSTANCE.getAll("company", 0));
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}			
 			request.setAttribute("computer", computer);
 			request.setAttribute("companies", companies);
 			request.setAttribute("idUpdate", request.getParameter("idUpdate"));
@@ -61,11 +66,16 @@ public class UpdateComputer extends HttpServlet {
 		Computer computer;
 		computer = acf.addComputer(request);
 		if(acf.getResult().equals("Success")){
-			ComputerDAO.INSTANCE.updateComputer(computer);
+			try {
+				ComputerDataService.INSTANCE.update("computer",computer);
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
-		request.setAttribute( "update", acf.getResult());
-		//this.getServletContext().getRequestDispatcher( "/dashboard.jsp" ).forward( request, response );
-		response.sendRedirect("Dashboard");
+		request.setAttribute( "update", acf.getResult());	
+		request.getRequestDispatcher( "Dashboard?update=success").forward( request, response );
+		//response.sendRedirect("Dashboard");/WEB-INF/updateComputer.jsp
 	}
 
 }

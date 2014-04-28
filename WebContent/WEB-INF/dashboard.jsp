@@ -6,24 +6,9 @@
 
 <section id="main">
 
-	<c:if test='${ (update != null)  && (update =="Success") }' var="result">
-		<h2 style="color: red">successful update</h2>
-	</c:if>
-	
-	<c:if test='${ (update != null)  && (update =="Fail") }' var="result">
-		<h2 style="color: red" >Fail to update computer</h2>
-	</c:if>
-	
-	<c:if test='${ (add != null)  && (add =="Success") }' var="result">
-		<h2 style="color: red">successful operation</h2>
-	</c:if>
-	
-	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
-		<h2 style="color: red" >Fail to add computer</h2>
-	</c:if>
 
 	<c:if test="${ computers != null }" var="result">
-		<h1 id="homeTitle">${ computers.size() } Computers found</h1>
+		<h1 id="homeTitle">${ computers.size() } Computers found  ${ update }</h1>
 	</c:if>
 
 	<c:if test="${ computers == null }" var="result">
@@ -32,7 +17,20 @@
 		%>
 	</c:if>
 	
+	<c:if test='${ (update != null)  && (update =="Success") }' var="result">
+		<h2 style="color: red">successful update    <a href="Dashboard" class="btn">return to dashboard</a></h2> 
+	</c:if>
 	
+	<c:if test='${ (update != null)  && (update=="Fail") }' var="result">
+		<h2 style="color: red" >Fail to update computer <a href="Dashboard" class="btn">dashboard</a></h2>
+	</c:if>
+	<c:if test='${ (add != null)  && (add =="Success") }' var="result">
+		<h2 style="color: red">successful operation      <a href="Dashboard" class="btn">dashboard</a></h2>
+	</c:if>
+	
+	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
+		<h2 style="color: red" >Fail to add computer        <a href="Dashboard" class="btn">dashboard</a></h2>
+	</c:if>
 
 	<div id="actions">
 		<form action="Dashboard" method="GET">
@@ -63,7 +61,7 @@
 					<!-- Table header for Discontinued Date -->
 					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="Dashboard?page=${page}&order=2">Discontinued Date</a></th>
 					<!-- Table header for Company -->
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="Dashboard?page=${page}&order=3">Company</a></th>
+					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="Dashboard?page=${page}&order=3">Company</a></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -87,43 +85,20 @@
 			</tbody>
 		</table>
 		<!--  begin="${page * 10}" end="${page + 9}	-->
-		<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}" />
-		<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
 		
-		<!--
-			<ul id="pagination-clean" >
-				<c:choose>
-					<c:when test='${page == 0}'>
-						<li style="display: inline; list-style: none; /* pour enlever les puces sur IE7 */ margin: 5px;" class="previous-off">« Précédent</li>
-					</c:when>								
-    				<c:otherwise>
-    					<li class="previous-on" style="display: inline; list-style: none; /* pour enlever les puces sur IE7 */ margin: 5px;"><a href='Dashboard?page=${page -1}&order=${order}'>« Précédent</a></li>
-    				</c:otherwise>
-				</c:choose>
-			    
-			    <c:forEach  var="i" begin='${ (page - 10 < 0) ? 0 : page - 10}' end='${ page +10}' step="1">
-			   		<c:choose>
-						<c:when test='${page == i}'>
-							<li class="active" style="display: inline; list-style: none; /* pour enlever les puces sur IE7 */ margin: 5px;">${i}</li>
-						</c:when>								
-    					<c:otherwise>
-    						<li style="display: inline; list-style: none; /* pour enlever les puces sur IE7 */ margin: 5px;" ><a href="Dashboard?page=${i}&order=${order}">${i}</a></li>
-    					</c:otherwise>
-					</c:choose>			    
-			    </c:forEach>
-			    
-			    <c:choose>
-					<c:when test='${page == computers.size() / 10}'>
-						<li style="display: inline; list-style: none; /* pour enlever les puces sur IE7 */ margin: 5px;" class="previous-off"> Suivant »</li>
-					</c:when>								
-    				<c:otherwise>
-    					<li style="display: inline; list-style: none; /* pour enlever les puces sur IE7 */ margin: 5px; "> ... </li>
-    					<li style="display: inline; list-style: none; /* pour enlever les puces sur IE7 */ margin: 5px;" class="next-on"><a style="color=red" href='Dashboard?page=${page +1}&order=${order}'>Suivant »</a></li>
-    				</c:otherwise>
-				</c:choose>
-   	    
-			</ul>  -->
-		</form>
+		
+		<c:choose>
+			<c:when test='${search != null}'>
+				<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}&search=${search}" />
+				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
+			</c:when>
+			<c:otherwise>
+				<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}" />
+				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
+			</c:otherwise>
+		</c:choose>
+
+	</form>
 		
 </section>
 

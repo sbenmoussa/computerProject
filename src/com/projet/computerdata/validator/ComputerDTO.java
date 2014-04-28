@@ -33,10 +33,10 @@ public class ComputerDTO {
 		return computer.getId()+","+computer.getName()+","+util.dateToString(computer.getIntroduced())+","+util.dateToString(computer.getDiscontinued())+","+computer.getCompany().getId()+","+computer.getCompany().getName();
 	}
 	
-	public ArrayList<String> fromDTOList(ArrayList<Computer> computers){
+	public ArrayList<String> fromDTOList(ArrayList<Object> computers){
 		ArrayList<String> result = new ArrayList<String>();
-		for(Computer c : computers){
-			result.add(fromDTO(c));
+		for(Object c : computers){
+			result.add(fromDTO((Computer)c));
 		}
 		return result;		
 	}

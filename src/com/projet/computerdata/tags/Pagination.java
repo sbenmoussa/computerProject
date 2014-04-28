@@ -28,7 +28,7 @@ public class Pagination extends TagSupport {
     	Writer out = getWriter();
 
     	boolean lastPage = currPage == totalPages;
-    	int pgStart = Math.max(currPage - maxLinks / 2, 1);
+    	int pgStart = Math.max(currPage - maxLinks / 2, 0);
     	int pgEnd = pgStart + maxLinks;
     	if (pgEnd > totalPages + 1) {
     		int diff = pgEnd - totalPages;

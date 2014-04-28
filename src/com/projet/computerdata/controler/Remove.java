@@ -1,6 +1,7 @@
 package com.projet.computerdata.controler;
 
 import java.io.IOException;
+import java.sql.SQLException;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -8,7 +9,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.projet.computerdata.dao.ComputerDAO;
+import com.projet.computerdata.service.ComputerDataService;
 
 /**
  * Servlet implementation class Remove
@@ -22,14 +23,14 @@ public class Remove extends HttpServlet {
      */
     public Remove() {
         super();
-        // TODO Auto-generated constructor stub
+       
     }
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
+	
 	}
 
 	/**
@@ -40,7 +41,15 @@ public class Remove extends HttpServlet {
 		
 		if ((request.getParameter("idComputer") !=null) && (!request.getParameter("idComputer").equals(""))){
 			System.out.println(request.getParameter("idComputer"));
-			ComputerDAO.INSTANCE.deleteComputer(Long.parseLong(request.getParameter("idComputer")));
+			try {
+				ComputerDataService.INSTANCE.delete("computer",Long.parseLong(request.getParameter("idComputer")));
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SQLException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			this.getServletContext().getRequestDispatcher( "/WEB-INF/dashboard.jsp" ).forward( request, response );
 		}
 		else{

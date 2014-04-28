@@ -4,11 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
 import javax.servlet.http.HttpServletRequest;
-
-import com.projet.computerdata.dao.CompanyDAO;
-import com.projet.computerdata.model.Company;
 import com.projet.computerdata.model.Computer;
 import com.projet.computerdata.util.Util;
 
@@ -88,7 +84,7 @@ public class ValidatorForm {
 		}
 	}
 	
-	public void checkCompany(Company com) {
+	/*public void checkCompany(Company com) {
 		int check = CompanyDAO.INSTANCE.existCompany(com);
 		if((check !=0) && (check !=-1)){
 			System.out.println("company existe déja");
@@ -99,7 +95,7 @@ public class ValidatorForm {
 		else{
 			errors.put("COMPANYsQL", "SQL error retry");
 		}
-	}
+	}*/
 	
 	private static String getValeurChamp( HttpServletRequest request, String nomChamp ) {
 	    String valeur = request.getParameter( nomChamp );
