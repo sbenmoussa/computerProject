@@ -1,7 +1,6 @@
 <jsp:include page="include/header.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ page import="java.util.*"%>
-<%@ include file = "include/validate.js"%> 
+<%@ page import="java.util.*"%> 
 
 <section id="main">
 

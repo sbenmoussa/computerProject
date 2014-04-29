@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Date;
 
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
@@ -17,13 +18,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
-
 public enum ComputerDataService {
 
 	INSTANCE;	
 	
 	private BoneCP connectionPool;
-	private  final Logger LOG = LoggerFactory.getLogger("com.projet.computerdata.service.ComputerDataService.class");
+	private  final Logger LOG = LoggerFactory.getLogger("com.projet.computerdata");
 	private ComputerDataService() {
 		//LOG= Logger.getLogger("com.projet.computerdata.service.ComputerDataService.class");
 		try{			
@@ -38,11 +38,12 @@ public enum ComputerDataService {
 			config.setPartitionCount( 2 );         
 
 			connectionPool = new BoneCP( config ); 
-			LOG.info("initialisation du pool de connection BoneCP");
+			LOG.debug("initialisation du pool de connection BoneCP");
 			
 		} catch (SQLException e) {
 			System.out.println("erreur sql: " + e.getMessage());
-			LOG.info("initialisation du pool de connection BoneCP  " + e.getMessage());
+			LOG.info("initialisation du pool de connection BoneCP impossible " + e.getMessage());
+			LOG.debug("initialisation du pool de connection BoneCP impossible");
 
 		} catch (ClassNotFoundException e2) {
 			System.out.println("impossible de charger la classe du driver: "
@@ -121,10 +122,13 @@ public enum ComputerDataService {
 				CompanyDAO.INSTANCE.AddCompany((Company)o, cn, preparedStatement, resultSet);
 			}	
 			cn.commit();
+			logInfo(model+" inséré avec succés");
 		} catch (IllegalAccessException e) {			
 			cn.rollback();
+			
 		} catch (SQLException e) {	
 			cn.rollback();
+			logInfo(model+": echec de l'insertion");
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -145,10 +149,13 @@ public enum ComputerDataService {
 				CompanyDAO.INSTANCE.update((Company)o, cn, preparedStatement, resultSet);;
 			}
 			cn.commit();
+			logInfo(model+" mis à jour avec succés");
 		} catch (IllegalAccessException e) {
 			cn.rollback();
+			logInfo(model+": echec de la mise à jour");
 		} catch (SQLException e) {
 			cn.rollback();
+			logInfo(model+": echec de la mise à jour");
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -170,10 +177,13 @@ public enum ComputerDataService {
 				CompanyDAO.INSTANCE.deleteCompany(id, cn, preparedStatement, resultSet);
 			}
 			cn.commit();
+			logInfo(model+" supprimé avec succés");
 		} catch (IllegalAccessException e) {
 			cn.rollback();
+			logInfo(model+": echec de la supression");
 		} catch (SQLException e) {
 			cn.rollback();
+			logInfo(model+": echec de la supression");
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -247,4 +257,32 @@ public enum ComputerDataService {
 		}
 		return null;
 	}
+
+	public void logInfo(String message) throws SQLException{
+		Connection cn = null ;
+		PreparedStatement preparedStatement = null;
+		ResultSet resultSet = null;
+		try {
+			cn = connect();
+			preparedStatement = cn.prepareStatement("insert into log4j (priority, category, thread, msg, layout_msg, timestamp, addon) VALUES(?,?,?,?,?, ?,?)");
+			preparedStatement.setString(1, "INFO");
+			preparedStatement.setString(2, "operation");
+			preparedStatement.setString(3, message);
+			preparedStatement.setString(4, "INFO");
+			preparedStatement.setString(5, "INFO");
+			preparedStatement.setDate(6, new java.sql.Date(new Date().getTime()));
+			preparedStatement.setString(7, "INFO");
+			resultSet = preparedStatement.executeQuery();
+			cn.commit();
+		} catch (IllegalAccessException e) {
+			cn.rollback();
+		} catch (SQLException e) {
+			cn.rollback();
+		}
+		finally{
+			disconnect(resultSet, preparedStatement, cn);
+		}
+	}
 }
+
+

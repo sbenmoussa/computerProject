@@ -27,14 +27,14 @@
 	</appender>
 
 	<!--  Logger associe aux classes com.projet.computerdata.* -->
-	<logger name="com.projet.computerdata" additivity="false">
+	<logger name="com.projet.computerdata.service.ComputerDataService" additivity="false">
 		<level value="DEBUG"/>
 		<appender-ref ref="fichier"/>
 	</logger>
 
 	<!--  Comportement par deffaut -->
 	<root>
-		<level value="info"/>
+		<!-- <level value="info"/>-->
 		<appender-ref ref="fichier"/>
 		<appender-ref ref="db"/>
 	</root>
