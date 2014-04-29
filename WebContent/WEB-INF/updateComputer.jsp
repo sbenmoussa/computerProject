@@ -1,6 +1,7 @@
 <jsp:include page="include/header.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%>
+<%@ include file = "include/validate.js"%> 
 
 <section id="main">
 
@@ -31,7 +32,7 @@
 				<label for="name">Computer name:</label>
 				<div class="input">
 					<input type="text" name="name" id="name"
-						value='${ computer.split(",")[1] }' class="required" required /> <span
+						value='${ computer.split(",")[1] }' required /> <span
 						class="help-inline"></span>
 				</div>
 			</div>
@@ -40,14 +41,14 @@
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
 					<input type="date" name="introducedDate" id="introducedDate"
-						value='${ computer.split(",")[2] }' class="required date"  required/> <span class="help-inline"></span>
+						value='${ computer.split(",")[2] }'   /> <span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
 					<input type="date" name="discontinuedDate" id="discontinuedDate"
-						value='${ computer.split(",")[3] }' class="required date"  required/> <span class="help-inline"></span>
+						value='${ computer.split(",")[3] }'   /> <span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="clearfix">
@@ -78,12 +79,42 @@
 	</form>
 	</c:if>
 
-	<script src="jquery.js"></script>
-	<script src="jquery.validate.js"></script>
+	<script type="text/javascript" src="js/jquery.js"></script>
+	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+	
 	<script>
-		$(document).ready(function() {
-			$("#formulaire").validate();
-		 });
+	   $(document).ready(function(){
+		   jQuery.validator.addMethod(
+				   	  "regex",
+				  	   function(value, element, regexp) {
+				   	       if (regexp.constructor != RegExp)
+				   	          regexp = new RegExp(regexp);
+				   	       else if (regexp.global)
+				   	          regexp.lastIndex = 0;
+				   	          return this.optional(element) || regexp.test(value);
+				   	   },"erreur expression reguliere"
+				   	);
+		   
+		   jQuery(document).ready(function() {
+		   	   jQuery("#formulaire").validate({
+		   	      rules: {
+		   	         "name":{
+		   	            "required": true
+		    	        },
+		   	         "introducedDate": {
+		   	        	"required": true,
+		   	            "date": true,
+		   	         	 regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/
+		   	         },
+		   	         "discontinuedDate": {
+		   	            "required": true,
+		   	         	"date": true,
+		   	           	regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/
+		   	         }
+		   	      }
+		   	  });
+		   	}); 
+	    });	   
 	</script>
 
 </section>
