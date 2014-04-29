@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
+
 import com.projet.computerdata.model.Computer;
 import com.projet.computerdata.util.Util;
 
@@ -42,7 +44,9 @@ public class ValidatorForm {
 		dateOk(d1, d2);	
 		
 		ComputerDTO computerDto = new ComputerDTO();
-		Computer computer = new Computer();
+		Computer computer = new
+	            Computer.ComputerBuilder()
+	            .build();
 		
 		if(errors.isEmpty()){
 			Util util = new Util();

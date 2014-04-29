@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
+
 import com.projet.computerdata.model.Company;
 import com.projet.computerdata.model.Computer;
 
@@ -46,7 +47,10 @@ public enum ComputerDAO {
 		resultSet = preparedStatement.executeQuery();
 		// SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy hh:mm:ss");
 		while (resultSet.next()) {
-			Company com = new Company(resultSet.getString("compa"));
+			Company com = new
+		            Company.CompanyBuilder()
+		            .name(resultSet.getString("compa"))
+		            .build();
 			Date intr = null;
 			Date disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
@@ -56,7 +60,9 @@ public enum ComputerDAO {
 			if (resultSet.getTimestamp("dis") != null) {
 				disc = new Date(resultSet.getTimestamp("dis").getTime());
 			}
-			Computer c = new Computer(resultSet.getLong("id"),resultSet.getString("namecp"), intr, disc,com);
+			Computer c = new
+		            Computer.ComputerBuilder(resultSet.getLong("id"), resultSet.getString("namecp"), intr, disc, com)
+		            .build(); 
 			computeresultSet.add(c);
 		}
 
@@ -96,7 +102,10 @@ public enum ComputerDAO {
 		preparedStatement.setString(1, "%"+name+"%");
 		resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
-			Company com = new Company(resultSet.getString("compa"));
+			Company com = new
+		            Company.CompanyBuilder()
+		            .name(resultSet.getString("compa"))
+		            .build();
 			Date intr = null;
 			Date disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
@@ -106,8 +115,9 @@ public enum ComputerDAO {
 			if (resultSet.getTimestamp("dis") != null) {
 				disc = new Date(resultSet.getTimestamp("dis").getTime());
 			}
-			Computer c = new Computer(resultSet.getLong("id"),resultSet.getString("namecp"), intr, disc,
-					com);
+			Computer c = new
+		            Computer.ComputerBuilder(resultSet.getLong("id"), resultSet.getString("namecp"), intr, disc, com)
+		            .build();
 			computeresultSet.add(c);
 		}
 		return computeresultSet;
@@ -130,7 +140,10 @@ public enum ComputerDAO {
 		preparedStatement.setString(1,date);			
 		resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
-			Company com = new Company(resultSet.getString("compa"));
+			Company com = new
+		            Company.CompanyBuilder()
+		            .name(resultSet.getString("compa"))
+		            .build();;
 			Date intr = null;
 			Date disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
@@ -140,8 +153,9 @@ public enum ComputerDAO {
 			if (resultSet.getTimestamp("dis") != null) {
 				disc = new Date(resultSet.getTimestamp("dis").getTime());
 			}
-			Computer c = new Computer(resultSet.getLong("id"),resultSet.getString("namecp"), intr, disc,
-					com);
+			Computer c = new
+		            Computer.ComputerBuilder(resultSet.getLong("id"), resultSet.getString("namecp"), intr, disc, com)
+		            .build();
 			computeresultSet.add(c);
 		}
 		return computeresultSet;
@@ -163,7 +177,10 @@ public enum ComputerDAO {
 		preparedStatement.setString(1, "%"+name+"%");
 		resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
-			Company com = new Company(resultSet.getString("compa"));
+			Company com = new
+		            Company.CompanyBuilder()
+		            .name(resultSet.getString("compa"))
+		            .build();;
 			Date intr = null;
 			Date disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
@@ -173,8 +190,9 @@ public enum ComputerDAO {
 			if (resultSet.getTimestamp("dis") != null) {
 				disc = new Date(resultSet.getTimestamp("dis").getTime());
 			}
-			Computer c = new Computer(resultSet.getLong("id"), resultSet.getString("namecp"), intr, disc,
-					com);
+			Computer c = new
+		            Computer.ComputerBuilder(resultSet.getLong("id"), resultSet.getString("namecp"), intr, disc, com)
+		            .build();
 			computeresultSet.add(c);
 		}
 
@@ -287,17 +305,24 @@ public enum ComputerDAO {
 
 	public Computer getComputerById(Long id, Connection cn, PreparedStatement preparedStatement, ResultSet resultSet) throws IllegalAccessException, SQLException {
 
-		Computer res  = new Computer(); 		
+				
 		String query = "select  cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa, cm.id as idcompa from computer as cp join company as cm on cp.company_id = cm.id where cp.id=?";
 		preparedStatement = cn.prepareStatement(query);
 		preparedStatement.setLong(1, id);
 		resultSet = preparedStatement.executeQuery();
-		res.setId(id);
+		Computer res  = new
+	            Computer.ComputerBuilder()
+				.id(id)
+	            .build(); 
 
 		if(resultSet.next()){
-			res.setName(resultSet.getString("namecp"));
+			 
 
-			Company com = new Company(resultSet.getLong("idcompa"),resultSet.getString("compa"));
+			Company com = new
+		            Company.CompanyBuilder()
+		            .id(Long.parseLong(resultSet.getString("idcompa")))
+		            .name(resultSet.getString("compa"))
+		            .build();
 			Date intr = null;
 			Date disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
@@ -308,9 +333,14 @@ public enum ComputerDAO {
 				disc = new Date(resultSet.getTimestamp("dis").getTime());
 			}
 
-			res.setIntroduced(intr);
-			res.setDiscontinued(disc);
-			res.setCompany(com);
+			res  = new
+		            Computer.ComputerBuilder()
+					.id(id)
+					.name(resultSet.getString("namecp"))
+					.introduced(intr)
+					.discontinued(disc)
+					.company(com)
+		            .build();
 		}		
 		return res;
 

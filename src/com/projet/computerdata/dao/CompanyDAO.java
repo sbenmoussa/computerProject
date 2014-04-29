@@ -24,8 +24,11 @@ public enum CompanyDAO {
 		preparedStatement = cn.prepareStatement(query);
 		resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
-			Company com = new Company(resultSet.getString("compa"));
-			com.setId(Long.parseLong(resultSet.getString("id")));
+			Company com = new
+		            Company.CompanyBuilder()
+		            .id(Long.parseLong(resultSet.getString("id")))
+		            .name(resultSet.getString("compa"))
+		            .build();
 			companies.add(com);
 		}
 		return companies;

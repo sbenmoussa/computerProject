@@ -62,7 +62,8 @@ public class AddComputer extends HttpServlet {
 			}
 		}
 		request.setAttribute( "add", acf.getResult());
-		this.getServletContext().getRequestDispatcher( "/WEB-INF/addComputer.jsp" ).forward( request, response );
+		request.getRequestDispatcher( "Dashboard").forward( request, response );
+		//this.getServletContext().getRequestDispatcher( "/WEB-INF/addComputer.jsp" ).forward( request, response );
 		//response.sendRedirect("Dashboard");
 	}
 

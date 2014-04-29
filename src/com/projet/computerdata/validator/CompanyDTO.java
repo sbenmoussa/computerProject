@@ -7,10 +7,13 @@ import com.projet.computerdata.model.Company;
 public class CompanyDTO {
 
 	public Company toDTO(String data){
-		Company company = new Company();
+		Company company = new Company.CompanyBuilder().build();
 		if(data != null){
-			company.setId(Long.parseLong(data.split(",")[0]));
-			company.setName(data.split(",")[1]);
+			company = new
+		            Company.CompanyBuilder()
+		            .id(Long.parseLong(data.split(",")[0]))
+		            .name(data.split(",")[1])
+		            .build();
 		}
 		return company;
 	}

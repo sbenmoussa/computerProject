@@ -74,7 +74,7 @@ public class UpdateComputer extends HttpServlet {
 			}
 		}
 		request.setAttribute( "update", acf.getResult());	
-		request.getRequestDispatcher( "Dashboard?update=success").forward( request, response );
+		request.getRequestDispatcher( "Dashboard").forward( request, response );
 		//response.sendRedirect("Dashboard");/WEB-INF/updateComputer.jsp
 	}
 

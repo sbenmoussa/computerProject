@@ -4,19 +4,19 @@
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<!-- Appender de type fichier -->
-	<appender name="fichier" class="org.apache.log4j.FileAppender">
+	<!-- <appender name="fichier" class="org.apache.log4j.FileAppender">
 		<param name="file" value="/home/sbenmoussa/workspace/computer-database/app.log"/>
 		<layaout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="%d %-5p [%c] %m%n"/>
 		</layaout>
-	</appender>
+	</appender> -->
 	
 	<appender name="db" class="org.apache.log4j.jdbcplus.JDBCAppender">
-		<param name="url" value="jdbc:mysql://localhost:3306/BDlog4j"/>
+		<param name="url" value="jdbc:mysql://localhost:3306/computer-database-db"/>
 		<param name="dbclass" value="com.mysql.jdbc.Driver"/>
 		<param name="username" value="root"/>
 		<param name="password" value="root"/>
-		<param name="sql" value="insert into log4j (priority, category, thread, msg, layout_msg, timestamp, addon) VALUES('@PRIO@','@CAT@','@THREAD@','@MSG@','@LAYOUT:1@', '@TIMESTAMP@','addon')"/>
+		<param name="sql" value="insert into log4j (priority, category, thread, message, layout_msg, timestamp, addon) VALUES('@PRIO@','@CAT@','@THREAD@','@MSG@','@LAYOUT:1@', '@TIMESTAMP@','addon')"/>
 		<param name="buffer" value="1"/>
 		<param name="commit" value="true"/>
 		<param name="quoteReplace" value="true"/>
@@ -34,8 +34,8 @@
 
 	<!--  Comportement par deffaut -->
 	<root>
-		<!-- <level value="info"/>-->
-		<appender-ref ref="fichier"/>
+		<!-- <level value="info"/>
+		<appender-ref ref="fichier"/>-->
 		<appender-ref ref="db"/>
 	</root>
 

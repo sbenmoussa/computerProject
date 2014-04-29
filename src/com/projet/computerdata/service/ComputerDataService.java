@@ -121,14 +121,14 @@ public enum ComputerDataService {
 			if(model.equals("company")){
 				CompanyDAO.INSTANCE.AddCompany((Company)o, cn, preparedStatement, resultSet);
 			}	
+			logInfo(model+" inséré avec succés", cn, preparedStatement);
 			cn.commit();
-			logInfo(model+" inséré avec succés");
 		} catch (IllegalAccessException e) {			
-			cn.rollback();
-			
+			cn.rollback();	
+			System.out.println("transaction annulée: "+e.getMessage());
 		} catch (SQLException e) {	
 			cn.rollback();
-			logInfo(model+": echec de l'insertion");
+			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -142,20 +142,21 @@ public enum ComputerDataService {
 		ResultSet resultSet = null;
 		try {
 			cn = connect();
+			cn.setAutoCommit(false);
 			if(model.equals("computer")){
 				ComputerDAO.INSTANCE.updateComputer((Computer)o, cn, preparedStatement, resultSet);
 			}
 			if(model.equals("company")){
 				CompanyDAO.INSTANCE.update((Company)o, cn, preparedStatement, resultSet);;
 			}
-			cn.commit();
-			logInfo(model+" mis à jour avec succés");
+			logInfo(model+" mis à jour avec succés", cn, preparedStatement);
+			cn.commit();			
 		} catch (IllegalAccessException e) {
 			cn.rollback();
-			logInfo(model+": echec de la mise à jour");
+			System.out.println("transaction annulée: "+e.getMessage());
 		} catch (SQLException e) {
 			cn.rollback();
-			logInfo(model+": echec de la mise à jour");
+			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -176,14 +177,15 @@ public enum ComputerDataService {
 			if(model.equals("company")){
 				CompanyDAO.INSTANCE.deleteCompany(id, cn, preparedStatement, resultSet);
 			}
+			logInfo(model+" supprimé avec succés", cn, preparedStatement);
+			LOG.debug("suppression ok");
 			cn.commit();
-			logInfo(model+" supprimé avec succés");
 		} catch (IllegalAccessException e) {
 			cn.rollback();
-			logInfo(model+": echec de la supression");
+			System.out.println("transaction annulée: "+e.getMessage());
 		} catch (SQLException e) {
 			cn.rollback();
-			logInfo(model+": echec de la supression");
+			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -206,8 +208,10 @@ public enum ComputerDataService {
 			cn.commit();
 		} catch (IllegalAccessException e) {
 			cn.rollback();
+			System.out.println("transaction annulée: "+e.getMessage());
 		} catch (SQLException e) {
 			cn.rollback();
+			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -228,8 +232,10 @@ public enum ComputerDataService {
 			cn.commit();
 		} catch (IllegalAccessException e) {
 			cn.rollback();
+			System.out.println("transaction annulée: "+e.getMessage());
 		} catch (SQLException e) {
 			cn.rollback();
+			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -249,8 +255,10 @@ public enum ComputerDataService {
 			cn.commit();
 		} catch (IllegalAccessException e) {
 			cn.rollback();
+			System.out.println("transaction annulée: "+e.getMessage());
 		} catch (SQLException e) {
 			cn.rollback();
+			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
 			disconnect(resultSet, preparedStatement, cn);
@@ -258,30 +266,18 @@ public enum ComputerDataService {
 		return null;
 	}
 
-	public void logInfo(String message) throws SQLException{
-		Connection cn = null ;
-		PreparedStatement preparedStatement = null;
-		ResultSet resultSet = null;
-		try {
-			cn = connect();
-			preparedStatement = cn.prepareStatement("insert into log4j (priority, category, thread, msg, layout_msg, timestamp, addon) VALUES(?,?,?,?,?, ?,?)");
-			preparedStatement.setString(1, "INFO");
-			preparedStatement.setString(2, "operation");
-			preparedStatement.setString(3, message);
-			preparedStatement.setString(4, "INFO");
-			preparedStatement.setString(5, "INFO");
-			preparedStatement.setDate(6, new java.sql.Date(new Date().getTime()));
-			preparedStatement.setString(7, "INFO");
-			resultSet = preparedStatement.executeQuery();
-			cn.commit();
-		} catch (IllegalAccessException e) {
-			cn.rollback();
-		} catch (SQLException e) {
-			cn.rollback();
-		}
-		finally{
-			disconnect(resultSet, preparedStatement, cn);
-		}
+	public void logInfo(String message, Connection cn, PreparedStatement preparedStatement) throws SQLException{
+		System.out.println("méthode de l'insertion du log ");
+		preparedStatement = cn.prepareStatement("insert into log4j (priority, category, thread, message, layout_msg, timestamp, addon) VALUES(?,?,?,?,?,?,?)");
+		preparedStatement.setString(1, "INFO");
+		preparedStatement.setString(2, "operation");
+		preparedStatement.setString(3, message);
+		preparedStatement.setString(4, "INFO");
+		preparedStatement.setString(5, "INFO");
+		preparedStatement.setString(6, new java.sql.Date(new Date().getTime())+"");
+		preparedStatement.setString(7, "INFO");
+		int resultSet = preparedStatement.executeUpdate();
+		System.out.println("resultat de l'insertion du log "+resultSet);
 	}
 }
 

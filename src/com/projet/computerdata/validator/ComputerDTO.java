@@ -8,11 +8,16 @@ import com.projet.computerdata.util.*;
 public class ComputerDTO {
 
 	public Computer toDTO(String data){
-		Computer computer = new Computer();
+		Computer computer = new
+	            Computer.ComputerBuilder()
+	            .build();
 		Util util = new Util();
 		if(data != null){
-			computer.setId(Long.parseLong(data.split(",")[0]));
-			computer.setName(data.split(",")[1]);
+			computer = new
+            Computer.ComputerBuilder()
+			.id(Long.parseLong(data.split(",")[0]))
+			.name(data.split(",")[1])
+            .build();
 			if(data.split(",")[2] != null){
 				computer.setIntroduced(util.stringToDate(data.split(",")[2]));
 			}
@@ -20,8 +25,10 @@ public class ComputerDTO {
 				computer.setDiscontinued(util.stringToDate(data.split(",")[3]));
 			}
 			if(data.split(",")[4] != null){
-				Company company = new Company();
-				company.setId(Long.parseLong(data.split(",")[4]));
+				Company company = new
+			            Company.CompanyBuilder()
+			            .id(Long.parseLong(data.split(",")[4]))
+			            .build();
 				computer.setCompany(company);
 				}
 		}
