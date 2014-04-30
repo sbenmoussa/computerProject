@@ -11,7 +11,7 @@
 		</layaout>
 	</appender> -->
 	
-	<appender name="db" class="org.apache.log4j.jdbcplus.JDBCAppender">
+	<appender name="db" class="ch.qos.logback.core.JDBCAppender">
 		<param name="url" value="jdbc:mysql://localhost:3306/computer-database-db"/>
 		<param name="dbclass" value="com.mysql.jdbc.Driver"/>
 		<param name="username" value="root"/>
@@ -29,7 +29,7 @@
 	<!--  Logger associe aux classes com.projet.computerdata.* -->
 	<logger name="com.projet.computerdata.service.ComputerDataService" additivity="false">
 		<level value="DEBUG"/>
-		<appender-ref ref="fichier"/>
+		<appender-ref ref="db"/>
 	</logger>
 
 	<!--  Comportement par deffaut -->
