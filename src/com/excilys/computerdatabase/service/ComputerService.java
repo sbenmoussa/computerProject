@@ -7,6 +7,9 @@ import java.util.ArrayList;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import ch.qos.logback.classic.LoggerContext;
+import ch.qos.logback.core.util.StatusPrinter;
+
 import com.excilys.computerdatabase.connection.ConnectionManager;
 import com.excilys.computerdatabase.dao.DAOFactory;
 import com.excilys.computerdatabase.dao.UtilDAO;
@@ -17,10 +20,16 @@ public enum ComputerService {
 
 	INSTANCE;
  
+	final Logger logger = LoggerFactory.getLogger(ComputerService.class);
 	private ComputerService(){	
+		 LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
+		       // print logback's internal status
+		     StatusPrinter.print(lc);
+		       
+		      logger.info("Entering application.");
 	}
 
-	final Logger logger = LoggerFactory.getLogger(ComputerService.class);
+	
 
 	public void insert(Computer o) {	
 		boolean success = false;
