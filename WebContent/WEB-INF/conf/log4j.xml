@@ -27,7 +27,7 @@
 	</appender>
 
 	<!--  Logger associe aux classes com.projet.computerdata.* -->
-	<logger name="com.projet.computerdata.service.ComputerDataService" additivity="false">
+	<logger name="com.excilys.computerdatabase.service.*" additivity="true">
 		<level value="DEBUG"/>
 		<appender-ref ref="db"/>
 	</logger>

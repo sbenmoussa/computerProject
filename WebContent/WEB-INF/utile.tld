@@ -11,7 +11,7 @@
 	
 	<tag>
 		<name>pagination</name>
-		<tagclass>com.projet.computerdata.tags.Pagination</tagclass>
+		<tagclass>com.excilys.computerdatabase.tags.Pagination</tagclass>
 		<bodycontent>JSP</bodycontent>
 		<info>affiche pagination</info>
 		<attribute><name>maxLinks</name><required>true</required> <rtexprvalue>true</rtexprvalue></attribute>
