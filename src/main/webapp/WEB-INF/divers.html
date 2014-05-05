@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Insert title here</title>
+</head>
+<body>
+
+<script type="text/javascript">var $changement = false;</script>
+	<script>
+		
+		(function() {
+			$(':select').change(
+					function() {
+						$changement = true;
+						$('#resultat').text('Vous venez de changer les données du computer "' + $(this).val() +'".');
+					});
+			$(':input').change(
+					function() {
+						$changement = true;
+					});
+		});
+	</script>
+	<script>
+	
+		$(document).ready(
+						function() {
+							
+							var $name = $('#name'), $intro = $('#introducedDate'), $disc = $('#discontinuedDate'), $comp = $('#company'), $envoi = $('#envoi'), $erreur = $('#erreur');
+							
+							$envoi.click(function(e) {
+										console.log("boutton update cliqué donc vérification");
+										e.preventDefault(); // on annule la fonction par défaut du bouton d'envoi
+
+										// puis on lance la vérification sur tous les champs :
+										if ($name.val().equals("")) {
+											$erreur.css('display', 'block'); // on affiche le message d'erreur
+											$name.css({ // on rend le champ rouge
+												borderColor : 'red',
+												color : 'red'
+											});
+											$changement = false;
+										} else {
+											if ($name.val() != computer
+													.split(",")[1]) {
+												$changement = true;
+											}
+										}
+
+										if ($intro.val().equals("")) {
+											$erreur.css('display', 'block'); // on affiche le message d'erreur
+											$intro.css({ // on rend le champ rouge
+												borderColor : 'red',
+												color : 'red'
+											});
+											$changement = false;
+										} else {
+											if ($intro.val() != computer
+													.split(",")[2]) {
+												$changement = true;
+											}
+										}
+
+										if ($disc.val().equals("")) {
+											$erreur.css('display', 'block'); // on affiche le message d'erreur
+											$disc.css({ // on rend le champ rouge
+												borderColor : 'red',
+												color : 'red'
+											});
+											$changement = false;
+										} else {
+											if ($disc.val() != computer
+													.split(",")[3]) {
+												$changement = true;
+											}
+										}
+
+										if ($comp.val().equals("")) {
+											$erreur.css('display', 'block'); // on affiche le message d'erreur
+											$comp.css({ // on rend le champ rouge
+												borderColor : 'red',
+												color : 'red'
+											});
+											$changement = false;
+										} else {
+											if ($comp.val() != computer
+													.split(",")[4]) {
+												$changement = true;
+											}
+										}
+
+										if ($changement) {
+											$('#formulaire').submit();
+											console
+													.log("Le formulaire est envoyé car changement dans les données");
+										}
+									});
+						});
+
+		function gestionErreurs(err) {
+			alert('Erreur : \n' + err);
+			return true;
+		}
+		window.onerror = gestionErreurs;
+	</script>
+
+</body>
+</html>
