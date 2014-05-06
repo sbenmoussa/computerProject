@@ -3,15 +3,17 @@ package com.excilys.computerdatabase.connection;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+import org.springframework.stereotype.Repository;
+
 import com.jolbox.bonecp.BoneCP;
 import com.jolbox.bonecp.BoneCPConfig;
 
-public enum ConnectionManager {
-
-	INSTANCE;
+@Repository
+public class ConnectionManager {
 	
 	private BoneCP connectionPool = null;
-	private ConnectionManager(){
+	public ConnectionManager(){
+		System.out.println("instanciation du connection manager");
 		try {
 			Class.forName( "com.mysql.jdbc.Driver" );
 			BoneCPConfig config = new BoneCPConfig();   // création d'un objet BoneCPConfig

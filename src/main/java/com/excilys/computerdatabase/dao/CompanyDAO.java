@@ -8,13 +8,15 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Repository;
+
 import com.excilys.computerdatabase.modele.Company;
 
-public enum CompanyDAO implements DAO<Company>{
+@Repository
+public class CompanyDAO implements DAO<Company>{
 
-	INSTANCE;
 
-	private CompanyDAO(){
+	public CompanyDAO(){
 	}
 	
 	public boolean create(Company object, Connection connection) throws SQLException {

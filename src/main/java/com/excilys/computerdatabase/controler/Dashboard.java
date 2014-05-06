@@ -10,6 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+
 import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.validator.ComputerDTO;
 
@@ -19,6 +22,18 @@ import com.excilys.computerdatabase.validator.ComputerDTO;
 @WebServlet("/Dashboard")
 public class Dashboard extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	
+	@Autowired
+	private ComputerService computerService;
+	public void setComputerService(ComputerService computerService){
+		this.computerService = computerService;
+	}
+	
+	@Override
+	public void init() throws ServletException{
+		super.init();
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, getServletContext());
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -32,28 +47,29 @@ public class Dashboard extends HttpServlet {
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		
+		
 		List<String> computers = new ArrayList<String>();
 		ComputerDTO computerDto = new ComputerDTO();
 		String name = request.getParameter( "search" );
 		if((request.getParameter( "order" ) != null) && (request.getParameter( "order" ) != "")){
 
 			if(name !=null){
-				computers = computerDto.fromDTOList( ComputerService.INSTANCE.filterByName(name, Integer.parseInt(request.getParameter( "order" ) )));
+				computers = computerDto.fromDTOList( computerService.filterByName(name, Integer.parseInt(request.getParameter( "order" ) )));
 				request.setAttribute("search", name);
 			}
 			else{
-				computers = computerDto.fromDTOList( ComputerService.INSTANCE.getAll(Integer.parseInt(request.getParameter( "order" ) )));		
+				computers = computerDto.fromDTOList( computerService.getAll(Integer.parseInt(request.getParameter( "order" ) )));		
 			}
 			request.setAttribute("order", request.getParameter( "order" ));
 		}
 
 		else{
 			if(name !=null){
-				computers = computerDto.fromDTOList( ComputerService.INSTANCE.filterByName(name, 0));
+				computers = computerDto.fromDTOList(computerService.filterByName(name, 0));
 				request.setAttribute("search", name);
 			}
 			else{
-				computers = computerDto.fromDTOList( ComputerService.INSTANCE.getAll(0));		
+				computers = computerDto.fromDTOList(computerService.getAll(0));		
 			}
 			request.setAttribute("order", 0);
 		}

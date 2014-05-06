@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.computerdatabase.service.ComputerService;
 
 /**
@@ -16,6 +18,11 @@ import com.excilys.computerdatabase.service.ComputerService;
 @WebServlet("/Remove")
 public class Remove extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	@Autowired
+	private ComputerService computerService;
+	public void setComputerService(ComputerService computerService){
+		this.computerService = computerService;
+	}
        
     /**
      * @see HttpServlet#HttpServlet()
@@ -41,7 +48,7 @@ public class Remove extends HttpServlet {
 		if ((request.getParameter("idComputer") !=null) && (!request.getParameter("idComputer").equals(""))){
 			System.out.println(request.getParameter("idComputer"));
 			try {
-				ComputerService.INSTANCE.delete(Long.parseLong(request.getParameter("idComputer")));
+				computerService.delete(Long.parseLong(request.getParameter("idComputer")));
 			} catch (NumberFormatException e) {
 				System.out.println("idComputer n'a pas le bon format --> pas un long");
 			}

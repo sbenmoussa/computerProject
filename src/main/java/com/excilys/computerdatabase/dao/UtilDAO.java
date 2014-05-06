@@ -5,11 +5,21 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
+
 import com.excilys.computerdatabase.connection.ConnectionManager;
 
-
+@Repository
 public class UtilDAO {
 
+	@Autowired
+	private ConnectionManager connectionManager;
+	
+	public void setConnectionManager(ConnectionManager connectionManager){
+		this.connectionManager = connectionManager;
+	}
+	
 	public static void close( ResultSet resultSet ) {
 	    if ( resultSet != null ) {
 	        try {
@@ -42,7 +52,7 @@ public class UtilDAO {
 		}
 	}
 	
-	public static void endTransaction(boolean success, Connection connection){
+	public  void endTransaction(boolean success, Connection connection){
 		try {
 			if(success){
 				connection.commit();
@@ -56,9 +66,13 @@ public class UtilDAO {
 
 	}
 	
-	public static void beginTransaction(){
+	public void beginTransaction(){
 		try {
-			ConnectionManager.INSTANCE.getConnection().setAutoCommit(false);
+			if(connectionManager == null){
+				System.out.println("le connection manager n'a pas été instancié");
+			}
+			Connection  cn = connectionManager.getConnection();
+			cn.setAutoCommit(false);
 		} catch (SQLException e) {
 			System.out.println("initialisation de transaction");
 		}

@@ -4,6 +4,9 @@ import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
+import org.springframework.stereotype.Repository;
+
+@Repository
 public interface DAO<T> {
 	
 	public abstract boolean create(T object, Connection connection) throws SQLException;

@@ -7,14 +7,18 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import org.springframework.stereotype.Repository;
+
 import com.excilys.computerdatabase.modele.Company;
 import com.excilys.computerdatabase.modele.Computer;
+
 import static com.excilys.computerdatabase.dao.UtilDAO.*;
-public enum ComputerDAO implements DAO<Computer>{
 
-	INSTANCE;
+@Repository
+public class ComputerDAO implements DAO<Computer>{
 
-	private ComputerDAO(){
+
+	public ComputerDAO(){
 
 	}
 

@@ -5,6 +5,9 @@ import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.Date;
 
+import org.springframework.stereotype.Service;
+
+@Service
 public class UtilService {
  
 	public static void logInfo(String message, Connection connection) throws SQLException{

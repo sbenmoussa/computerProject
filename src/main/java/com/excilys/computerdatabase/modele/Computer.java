@@ -2,6 +2,9 @@ package com.excilys.computerdatabase.modele;
 
 import java.util.Date;
 
+import org.springframework.beans.factory.annotation.*;
+
+
 public class Computer {
 
 	private long id;
@@ -45,6 +48,8 @@ public class Computer {
 	public Company getCompany() {
 		return company;
 	}
+	
+	@Required
 	public void setCompany(Company company) {
 		this.company = company;
 	}

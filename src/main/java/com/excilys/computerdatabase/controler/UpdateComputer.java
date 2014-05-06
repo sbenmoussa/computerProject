@@ -10,6 +10,8 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.computerdatabase.modele.Computer;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
@@ -21,7 +23,18 @@ import com.excilys.computerdatabase.validator.*;
 @WebServlet("/UpdateComputer")
 public class UpdateComputer extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	@Autowired
+	private ComputerService computerService;
+	public void setComputerService(ComputerService computerService){
+		this.computerService = computerService;
+	}
        
+	@Autowired
+	private CompanyService companyService;
+	public void setCompanyService(CompanyService companyService){
+		this.companyService = companyService;
+	}
+	
     /**
      * @see HttpServlet#HttpServlet()
      */
@@ -40,8 +53,8 @@ public class UpdateComputer extends HttpServlet {
 		String computer = null;
 		if((request.getParameter("idUpdate") != null) && (!request.getParameter("idUpdate").equals(""))){
 			Long idComputer = Long.parseLong(request.getParameter("idUpdate").trim());
-			computer  = computerDto.fromDTO(ComputerService.INSTANCE.find(idComputer));
-			companies = companyDto.fromDTOList( CompanyService.INSTANCE.getAll(0));		
+			computer  = computerDto.fromDTO(computerService.find(idComputer));
+			companies = companyDto.fromDTOList( companyService.getAll(0));		
 			request.setAttribute("computer", computer);
 			request.setAttribute("companies", companies);
 			request.setAttribute("idUpdate", request.getParameter("idUpdate"));
@@ -60,7 +73,7 @@ public class UpdateComputer extends HttpServlet {
 		Computer computer;
 		computer = acf.addComputer(request);
 		if(acf.getResult().equals("Success")){
-			ComputerService.INSTANCE.update(computer);
+			computerService.update(computer);
 		}
 		request.setAttribute( "update", acf.getResult());	
 		request.getRequestDispatcher( "Dashboard").forward( request, response );
