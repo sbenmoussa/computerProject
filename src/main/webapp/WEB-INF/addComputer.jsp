@@ -1,6 +1,7 @@
 <jsp:include page="include/header.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <section id="main">
 
@@ -14,12 +15,12 @@
 		<h2 style="color: red" >Fail to add computer        <a href="Dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
-	<form action="AddComputer" method="POST" id="formulaire">
+	<form:form action="save/addComputer" commandName="computer" method="POST" id="formulaire">
 		<fieldset>
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
-					<input type="text" name="name" id="name"/>
+					<form:input  path="name" type="text" name="name" id="name"/>
 					<span class="help-inline">Required</span>
 				</div>
 			</div>
@@ -27,27 +28,27 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input type="date" name="introducedDate" id="introducedDate"/>
+					<form:input  path="introduced" type="date" name="introducedDate" id="introducedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input type="date" name="discontinuedDate" id="discontinuedDate"/>
+					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate"/>
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="company">Company Name:</label>
 				<div class="input">
-					<select name="company" id="company">
+					<form:select path="company.id" name="company" id="company">
 					<option value="0">--</option>
 						<c:forEach items="${ companies }" var="company" varStatus="boucle">					
 							<option value="${ company.getId() }">${ company.getName() }</option>
 						</c:forEach>
 			
-					</select>
+					</form:select>
 				</div>
 			</div>
 		</fieldset>
@@ -55,7 +56,7 @@
 			<input type="submit" value="Add" class="btn primary">
 			or <a href="dashboard.jsp" class="btn">Cancel</a>
 		</div>
-	</form>
+	</form:form>
 	
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>

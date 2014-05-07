@@ -40,7 +40,7 @@
 				value="Filter by name"
 				class="btn primary">
 		</form>
-		<a class="btn success" id="add" href="AddComputer">Add Computer</a>
+		<a class="btn success" id="add" href="addComputer">Add Computer</a>
 	</div>
 		<script>
 			function callServlet(monForm,idC){	 
@@ -56,12 +56,12 @@
 				<tr>
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
-					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="Dashboard?page=${page}&order=0">Computer Name </a></th>
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="Dashboard?page=${page}&order=1">Introduced Date</a></th>
+					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="dashboard?page=${page}&order=0">Computer Name </a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="dashboard?page=${page}&order=1">Introduced Date</a></th>
 					<!-- Table header for Discontinued Date -->
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="Dashboard?page=${page}&order=2">Discontinued Date</a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="dashboard?page=${page}&order=2">Discontinued Date</a></th>
 					<!-- Table header for Company -->
-					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="Dashboard?page=${page}&order=3">Company</a></th>
+					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="dashboard?page=${page}&order=3">Company</a></th>
 				</tr>
 			</thead>
 			<tbody>
@@ -89,11 +89,11 @@
 		
 		<c:choose>
 			<c:when test='${search != null}'>
-				<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}&search=${search}" />
+				<c:url var="searchUri" value="dashboard??s=${searchval}&page=##&order=${order}&search=${search}" />
 				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
 			</c:when>
 			<c:otherwise>
-				<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}" />
+				<c:url var="searchUri" value="dashboard??s=${searchval}&page=##&order=${order}" />
 				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
 			</c:otherwise>
 		</c:choose>
