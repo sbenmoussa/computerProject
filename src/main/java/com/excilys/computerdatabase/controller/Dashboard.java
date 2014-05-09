@@ -6,8 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.validator.ComputerDTO;
@@ -23,15 +25,14 @@ public class Dashboard {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public void get(ModelMap model, Integer order,  String search  , Integer page){
-		
-		System.out.println("order = "+order+" et page = "+page);
+	public void get(ModelMap model, Integer order,  String search , Integer page, String update, String add){
+
+		System.out.println("order = "+order+" et page = "+page+" et update result= "+update);
 		List<String> computers = new ArrayList<String>();
 		ComputerDTO computerDto = new ComputerDTO();
-		
+
 		String name = search;
 		if(order != null){
-		//if(!(order <0)){
 			if(name !=null){
 				computers = computerDto.fromDTOList( computerService.filterByName(name, order));
 				model.addAttribute("search", name);
@@ -55,22 +56,26 @@ public class Dashboard {
 
 		model.addAttribute("computers", computers);
 		if(page != null){
-			System.out.println("le parametre age n'est pas null");
+			System.out.println("le parametre page n'est pas null");
 			model.addAttribute("page", page);
 		}	
 		else{
 			model.addAttribute("page", 0);
 		}
-		
-		if(model.get( "update" ) != null){
-			System.out.println("un apdate effectue "+model.get( "update" ));
-			model.addAttribute("update", model.get( "update" ));
+
+		if(update != null){
+			System.out.println("un apdate effectue "+update);
+			model.addAttribute("update", update);
 		}	 	
-		
-		if(model.get( "add" ) != null){
-			model.addAttribute("add", model.get( "add" ));
+
+		if(add !=null){
+			model.addAttribute("add", add);
 		}	
-		System.out.println();
-		//this.getServletContext().getRequestDispatcher( "/WEB-INF/dashboard.jsp" ).forward( request, response );
+	}
+	
+	@RequestMapping(value="/dashboard", method = RequestMethod.POST)
+	public ModelAndView post(ModelMap model, @ModelAttribute ComputerDTO computer){
+		System.out.println("la méthode post du dashboard");
+		return new ModelAndView("redirect:/dashboard");
 	}
 }

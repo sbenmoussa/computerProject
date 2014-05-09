@@ -23,7 +23,8 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 <bean class=" org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping " />
 <bean class=" org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter " />
 <mvc:annotation-driven />
-
+<mvc:resources location="/css/" mapping="/css/**"/>
+<mvc:resources location="/js/" mapping="/js/**"/>
 <!-- Naming View Configuration -->
 
 <bean id="viewResolver1"     class="org.springframework.web.servlet.view.InternalResourceViewResolver"

@@ -1,72 +1,36 @@
 package com.excilys.computerdatabase.controller;
 
-import java.io.IOException;
-
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.computerdatabase.service.ComputerService;
 
-/**
- * Servlet implementation class Remove
- */
-@WebServlet("/Remove")
 @Controller
-public class Remove extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@RequestMapping("/Remove")
+public class Remove {
+
 	@Autowired
 	private ComputerService computerService;
 	public void setComputerService(ComputerService computerService){
 		this.computerService = computerService;
 	}
-       
-    /**
-     * @see HttpServlet#HttpServlet()
-     */
-    public Remove() {
-        super();
-       
-    }
-    
-    @Override
-	public void init() throws ServletException{
-		super.init();
-		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, getServletContext());
-	}
-    
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	
-	}
-
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		System.out.println("id computer : "+request.getParameter("idComputer"));
+	@RequestMapping(method = RequestMethod.POST)
+	public ModelAndView post(ModelMap model, Long idComputer){
+		System.out.println("id computer : "+idComputer);
 		
-		if ((request.getParameter("idComputer") !=null) && (!request.getParameter("idComputer").equals(""))){
-			System.out.println(request.getParameter("idComputer"));
-			try {
-				computerService.delete(Long.parseLong(request.getParameter("idComputer")));
-			} catch (NumberFormatException e) {
-				System.out.println("idComputer n'a pas le bon format --> pas un long");
-			}
-			this.getServletContext().getRequestDispatcher( "/WEB-INF/dashboard.jsp" ).forward( request, response );
+		if ((idComputer !=null) && (!idComputer.equals(""))){
+			System.out.println(idComputer);
+			boolean success = computerService.delete(idComputer);
+			return new ModelAndView("redirect:/dashboard?remove="+success);
 		}
 		else{
 			System.out.println("vide");
 		}	
+		return new ModelAndView("redirect:/dashboard");
 	}
-
 }

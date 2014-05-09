@@ -8,11 +8,11 @@
 	<h1>Add Computer</h1>
 	
 	<c:if test='${ (add != null)  && (add =="Success") }' var="result">
-		<h2 style="color: red">successful operation      <a href="Dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red">successful operation      <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
-		<h2 style="color: red" >Fail to add computer        <a href="Dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<form:form action="save/addComputer" commandName="computer" method="POST" id="formulaire">

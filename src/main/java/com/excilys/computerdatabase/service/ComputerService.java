@@ -45,7 +45,7 @@ public class ComputerService {
 
 	
 
-	public void insert(Computer o) {	
+	public boolean insert(Computer o) {	
 		boolean success = false;
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
@@ -54,17 +54,20 @@ public class ComputerService {
 			daofactory.getComputerDAO().create(o, connection);
 			UtilService.logInfo(" inséré avec succés", connection);
 			success = true;
+			return success;
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
+			return success;
 		}
 		finally{
-			utildao.endTransaction(success, connection);
+		utildao.endTransaction(success, connection);
 		connectionManager.disconnect();
 		}
+		
 	}
 
-	public void update(Object o) {
+	public boolean update(Object o) {
 		boolean success = false;
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
@@ -74,9 +77,11 @@ public class ComputerService {
 			UtilService.logInfo(" mis à jour avec succés", connection);
 			logger.info(" mis à jour avec succés");
 			success = true;
+			return success;
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
+			return success;
 		}
 		finally{
 			utildao.endTransaction(success, connection);
@@ -84,7 +89,7 @@ public class ComputerService {
 		}
 	}
 
-	public void delete(Long id) {
+	public boolean delete(Long id) {
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
 		utildao.beginTransaction();
@@ -94,9 +99,11 @@ public class ComputerService {
 			UtilService.logInfo(" supprimé avec succés", connection);
 			logger.debug("suppression ok");
 			success = true;
+			return success;
 		}  catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
+			return success;
 		}
 		finally{
 			utildao.endTransaction(success, connection);

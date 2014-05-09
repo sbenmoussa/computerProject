@@ -13,27 +13,27 @@
 
 	<c:if test="${ computers == null }" var="result">
 		<%
-			response.sendRedirect("Dashboard");
+			response.sendRedirect("dashboard");
 		%>
 	</c:if>
 	
-	<c:if test='${ (update != null)  && (update =="Success") }' var="result">
-		<h2 style="color: red">successful update    <a href="Dashboard" class="btn">return to dashboard</a></h2> 
+	<c:if test='${ (update != null)  && (update =="true") }' var="result">
+		<h2 style="color: red">successful update    <a href="dashboard" class="btn">return to dashboard</a></h2> 
 	</c:if>
 	
-	<c:if test='${ (update != null)  && (update=="Fail") }' var="result">
-		<h2 style="color: red" >Fail to update computer <a href="Dashboard" class="btn">dashboard</a></h2>
+	<c:if test='${ (update != null)  && (update=="false") }' var="result">
+		<h2 style="color: red" >Fail to update computer <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
-	<c:if test='${ (add != null)  && (add =="Success") }' var="result">
-		<h2 style="color: red">successful operation      <a href="Dashboard" class="btn">dashboard</a></h2>
+	<c:if test='${ (add != null)  && (add =="true") }' var="result">
+		<h2 style="color: red">successful operation      <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
-	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
-		<h2 style="color: red" >Fail to add computer        <a href="Dashboard" class="btn">dashboard</a></h2>
+	<c:if test='${ (add != null)  && (add =="false") }' var="result">
+		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 
 	<div id="actions">
-		<form action="Dashboard" method="GET">
+		<form action="dashboard" method="GET">
 			<input type="search" id="searchbox" name="search"
 				value="" placeholder="Search name">
 			<input type="submit" id="searchsubmit"
@@ -67,7 +67,7 @@
 			<tbody>
 				<c:forEach items="${ computers }" var="computer"  begin='${page * 10}' end='${(page*10) + 9}'>
 					<tr>
-						<td><a href='UpdateComputer?idUpdate= ${ computer.split(",")[0] }' onclick="">${ computer.split(",")[1] }</a></td>
+						<td><a href='updateComputer?idUpdate= ${ computer.split(",")[0] }' onclick="">${ computer.split(",")[1] }</a></td>
 						<td>${ computer.split(",")[2] }</td>
 						<td>${ computer.split(",")[3] }</td>
 						<td>${ computer.split(",")[5] }</td>

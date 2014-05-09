@@ -1,6 +1,7 @@
 <jsp:include page="include/header.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%> 
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
 <section id="main">
 
@@ -15,50 +16,48 @@
 	<h1>Update Computer</h1>
 
 	<c:if test='${ (update != null)  && (update =="Success") }' var="result">
-		<h2 style="color: red">successful update    <a href="Dashboard" class="btn">return to dashboard</a></h2> 
+		<h2 style="color: red">successful update    <a href="dashboard" class="btn">return to dashboard</a></h2> 
 	</c:if>
 	
 	<c:if test='${ (update != null)  && (update=="Fail") }' var="result">
-		<h2 style="color: red" >Fail to update computer <a href="Dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red" >Fail to update computer <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 
 	<c:if test="${ computer != null }" var="result">
-	<form action="UpdateComputer" method="POST" id="formulaire">
+	<form:form action="save/updateComputer"  commandName="computer"  method="POST" id="formulaire">
 		<fieldset>
-			<input type="hidden" name="idUpdate" id="idUpdate"
-				value='${idUpdate }' />
+			<form:hidden path="id" name="id" id="id" value='${id}' />
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
-					<input type="text" name="name" id="name"
-						value='${ computer.split(",")[1] }' required /> <span
-						class="help-inline"></span>
+					<form:input  path="name" type="text" name="name" id="name"/>
+					<span class="help-inline"></span>
 				</div>
 			</div>
 
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input type="date" name="introducedDate" id="introducedDate"
-						value='${ computer.split(",")[2] }'   /> <span class="help-inline"></span>
+					<form:input path="introduced" type="date" name="introducedDate" id="introducedDate" value='${comp.split(",")[2]}'
+						   /> <span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input type="date" name="discontinuedDate" id="discontinuedDate"
-						value='${ computer.split(",")[3] }'   /> <span class="help-inline"></span>
+					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate" value='${comp.split(",")[3]}'
+						   /> <span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="company">Company Name:</label>
 				<div class="input">
-					<select name="company" id="company">
+					<form:select path="company.id" name="company" id="company">
 						<option value="0">--</option>
 						<c:forEach items="${ companies }" var="company" varStatus="boucle">
 							<c:choose>
 								<c:when
-									test='${ company.split(",")[0]  == computer.split(",")[4] }'>
+									test='${ company.split(",")[0]  == computer.getCompany().getId() }'>
 									<option selected value='${ company.split(",")[0] }'>${ company.split(",")[1] }</option>
 								</c:when>
 
@@ -67,15 +66,15 @@
 								</c:otherwise>
 							</c:choose>
 						</c:forEach>
-					</select>
+					</form:select>
 				</div>
 			</div>
 		</fieldset>
 		<div class="actions">
 			<input type="submit" value="UPDATE" id="envoi" class="btn primary">
-			or <a href="Dashboard" class="btn">Cancel</a>
+			or <a href="dashboard" class="btn">Cancel</a>
 		</div>
-	</form>
+	</form:form>
 	</c:if>
 
 	<script type="text/javascript" src="js/jquery.js"></script>
