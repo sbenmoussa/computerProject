@@ -2,6 +2,10 @@ package com.excilys.computerdatabase.validator;
 
 import java.util.ArrayList;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+
+//import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computerdatabase.model.Company;
@@ -11,10 +15,20 @@ import com.excilys.computerdatabase.util.*;
 @Component
 public class ComputerDTO {
 	
+	
 	private long id;
+	@NotNull(message = "The Computer name must not be null")
+	@Size(min= 1, max = 255)
+	//@SafeHtml()
 	private String name;
+	@NotNull(message = "The introduced date must not be null")
+	@Pattern(regexp = "yyyy-MM-dd")
 	private String introduced;
+	@NotNull(message = "The discontinued date must not be null")
+	@Pattern(regexp = "yyyy-MM-dd")
 	private String discontinued;
+	@NotNull(message = "The Company must be ")
+	@Valid
 	private Company company;
 
 	public Computer toDTO(String data){
