@@ -1,0 +1,1 @@
+greaterThan: jQuery.validator.format("La date de fin doit être supérieur à celle de l'introduction du computer");

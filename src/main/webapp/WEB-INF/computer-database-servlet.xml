@@ -42,14 +42,20 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 			<value>/WEB-INF/pages/</value>
 		</property>
 		<property name="suffix">
-			<value>.jsp</value>
+			<value>.jsp</value>   value="WEB-INF/messages"
 		</property>
 	</bean> -->
 
 	<!-- bind your messages.properties -->
 	<bean class="org.springframework.context.support.ResourceBundleMessageSource"
 		id="messageSource">
-		<property name="basename" value="WEB-INF/messages" />	
+		<property name="basename" >
+			<!--  <list> -->
+				<value>messages</value>
+				<!--  <value>errors</value>
+			</list>-->
+		</property>	
+		
 	</bean>
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="validationMessageSource" ref="messageSource" />

@@ -29,7 +29,7 @@
 		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
-	<form:form action="addComputer" commandName="computer" method="POST" id="formulaire">
+	<form:form action="addComputer" commandName="computerdto" method="POST" id="formulaire">
 	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<div class="clearfix">
@@ -44,7 +44,7 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<form:input  path="introduced" type="date" name="introducedDate" id="introducedDate"/>
+					<form:input  path="introduced" type="date" name="introducedDate" id="introducedDate"  placeholder="YYYY-MM-DD"/>
 					<form:errors path="introduced" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
@@ -52,7 +52,7 @@
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate"/>
+					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate" placeholder="YYYY-MM-DD"/>
 					<form:errors path="discontinued" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
@@ -79,7 +79,7 @@
 	
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-	
+	<script type="text/javascript" src="js/messagesFR.js"></script>
 	<script>
 	   $(document).ready(function(){
 		   jQuery.validator.addMethod(
@@ -92,6 +92,17 @@
 				   	          return this.optional(element) || regexp.test(value);
 				   	   },"erreur expression reguliere"
 				   	);
+		   
+		   jQuery.validator.addMethod('greaterThan',function(value, element, param) {
+				return ((isNaN($(param).val()) && isNaN(value))
+						&& ($(param).val() != "" && value != "")
+						|| ($(param).val() == "" && value == "") || ($(
+						param).val() != "" && value == "")) || ((!(isNaN($(
+						param).val()) && isNaN(value))
+						&& ($(param).val() != 0 && value != 0) || ($(
+						param).val() == 0 && value == 0)) && ((Date.parse($(param).val()) <= Date.parse(value))));},
+						jQuery.validator.format('Must be greater or equal than the introduced date')
+			);
 		   
 		   jQuery(document).ready(function() {
 		   	   jQuery("#formulaire").validate({
@@ -107,7 +118,8 @@
 		   	         "discontinuedDate": {
 		   	            "required": true,
 		   	         	"date": true,
-		   	           	regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/
+		   	           	regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+		   	         	greaterThan : document.getElementById("introducedDate").value
 		   	         }
 		   	      }
 		   	  });

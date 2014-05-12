@@ -1,25 +1,42 @@
 <jsp:include page="include/header.jsp" />
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*" %>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+
+<style>
+.error {
+	color: #ff0000;
+}
+ 
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+</style>
 
 <section id="main">
 
 	<h1>Add Computer</h1>
 	
 	<c:if test='${ (add != null)  && (add =="Success") }' var="result">
-		<h2 style="color: red">successful operation      <a href="Dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red">successful operation      <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
-		<h2 style="color: red" >Fail to add computer        <a href="Dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
-	<form action="AddComputer" method="POST" id="formulaire">
+	<form:form action="addComputer" commandName="computerdto" method="POST" id="formulaire">
+	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
-					<input type="text" name="name" id="name"/>
+					<form:input  path="name" type="text" name="name" id="name"/>
+					<form:errors path="name" cssClass="error" />
 					<span class="help-inline">Required</span>
 				</div>
 			</div>
@@ -27,35 +44,38 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<input type="date" name="introducedDate" id="introducedDate"/>
+					<form:input  path="introduced" type="date" name="introducedDate" id="introducedDate"/>
+					<form:errors path="introduced" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<input type="date" name="discontinuedDate" id="discontinuedDate"/>
+					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate"/>
+					<form:errors path="discontinued" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="company">Company Name:</label>
 				<div class="input">
-					<select name="company" id="company">
+					<form:select path="company.id" name="company" id="company">
 					<option value="0">--</option>
 						<c:forEach items="${ companies }" var="company" varStatus="boucle">					
 							<option value="${ company.getId() }">${ company.getName() }</option>
 						</c:forEach>
 			
-					</select>
+					</form:select>
+					<form:errors path="company.id" cssClass="error" />
 				</div>
 			</div>
 		</fieldset>
 		<div class="actions">
 			<input type="submit" value="Add" class="btn primary">
-			or <a href="dashboard.jsp" class="btn">Cancel</a>
+			or <a href="dashboard " class="btn">Cancel</a>
 		</div>
-	</form>
+	</form:form>
 	
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
@@ -93,11 +113,7 @@
 		   	  });
 		   	}); 
 	      //$("#addform").validate();
-	    });
-	   
-	   
+	    });  
 	</script>
-
-
 </section>
 <jsp:include page="include/footer.jsp" />

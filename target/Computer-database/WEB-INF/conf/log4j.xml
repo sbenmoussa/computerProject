@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
- <!DOCTYPE log4j:configuration SYSTEM "log4j.dtd">
-
+ <!DOCTYPE log4j:configuration PUBLIC
+  "-//APACHE//DTD LOG4J 1.2//EN" "http://logging.apache.org/log4j/1.2/apidocs/org/apache/log4j/xml/doc-files/log4j.dtd">
 <log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/">
 
 	<!-- Appender de type fichier -->
@@ -21,9 +21,9 @@
 		<param name="commit" value="true"/>
 		<param name="quoteReplace" value="true"/>
 		<param name="layoutPartsDelimiter" value="#-#"/>
-		<layaout class="org.apache.log4j.PatternLayout">
+		<layout class="org.apache.log4j.PatternLayout">
 			<param name="ConversionPattern" value="[%t] %m#-##-#%d{dd.MM.yyyy}#-#%d{HH:mm:ss}"/>
-		</layaout>
+		</layout>
 	</appender>
 
 	<!--  Logger associe aux classes com.projet.computerdata.* -->

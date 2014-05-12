@@ -13,34 +13,34 @@
 
 	<c:if test="${ computers == null }" var="result">
 		<%
-			response.sendRedirect("Dashboard");
+			response.sendRedirect("dashboard");
 		%>
 	</c:if>
 	
-	<c:if test='${ (update != null)  && (update =="Success") }' var="result">
-		<h2 style="color: red">successful update    <a href="Dashboard" class="btn">return to dashboard</a></h2> 
+	<c:if test='${ (update != null)  && (update =="true") }' var="result">
+		<h2 style="color: red">successful update    <a href="dashboard" class="btn">return to dashboard</a></h2> 
 	</c:if>
 	
-	<c:if test='${ (update != null)  && (update=="Fail") }' var="result">
-		<h2 style="color: red" >Fail to update computer <a href="Dashboard" class="btn">dashboard</a></h2>
+	<c:if test='${ (update != null)  && (update=="false") }' var="result">
+		<h2 style="color: red" >Fail to update computer <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
-	<c:if test='${ (add != null)  && (add =="Success") }' var="result">
-		<h2 style="color: red">successful operation      <a href="Dashboard" class="btn">dashboard</a></h2>
+	<c:if test='${ (add != null)  && (add =="true") }' var="result">
+		<h2 style="color: red">successful operation      <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
-	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
-		<h2 style="color: red" >Fail to add computer        <a href="Dashboard" class="btn">dashboard</a></h2>
+	<c:if test='${ (add != null)  && (add =="false") }' var="result">
+		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 
 	<div id="actions">
-		<form action="Dashboard" method="GET">
+		<form action="dashboard" method="GET">
 			<input type="search" id="searchbox" name="search"
 				value="" placeholder="Search name">
 			<input type="submit" id="searchsubmit"
 				value="Filter by name"
 				class="btn primary">
 		</form>
-		<a class="btn success" id="add" href="AddComputer">Add Computer</a>
+		<a class="btn success" id="add" href="addComputer">Add Computer</a>
 	</div>
 		<script>
 			function callServlet(monForm,idC){	 
@@ -56,18 +56,18 @@
 				<tr>
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
-					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="Dashboard?page=${page}&order=0">Computer Name </a></th>
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="Dashboard?page=${page}&order=1">Introduced Date</a></th>
+					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="dashboard?page=${page}&order=0">Computer Name </a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="dashboard?page=${page}&order=1">Introduced Date</a></th>
 					<!-- Table header for Discontinued Date -->
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="Dashboard?page=${page}&order=2">Discontinued Date</a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="dashboard?page=${page}&order=2">Discontinued Date</a></th>
 					<!-- Table header for Company -->
-					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="Dashboard?page=${page}&order=3">Company</a></th>
+					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="dashboard?page=${page}&order=3">Company</a></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${ computers }" var="computer"  begin='${page * 10}' end='${(page*10) + 9}'>
 					<tr>
-						<td><a href='UpdateComputer?idUpdate= ${ computer.split(",")[0] }' onclick="">${ computer.split(",")[1] }</a></td>
+						<td><a href='updateComputer?idUpdate= ${ computer.split(",")[0] }' onclick="">${ computer.split(",")[1] }</a></td>
 						<td>${ computer.split(",")[2] }</td>
 						<td>${ computer.split(",")[3] }</td>
 						<td>${ computer.split(",")[5] }</td>
@@ -89,11 +89,11 @@
 		
 		<c:choose>
 			<c:when test='${search != null}'>
-				<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}&search=${search}" />
+				<c:url var="searchUri" value="dashboard??s=${searchval}&page=##&order=${order}&search=${search}" />
 				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
 			</c:when>
 			<c:otherwise>
-				<c:url var="searchUri" value="Dashboard??s=${searchval}&page=##&order=${order}" />
+				<c:url var="searchUri" value="dashboard??s=${searchval}&page=##&order=${order}" />
 				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" />
 			</c:otherwise>
 		</c:choose>
