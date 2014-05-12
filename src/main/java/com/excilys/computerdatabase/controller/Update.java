@@ -3,13 +3,16 @@ package com.excilys.computerdatabase.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.*;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.service.CompanyService;
@@ -51,9 +54,22 @@ public class Update {
 		return cp;
 	}
 	
-	@RequestMapping(value="/save/updateComputer", method = RequestMethod.POST)
-	public ModelAndView post(ModelMap model, @ModelAttribute ComputerDTO computer){
-		boolean success = computerService.update(computer.toDTO(""));
-		return new ModelAndView("redirect:/dashboard?update="+success);
+	@RequestMapping(value="/updateComputer", method = RequestMethod.POST)
+	public String post(ModelMap model, @ModelAttribute @Valid ComputerDTO computer, BindingResult result){
+		boolean success = false;
+		if (result.hasErrors()) {
+			for (Object object : result.getAllErrors()) {
+				if (object instanceof FieldError) {
+					FieldError fieldError = (FieldError) object;
+					System.out.println(fieldError.getField() + ":"+ fieldError.getCode()+"  , "+fieldError.getDefaultMessage());
+				}
+			}
+		} else {
+			success = computerService.update(computer.toDTO(""));			
+		}
+		
+		model.addAttribute("update", success);
+		return "forward:/dashboard";
+		//return new ModelAndView("redirect:/dashboard?update="+success);
 	}
 }

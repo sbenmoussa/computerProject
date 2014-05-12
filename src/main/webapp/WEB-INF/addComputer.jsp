@@ -3,6 +3,20 @@
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style>
+.error {
+	color: #ff0000;
+}
+ 
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+</style>
+
 <section id="main">
 
 	<h1>Add Computer</h1>
@@ -15,12 +29,14 @@
 		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
-	<form:form action="save/addComputer" commandName="computer" method="POST" id="formulaire">
+	<form:form action="addComputer" commandName="computer" method="POST" id="formulaire">
+	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
 					<form:input  path="name" type="text" name="name" id="name"/>
+					<form:errors path="name" cssClass="error" />
 					<span class="help-inline">Required</span>
 				</div>
 			</div>
@@ -29,6 +45,7 @@
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
 					<form:input  path="introduced" type="date" name="introducedDate" id="introducedDate"/>
+					<form:errors path="introduced" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
@@ -36,6 +53,7 @@
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
 					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate"/>
+					<form:errors path="discontinued" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
 			</div>
@@ -49,12 +67,13 @@
 						</c:forEach>
 			
 					</form:select>
+					<form:errors path="company.id" cssClass="error" />
 				</div>
 			</div>
 		</fieldset>
 		<div class="actions">
 			<input type="submit" value="Add" class="btn primary">
-			or <a href="dashboard.jsp" class="btn">Cancel</a>
+			or <a href="dashboard " class="btn">Cancel</a>
 		</div>
 	</form:form>
 	
@@ -94,11 +113,7 @@
 		   	  });
 		   	}); 
 	      //$("#addform").validate();
-	    });
-	   
-	   
+	    });  
 	</script>
-
-
 </section>
 <jsp:include page="include/footer.jsp" />

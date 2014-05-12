@@ -9,7 +9,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.ModelAndView;
 
 import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.validator.ComputerDTO;
@@ -25,9 +24,8 @@ public class Dashboard {
 	}
 
 	@RequestMapping(method = RequestMethod.GET)
-	public void get(ModelMap model, Integer order,  String search , Integer page, String update, String add){
+	public void get(ModelMap model, Integer order,  String search , Integer page){
 
-		System.out.println("order = "+order+" et page = "+page+" et update result= "+update);
 		List<String> computers = new ArrayList<String>();
 		ComputerDTO computerDto = new ComputerDTO();
 
@@ -56,26 +54,17 @@ public class Dashboard {
 
 		model.addAttribute("computers", computers);
 		if(page != null){
-			System.out.println("le parametre page n'est pas null");
 			model.addAttribute("page", page);
 		}	
 		else{
 			model.addAttribute("page", 0);
 		}
-
-		if(update != null){
-			System.out.println("un apdate effectue "+update);
-			model.addAttribute("update", update);
-		}	 	
-
-		if(add !=null){
-			model.addAttribute("add", add);
-		}	
 	}
 	
 	@RequestMapping(value="/dashboard", method = RequestMethod.POST)
-	public ModelAndView post(ModelMap model, @ModelAttribute ComputerDTO computer){
+	public void post(ModelMap model, @ModelAttribute ComputerDTO computer){
 		System.out.println("la méthode post du dashboard");
-		return new ModelAndView("redirect:/dashboard");
+		//return new ModelAndView("redirect:/dashboard");
+		get(model,null, null , 0);
 	}
 }

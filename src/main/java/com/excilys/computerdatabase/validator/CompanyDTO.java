@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.validator;
 
 import java.util.ArrayList;
 
+import javax.validation.constraints.NotNull;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computerdatabase.model.Company;
@@ -9,11 +10,13 @@ import com.excilys.computerdatabase.model.Company;
 @Component
 public class CompanyDTO {
 
-	private String name;
+	//@NotEmpty(message = "The Company name must not be null")
+	private String name ="";
+	@NotNull(message = "The Company id must not be NULL")
 	private Long id;
 	public Company toDTO(String data){
-		Company company = new Company.CompanyBuilder().build();
-		if(data != null){
+		Company company = new Company.CompanyBuilder().name(name).id(id).build();
+		if((data != null) && (!data.equals(""))){
 			company = new
 		            Company.CompanyBuilder()
 		            .id(Long.parseLong(data.split(",")[0]))

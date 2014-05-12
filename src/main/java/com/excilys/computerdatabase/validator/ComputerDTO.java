@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
+//import org.hibernate.validator.constraints.NotEmpty;
 //import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.stereotype.Component;
 
@@ -17,24 +18,24 @@ public class ComputerDTO {
 	
 	
 	private long id;
-	@NotNull(message = "The Computer name must not be null")
+	//@NotEmpty(message = "The Computer name must not be null")
 	@Size(min= 1, max = 255)
-	//@SafeHtml()
+	//@SafeHtml() ^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$
 	private String name;
-	@NotNull(message = "The introduced date must not be null")
-	@Pattern(regexp = "yyyy-MM-dd")
+	//@NotEmpty(message = "The introduced date must not be null")
+	@Pattern(regexp = "^[0-9]{4}(-)[0-9]{2}(-)[0-9]{2}$")
 	private String introduced;
-	@NotNull(message = "The discontinued date must not be null")
-	@Pattern(regexp = "yyyy-MM-dd")
+	//@NotEmpty(message = "The discontinued date must not be null")
+	@Pattern(regexp = "^[0-9]{4}(-)[0-9]{2}(-)[0-9]{2}$")
 	private String discontinued;
-	@NotNull(message = "The Company must be ")
+	//@NotNull(message = "The Company must be ")
 	@Valid
-	private Company company;
+	private CompanyDTO company;
 
 	public Computer toDTO(String data){
 		Util util = new Util();
 		Computer computer = new
-	            Computer.ComputerBuilder().id(id).name(name).introduced(util.stringToDate(introduced)).discontinued(util.stringToDate(discontinued)).company(company)
+	            Computer.ComputerBuilder().id(id).name(name).introduced(util.stringToDate(introduced)).discontinued(util.stringToDate(discontinued)).company(company.toDTO(""))
 	            .build();		
 		if((data != null) && (!data.equals(""))){
 			computer = new
@@ -96,11 +97,11 @@ public class ComputerDTO {
 		this.discontinued = discontinued;
 	}
 
-	public Company getCompany() {
+	public CompanyDTO getCompany() {
 		return company;
 	}
 
-	public void setCompany(Company company) {
+	public void setCompany(CompanyDTO company) {
 		this.company = company;
 	}
 

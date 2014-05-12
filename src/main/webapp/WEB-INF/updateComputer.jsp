@@ -3,6 +3,20 @@
 <%@ page import="java.util.*"%> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 
+<style>
+.error {
+	color: #ff0000;
+}
+ 
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
+</style>
+
 <section id="main">
 
 
@@ -24,13 +38,15 @@
 	</c:if>
 
 	<c:if test="${ computer != null }" var="result">
-	<form:form action="save/updateComputer"  commandName="computer"  method="POST" id="formulaire">
+	<form:form action="updateComputer"  commandName="computer"  method="POST" id="formulaire">
+	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<form:hidden path="id" name="id" id="id" value='${id}' />
 			<div class="clearfix">
 				<label for="name">Computer name:</label>
 				<div class="input">
 					<form:input  path="name" type="text" name="name" id="name"/>
+					<form:errors path="name" cssClass="error" />
 					<span class="help-inline"></span>
 				</div>
 			</div>
@@ -39,6 +55,7 @@
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
 					<form:input path="introduced" type="date" name="introducedDate" id="introducedDate" value='${comp.split(",")[2]}'
+					<form:errors path="introduced" cssClass="error" />
 						   /> <span class="help-inline"></span>
 				</div>
 			</div>
@@ -46,6 +63,7 @@
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
 					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate" value='${comp.split(",")[3]}'
+					<form:errors path="discontinued" cssClass="error" />
 						   /> <span class="help-inline"></span>
 				</div>
 			</div>
@@ -67,6 +85,7 @@
 							</c:choose>
 						</c:forEach>
 					</form:select>
+					<form:errors path="company.id" cssClass="error" />
 				</div>
 			</div>
 		</fieldset>
