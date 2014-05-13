@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ page import="java.util.*"%> 
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
 
 <style>
 .error {
@@ -29,11 +30,11 @@
 
 	<h1>Update Computer</h1>
 
-	<c:if test='${ (update != null)  && (update =="Success") }' var="result">
+	<c:if test='${ (update != null)  && (update =="true") }' var="result">
 		<h2 style="color: red">successful update    <a href="dashboard" class="btn">return to dashboard</a></h2> 
 	</c:if>
 	
-	<c:if test='${ (update != null)  && (update=="Fail") }' var="result">
+	<c:if test='${ (update != null)  && (update=="false") }' var="result">
 		<h2 style="color: red" >Fail to update computer <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 
@@ -54,17 +55,17 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<form:input path="introduced" type="date" name="introducedDate" id="introducedDate" value='${comp.split(",")[2]}'
+					<form:input path="introduced" type="date" name="introducedDate" id="introducedDate" value='${comp.split(",")[2]}'/> 
 					<form:errors path="introduced" cssClass="error" />
-						   /> <span class="help-inline"></span>
+						   <span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate" value='${comp.split(",")[3]}'
+					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate" value='${comp.split(",")[3]}'/>
 					<form:errors path="discontinued" cssClass="error" />
-						   /> <span class="help-inline"></span>
+						    <span class="help-inline"></span>
 				</div>
 			</div>
 			<div class="clearfix">

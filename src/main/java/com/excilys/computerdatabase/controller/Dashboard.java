@@ -2,6 +2,8 @@ package com.excilys.computerdatabase.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
+import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,7 +16,6 @@ import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.validator.ComputerDTO;
 
 @Controller
-@RequestMapping("/dashboard")
 public class Dashboard {
 
 	@Autowired
@@ -22,8 +23,12 @@ public class Dashboard {
 	public void setComputerService(ComputerService computerService){
 		this.computerService = computerService;
 	}
+	
+	Locale locale = Locale.getDefault();;
+	ResourceBundle res; 
 
-	@RequestMapping(method = RequestMethod.GET)
+
+	@RequestMapping(value="/dashboard",method = RequestMethod.GET)
 	public void get(ModelMap model, Integer order,  String search , Integer page){
 
 		List<String> computers = new ArrayList<String>();
@@ -66,5 +71,11 @@ public class Dashboard {
 		System.out.println("la méthode post du dashboard");
 		//return new ModelAndView("redirect:/dashboard");
 		get(model,null, null , 0);
+	}
+	
+	@RequestMapping(value="/switchLanguage")
+	public String changeLocale(String language){
+		locale = new Locale(language,"");
+		return "forward:/dashboard";
 	}
 }

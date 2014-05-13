@@ -2,13 +2,14 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*" %>
 <%@ taglib uri="/WEB-INF/utile.tld" prefix="utile" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
 
 
 <section id="main">
 
 
 	<c:if test="${ computers != null }" var="result">
-		<h1 id="homeTitle">${ computers.size() } Computers found  ${ update }</h1>
+		<h1 id="homeTitle">${ computers.size() } Computers found</h1>
 	</c:if>
 
 	<c:if test="${ computers == null }" var="result">
@@ -18,18 +19,18 @@
 	</c:if>
 	
 	<c:if test='${ (update != null)  && (update =="true") }' var="result">
-		<h2 style="color: red">successful update    <a href="dashboard" class="btn">return to dashboard</a></h2> 
+		<h2 style="color: red">successful update</h2> 
 	</c:if>
 	
 	<c:if test='${ (update != null)  && (update=="false") }' var="result">
-		<h2 style="color: red" >Fail to update computer <a href="dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red" >Fail to update computer </h2>
 	</c:if>
 	<c:if test='${ (add != null)  && (add =="true") }' var="result">
-		<h2 style="color: red">successful operation      <a href="dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red">successful operation</h2>
 	</c:if>
 	
 	<c:if test='${ (add != null)  && (add =="false") }' var="result">
-		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red" >Fail to add computer</h2>
 	</c:if>
 
 	<div id="actions">
@@ -72,9 +73,7 @@
 						<td>${ computer.split(",")[3] }</td>
 						<td>${ computer.split(",")[5] }</td>
 						<td><input type="button" name=${ computer.split(",")[0] }
-							id=${ computer.split(",")[0] } value="DELETE" class="btn btn-ttc"
-							style="color: red"
-							onclick='callServlet(this.form,${ computer.split(",")[0] });' /></td>
+							id=${ computer.split(",")[0] } value="DELETE" class="btn btn-ttc" style='color: red' onclick='callServlet(this.form,${ computer.split(",")[0] });' /></td>
 					</tr>
 				</c:forEach>
 

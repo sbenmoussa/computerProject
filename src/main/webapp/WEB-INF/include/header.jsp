@@ -12,6 +12,6 @@
 <body>
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="dashboard"> Application - Computer Database </a>
+			<a href="dashboard"> Application - Computer Database </a>	<a href="switchLanguage?language=fr"><img src="images/fr.jpg" style="position:relative;left:5px;" height="25" width="25" /> </a>  <a href="switchLanguage?language=en"><img src="images/en.jpeg" style="position:relative;left:5px;" height="25" width="25" /></a>
 		</h1>
 	</header>

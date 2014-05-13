@@ -2,12 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
 
-<style>
+<style type="text/css">
 .error {
 	color: #ff0000;
 }
- 
+
 .errorblock {
 	color: #000;
 	background-color: #ffEEEE;
@@ -21,8 +22,8 @@
 
 	<h1>Add Computer</h1>
 	
-	<c:if test='${ (add != null)  && (add =="Success") }' var="result">
-		<h2 style="color: red">successful operation      <a href="dashboard" class="btn">dashboard</a></h2>
+	<c:if test='${ (add != null) && (add =="Success") }' var="result">
+		<h2 style="color: red">successful operation <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
@@ -79,53 +80,52 @@
 	
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
-	<script type="text/javascript" src="js/messagesFR.js"></script>
-	<script>
-	   $(document).ready(function(){
-		   jQuery.validator.addMethod(
-				   	  "regex",
-				  	   function(value, element, regexp) {
-				   	       if (regexp.constructor != RegExp)
-				   	          regexp = new RegExp(regexp);
-				   	       else if (regexp.global)
-				   	          regexp.lastIndex = 0;
-				   	          return this.optional(element) || regexp.test(value);
-				   	   },"erreur expression reguliere"
-				   	);
-		   
-		   jQuery.validator.addMethod('greaterThan',function(value, element, param) {
-				return ((isNaN($(param).val()) && isNaN(value))
-						&& ($(param).val() != "" && value != "")
-						|| ($(param).val() == "" && value == "") || ($(
-						param).val() != "" && value == "")) || ((!(isNaN($(
-						param).val()) && isNaN(value))
-						&& ($(param).val() != 0 && value != 0) || ($(
-						param).val() == 0 && value == 0)) && ((Date.parse($(param).val()) <= Date.parse(value))));},
-						jQuery.validator.format('Must be greater or equal than the introduced date')
-			);
-		   
-		   jQuery(document).ready(function() {
-		   	   jQuery("#formulaire").validate({
-		   	      rules: {
-		   	         "name":{
-		   	            "required": true
-		    	        },
-		   	         "introducedDate": {
-		   	        	"required": true,
-		   	            "date": true,
-		   	         	 regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/
-		   	         },
-		   	         "discontinuedDate": {
-		   	            "required": true,
-		   	         	"date": true,
-		   	           	regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
-		   	         	greaterThan : document.getElementById("introducedDate").value
-		   	         }
-		   	      }
-		   	  });
-		   	}); 
-	      //$("#addform").validate();
-	    });  
+	<script type="text/javascript">
+		$(document)
+				.ready(function() {
+							
+							jQuery.validator.addMethod("regex", function(value, element) {
+								console.log("ok");
+								var  regexp =  /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/;
+								console.log("ok");
+								return this.optional(element) || regexp.test(value);
+							}, "erreur expression reguliere");
+
+							jQuery.validator.addMethod("greaterThan",
+											function(value, element, param) {
+												return ((($(param).val() != "") && (value != ""))
+														|| (($(param).val() == "") && (value == "")) || (($(
+														param).val() != "") && (value == ""))
+														&& (Date.parse($(param)
+																.val()) <= Date
+																.parse(value)));
+											},jQuery.validator.format("Must be greater or equal than the introduced date"));
+
+							jQuery(document).ready(
+											function() {
+												console.log("o52k");
+												jQuery("#formulaire").validate(
+																{
+																	rules : {
+																		"name" : {
+																			"required" : true
+																		},
+																		"introducedDate" : {
+																			"required" : true,
+																			"date" : true,
+																			"regex" :  true
+																		},
+																		"discontinuedDate" : {
+																			"required" : true,
+																			"date" : true,
+																			"regex" :true
+																		}
+																	}
+																});
+											});
+						});
+		//$("#addform").validate(); ,
+		//greaterThan: "introducedDate"
 	</script>
 </section>
 <jsp:include page="include/footer.jsp" />
