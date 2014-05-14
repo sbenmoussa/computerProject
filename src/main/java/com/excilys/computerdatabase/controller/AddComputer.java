@@ -80,7 +80,7 @@ public class AddComputer {
 					System.out.println(fieldError.getField() + ":"+ fieldError.getCode()+"  , "+fieldError.toString());
 				}
 			}
-			model.addAttribute("errors", messageSource.getMessage("com.excilys.computerdatabase.ComputerDTO", null, "lookup fail", requestContext.getLocale()));
+			//model.addAttribute("errors", messageSource.getMessage("com.excilys.computerdatabase.ComputerDTO", null, "lookup fail", requestContext.getLocale()));
 			return "/addComputer";
 		} else {
 			success = computerService.insert(computerdto.toDTO(""));				

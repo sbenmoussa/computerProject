@@ -55,7 +55,7 @@
 			<div class="clearfix">
 				<label for="introduced">Introduced date:</label>
 				<div class="input">
-					<form:input path="introduced" type="date" name="introducedDate" id="introducedDate" value='${comp.split(",")[2]}'/> 
+					<form:input path="introduced" type="date" name="introduced" id="introduced" value='${comp.split(",")[2]}'/> 
 					<form:errors path="introduced" cssClass="error" />
 						   <span class="help-inline"></span>
 				</div>
@@ -63,7 +63,7 @@
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate" value='${comp.split(",")[3]}'/>
+					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" value='${comp.split(",")[3]}'/>
 					<form:errors path="discontinued" cssClass="error" />
 						    <span class="help-inline"></span>
 				</div>
@@ -101,38 +101,52 @@
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	
 	<script>
-	   $(document).ready(function(){
-		   jQuery.validator.addMethod(
-				   	  "regex",
-				  	   function(value, element, regexp) {
-				   	       if (regexp.constructor != RegExp)
-				   	          regexp = new RegExp(regexp);
-				   	       else if (regexp.global)
-				   	          regexp.lastIndex = 0;
-				   	          return this.optional(element) || regexp.test(value);
-				   	   },"erreur expression reguliere"
-				   	);
-		   
-		   jQuery(document).ready(function() {
-		   	   jQuery("#formulaire").validate({
-		   	      rules: {
-		   	         "name":{
-		   	            "required": true
-		    	        },
-		   	         "introducedDate": {
-		   	        	"required": true,
-		   	            "date": true,
-		   	         	 regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/
-		   	         },
-		   	         "discontinuedDate": {
-		   	            "required": true,
-		   	         	"date": true,
-		   	           	regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/
-		   	         }
-		   	      }
-		   	  });
-		   	}); 
-	    });	   
+	$(document).ready(function(){
+		jQuery.validator.addMethod("regex", function(value, element, regexp) {
+			if (regexp.constructor != RegExp)
+				regexp = new RegExp(regexp);
+			else if (regexp.global)
+				regexp.lastIndex = 0;
+			return this.optional(element) || regexp.test(value);
+			},"erreur expression reguliere"
+		);
+		
+		jQuery.validator.addMethod('greaterThan',function(value, element, param) {
+			console.log("verification de validité de date discontinued");
+			console.log("discontinued entré = "+$(document.getElementById("discontinued")).val()+" ce qui donne apres parse: "+Date.parse($(document.getElementById("discontinued")).val()));
+
+			if ( (!(isNaN(Date.parse($(document.getElementById("introduced")).val())))) && (!(isNaN(Date.parse($(document.getElementById("discontinued")).val())))) ){
+				console.log("les deux dates sont rentré donc comparés");
+				return (Date.parse($(document.getElementById("introduced")).val()) <= Date.parse($(document.getElementById("discontinued")).val()));
+			}
+			else{
+				//Ici le cas ou un des champs date est null ou bien qu'elle n'a pas encore été rempli CEci est permis
+				console.log("une seule date entrée donc pas de comparaison");
+				return true;
+			}
+			},jQuery.validator.format('Discontinued date must be after introduced date')
+		);
+
+		jQuery(document).ready(function() {
+			jQuery("#formulaire").validate({
+				rules: {
+					"name":{
+						"required": true
+					},
+					"introduced": {
+						"date": true,
+						regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+						greaterThan: true
+					},
+					"discontinued": {
+						"date": true,
+						regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+						greaterThan: true
+					}
+				}
+			});
+		});
+	});
 	</script>
 
 </section>

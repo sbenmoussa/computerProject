@@ -24,7 +24,7 @@ public class Dashboard {
 		this.computerService = computerService;
 	}
 	
-	Locale locale = Locale.getDefault();;
+	Locale locale = Locale.getDefault();
 	ResourceBundle res; 
 
 

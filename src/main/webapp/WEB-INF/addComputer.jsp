@@ -43,9 +43,9 @@
 			</div>
 	
 			<div class="clearfix">
-				<label for="introduced">Introduced date:</label>
+				<label for="introducedDate">Introduced date:</label>
 				<div class="input">
-					<form:input  path="introduced" type="date" name="introducedDate" id="introducedDate"  placeholder="YYYY-MM-DD"/>
+					<form:input  path="introduced" type="date" name="introduced" id="introduced"  placeholder="YYYY-MM-DD"/>
 					<form:errors path="introduced" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
@@ -53,7 +53,7 @@
 			<div class="clearfix">
 				<label for="discontinued">Discontinued date:</label>
 				<div class="input">
-					<form:input path="discontinued" type="date" name="discontinuedDate" id="discontinuedDate" placeholder="YYYY-MM-DD"/>
+					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" placeholder="YYYY-MM-DD"/>
 					<form:errors path="discontinued" cssClass="error" />
 					<span class="help-inline">YYYY-MM-DD</span>
 				</div>
@@ -81,51 +81,52 @@
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
 	<script type="text/javascript">
-		$(document)
-				.ready(function() {
-							
-							jQuery.validator.addMethod("regex", function(value, element) {
-								console.log("ok");
-								var  regexp =  /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/;
-								console.log("ok");
-								return this.optional(element) || regexp.test(value);
-							}, "erreur expression reguliere");
+		$(document).ready(function(){
+			jQuery.validator.addMethod("regex", function(value, element, regexp) {
+				if (regexp.constructor != RegExp)
+					regexp = new RegExp(regexp);
+				else if (regexp.global)
+					regexp.lastIndex = 0;
+				return this.optional(element) || regexp.test(value);
+				},"erreur expression reguliere"
+			);
+			
+			jQuery.validator.addMethod('greaterThan',function(value, element, param) {
+				console.log("verification de validité de date discontinued");
+				console.log("discontinued entré = "+$(document.getElementById("discontinued")).val()+" ce qui donne apres parse: "+Date.parse($(document.getElementById("discontinued")).val()));
 
-							jQuery.validator.addMethod("greaterThan",
-											function(value, element, param) {
-												return ((($(param).val() != "") && (value != ""))
-														|| (($(param).val() == "") && (value == "")) || (($(
-														param).val() != "") && (value == ""))
-														&& (Date.parse($(param)
-																.val()) <= Date
-																.parse(value)));
-											},jQuery.validator.format("Must be greater or equal than the introduced date"));
-
-							jQuery(document).ready(
-											function() {
-												console.log("o52k");
-												jQuery("#formulaire").validate(
-																{
-																	rules : {
-																		"name" : {
-																			"required" : true
-																		},
-																		"introducedDate" : {
-																			"required" : true,
-																			"date" : true,
-																			"regex" :  true
-																		},
-																		"discontinuedDate" : {
-																			"required" : true,
-																			"date" : true,
-																			"regex" :true
-																		}
-																	}
-																});
-											});
-						});
-		//$("#addform").validate(); ,
-		//greaterThan: "introducedDate"
+				if ( (!(isNaN(Date.parse($(document.getElementById("introduced")).val())))) && (!(isNaN(Date.parse($(document.getElementById("discontinued")).val())))) ){
+					console.log("les deux dates sont rentré donc comparés");
+					return (Date.parse($(document.getElementById("introduced")).val()) <= Date.parse($(document.getElementById("discontinued")).val()));
+				}
+				else{
+					//Ici le cas ou un des champs date est null ou bien qu'elle n'a pas encore été rempli CEci est permis
+					console.log("une seule date entrée donc pas de comparaison");
+					return true;
+				}
+				},jQuery.validator.format('Discontinued date must be after introduced date')
+			);
+	
+			jQuery(document).ready(function() {
+				jQuery("#formulaire").validate({
+					rules: {
+						"name":{
+							"required": true
+						},
+						"introduced": {
+							"date": true,
+							regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+							greaterThan: true
+						},
+						"discontinued": {
+							"date": true,
+							regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+							greaterThan: true
+						}
+					}
+				});
+			});
+		});
 	</script>
 </section>
 <jsp:include page="include/footer.jsp" />
