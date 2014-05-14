@@ -13,6 +13,7 @@ import org.springframework.stereotype.Component;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.util.*;
+import com.excilys.computerdatabase.validator.ComputerDate;
 
 @Component
 public class ComputerDTO {
@@ -24,8 +25,11 @@ public class ComputerDTO {
 	private String name;
 
 	@Pattern(regexp = "^[0-9]{4}(-)[0-9]{2}(-)[0-9]{2}$")
-	private String introduced;
+	private  String introduced = "";
+	
+	final String introducedValue = introduced;
 
+	//@ComputerDate(introducedDate = introducedValue , value = "")
 	@Pattern(regexp = "^[0-9]{4}(-)[0-9]{2}(-)[0-9]{2}$")
 	private String discontinued;
 
