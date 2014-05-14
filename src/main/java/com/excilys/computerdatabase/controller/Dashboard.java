@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -25,7 +26,7 @@ public class Dashboard {
 	}
 	
 	Locale locale = Locale.getDefault();
-	ResourceBundle res; 
+	ResourceBundle res = ResourceBundle.getBundle("message"); 
 
 
 	@RequestMapping(value="/dashboard",method = RequestMethod.GET)
@@ -75,7 +76,8 @@ public class Dashboard {
 	
 	@RequestMapping(value="/switchLanguage")
 	public String changeLocale(String language){
-		locale = new Locale(language,"");
+		Locale.setDefault(new Locale(language));
+		System.out.println(Locale.getDefault());
 		return "forward:/dashboard";
 	}
 }

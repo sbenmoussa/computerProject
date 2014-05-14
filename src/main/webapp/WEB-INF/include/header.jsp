@@ -1,9 +1,10 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 <!DOCTYPE html>
 <html>
 <head>
-<title>EPF Computer Database</title>
+<title><spring:message code="title" text="default text" /></title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Bootstrap -->
 <link href="css/bootstrap.min.css" rel="stylesheet" media="screen">
@@ -12,6 +13,6 @@
 <body>
 	<header class="topbar">
 		<h1 class="fill">
-			<a href="dashboard"> Application - Computer Database </a>	<a href="switchLanguage?language=fr"><img src="images/fr.jpg" style="position:relative;left:5px;" height="25" width="25" /> </a>  <a href="switchLanguage?language=en"><img src="images/en.jpeg" style="position:relative;left:5px;" height="25" width="25" /></a>
+			<a href="dashboard"><spring:message code="header" text="default text" /> </a>	<a href="switchLanguage?language=fr"><img src="images/fr.jpg" style="position:relative;left:5px;" height="25" width="25" /> </a>  <a href="switchLanguage?language=en"><img src="images/en.jpeg" style="position:relative;left:5px;" height="25" width="25" /></a>
 		</h1>
 	</header>

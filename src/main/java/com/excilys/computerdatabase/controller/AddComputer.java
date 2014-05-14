@@ -2,6 +2,7 @@ package com.excilys.computerdatabase.controller;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import javax.validation.Valid;
 
@@ -47,17 +48,6 @@ public class AddComputer {
 		this.companyService = companyService;
 	}
 	
-	@Autowired
-	private MessageSource messageSource;
-	
-	//@Autowired
-	private RequestContext requestContext;
-	
-//	@InitBinder
-//    protected void initBinder(WebDataBinder binder) {
-//        binder.setValidator((Validator) new ValidatorComputer());
-//    }
-	
 	@RequestMapping(value="/addComputer", method = RequestMethod.GET)
 	public ComputerDTO get(ModelMap model){	
 		List<Company> companies = new ArrayList<Company>();
@@ -80,7 +70,6 @@ public class AddComputer {
 					System.out.println(fieldError.getField() + ":"+ fieldError.getCode()+"  , "+fieldError.toString());
 				}
 			}
-			//model.addAttribute("errors", messageSource.getMessage("com.excilys.computerdatabase.ComputerDTO", null, "lookup fail", requestContext.getLocale()));
 			return "/addComputer";
 		} else {
 			success = computerService.insert(computerdto.toDTO(""));				

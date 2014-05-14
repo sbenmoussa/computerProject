@@ -2,7 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ page import="java.util.*" %>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
-<%@ taglib uri="http://java.sun.com/jstl/fmt" prefix="fmt" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
 <style type="text/css">
 .error {
@@ -20,30 +20,30 @@
 
 <section id="main">
 
-	<h1>Add Computer</h1>
+	<h1><spring:message code="addsubtitle" text="default text" /></h1>
 	
 	<c:if test='${ (add != null) && (add =="Success") }' var="result">
-		<h2 style="color: red">successful operation <a href="dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red"><spring:message code="successop" text="default text" /> <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
-		<h2 style="color: red" >Fail to add computer        <a href="dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red" ><spring:message code="failadd" text="default text" /><a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<form:form action="addComputer" commandName="computerdto" method="POST" id="formulaire">
 	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<div class="clearfix">
-				<label for="name">Computer name:</label>
+				<label for="name"><spring:message code="computername" text="default text" />:</label>
 				<div class="input">
 					<form:input  path="name" type="text" name="name" id="name"/>
 					<form:errors path="name" cssClass="error" />
-					<span class="help-inline">Required</span>
+					<!--  <span class="help-inline">Required</span>-->
 				</div>
 			</div>
 	
 			<div class="clearfix">
-				<label for="introducedDate">Introduced date:</label>
+				<label for="introducedDate"><spring:message code="introducedText" text="default text" />:</label>
 				<div class="input">
 					<form:input  path="introduced" type="date" name="introduced" id="introduced"  placeholder="YYYY-MM-DD"/>
 					<form:errors path="introduced" cssClass="error" />
@@ -51,7 +51,7 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="discontinued">Discontinued date:</label>
+				<label for="discontinued"><spring:message code="discontinuedText" text="default text" />:</label>
 				<div class="input">
 					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" placeholder="YYYY-MM-DD"/>
 					<form:errors path="discontinued" cssClass="error" />
@@ -59,7 +59,7 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="company">Company Name:</label>
+				<label for="company"><spring:message code="companyname" text="default text" />:</label>
 				<div class="input">
 					<form:select path="company.id" name="company" id="company">
 					<option value="0">--</option>
