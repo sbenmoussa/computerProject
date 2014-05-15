@@ -59,7 +59,7 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="company"><spring:message code="companyname" text="default text" />:</label>
+				<label for="company"><spring:message code="company" text="default text" />:</label>
 				<div class="input">
 					<form:select path="company.id" name="company" id="company">
 					<option value="0">--</option>
@@ -73,8 +73,8 @@
 			</div>
 		</fieldset>
 		<div class="actions">
-			<input type="submit" value="Add" class="btn primary">
-			or <a href="dashboard " class="btn">Cancel</a>
+			<input type="submit" value=<spring:message code="add" text="default text" /> class="btn primary">
+			or <a href="dashboard " class="btn"><spring:message code="cancel" text="default text" /></a>
 		</div>
 	</form:form>
 	

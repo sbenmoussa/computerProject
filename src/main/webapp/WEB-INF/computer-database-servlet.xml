@@ -10,7 +10,6 @@ http://www.springframework.org/schema/util http://www.springframework.org/schema
 http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd">
 
 	<!-- Using annotations -->
-
 	<context:annotation-config />
 	<context:component-scan base-package=" com.excilys.computerdatabase.connection" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.model" />
@@ -18,6 +17,7 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 	<context:component-scan base-package=" com.excilys.computerdatabase.service" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.validator" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.controller" />
+	<context:component-scan base-package=" com.excilys.computerdatabase.tags" />
 
 
 	<bean
@@ -26,50 +26,36 @@ http://www.springframework.org/schema/mvc http://www.springframework.org/schema/
 		class=" org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter " />
 		
 	<mvc:annotation-driven /> 
+	
+			<!-- Add Ressources Configuration -->
 	<mvc:resources location="/css/" mapping="/css/**" />
 	<mvc:resources location="/js/" mapping="/js/**" />
 	<mvc:resources location="/images/" mapping="/images/**" />
 	
-	<!-- Naming View Configuration -->
-
-
+				<!-- Naming View Configuration -->
 	<bean id="viewResolver1"
 		class="org.springframework.web.servlet.view.InternalResourceViewResolver"
 		p:prefix="/WEB-INF/" p:suffix=".jsp" /> <!-- Prefix and suffix of the jsp models -->
 
-
-	<!-- bind your messages.properties -->
-	<bean class="org.springframework.context.support.ResourceBundleMessageSource"
-		id="messageSource">
-		<property name="basename"  value="message">
-<!-- 			  <list>  -->
-<!-- 				<value>message</value> -->
-<!-- 			  	<value>errors</value> -->
-<!-- 			</list> -->
-		</property>	
-		
-	</bean>
-	
-	
-<bean id="localeResolver"
+	<!-- Internationalisation Configuration -->
+	<bean class="org.springframework.context.support.ReloadableResourceBundleMessageSource" id="messageSource">
+	     <property name="basenames">
+	     <list>
+	     	<value>classpath:message</value>
+	     </list>
+	     </property>
+<!-- 	     <property name="defaultEncoding" value="UTF-8"/> -->
+	     <property name="fallbackToSystemLocale" value="false"/>
+    </bean>
+    <mvc:interceptors>
+        <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="language"/>
+    </mvc:interceptors>
+	<bean id="localeResolver" 
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="fr" />
 	</bean>
- 
-	<bean id="localeChangeInterceptor"
-		class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor">
-		<property name="paramName" value="language" />
-	</bean>
- 
-	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping" >
-		<property name="interceptors">
-		   <list>
-			<ref bean="localeChangeInterceptor" />
-		   </list>
-		</property>
-	</bean>
 	
-	
+							<!-- Validation Configuration -->
 	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean">
 		<property name="validationMessageSource" ref="messageSource" />
 	</bean>

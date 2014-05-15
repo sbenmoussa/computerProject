@@ -2,12 +2,10 @@ package com.excilys.computerdatabase.controller;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Locale;
 
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
@@ -16,21 +14,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
-//import org.springframework.validation.Validator;
-//import org.springframework.web.bind.WebDataBinder;
-//import org.springframework.web.bind.annotation.InitBinder;
-//import org.springframework.validation.ObjectError;
-
-
-
-
-import org.springframework.web.servlet.support.RequestContext;
-
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.validator.ComputerDTO;
-//import com.excilys.computerdatabase.validator.ValidatorComputer;
 
 @Controller
 
@@ -55,7 +42,7 @@ public class AddComputer {
 		ComputerDTO computerdto = new  ComputerDTO();
 		model.addAttribute("companies", companies);
 		model.addAttribute("computerdto", computerdto);
-		return computerdto; //Computer.ComputerBuilder().build();
+		return computerdto; 
 	}
 	
 	@RequestMapping(value="/addComputer", method = RequestMethod.POST)

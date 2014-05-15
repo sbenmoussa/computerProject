@@ -17,6 +17,7 @@
 		<attribute><name>maxLinks</name><required>true</required> <rtexprvalue>true</rtexprvalue></attribute>
 		<attribute><name>currPage</name><required>true</required> <rtexprvalue>true</rtexprvalue></attribute>
 		<attribute><name>totalPages</name><required>true</required> <rtexprvalue>true</rtexprvalue></attribute>
+		<attribute><name>lang</name><required>true</required> <rtexprvalue>true</rtexprvalue></attribute>
 		<attribute>
 			<name>uri</name>
       		<required>true</required>

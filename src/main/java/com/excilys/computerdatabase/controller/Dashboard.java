@@ -25,8 +25,8 @@ public class Dashboard {
 		this.computerService = computerService;
 	}
 	
-	Locale locale = Locale.getDefault();
-	ResourceBundle res = ResourceBundle.getBundle("message"); 
+//	Locale locale = Locale.getDefault();
+//	ResourceBundle res = ResourceBundle.getBundle("message"); 
 
 
 	@RequestMapping(value="/dashboard",method = RequestMethod.GET)
@@ -74,10 +74,10 @@ public class Dashboard {
 		get(model,null, null , 0);
 	}
 	
-	@RequestMapping(value="/switchLanguage")
-	public String changeLocale(String language){
-		Locale.setDefault(new Locale(language));
-		System.out.println(Locale.getDefault());
-		return "forward:/dashboard";
-	}
+//	@RequestMapping(value="/switchLanguage")
+//	public String changeLocale(String language){
+//		Locale.setDefault(new Locale(language));
+//		System.out.println(Locale.getDefault());
+//		return "forward:/dashboard";
+//	}
 }

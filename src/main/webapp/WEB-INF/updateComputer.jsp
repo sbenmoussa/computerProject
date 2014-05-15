@@ -28,7 +28,7 @@
 		%>
 	</c:if>
 
-	<h1>Update Computer</h1>
+	<h1><spring:message code="updatesubtitle" text="default text" /></h1>
 
 	<c:if test='${ (update != null)  && (update =="true") }' var="result">
 		<h2 style="color: red"><spring:message code="successupdate" text="default text" /><a href="dashboard" class="btn">return to dashboard</a></h2> 
@@ -91,8 +91,8 @@
 			</div>
 		</fieldset>
 		<div class="actions">
-			<input type="submit" value="UPDATE" id="envoi" class="btn primary">
-			or <a href="dashboard" class="btn">Cancel</a>
+			<input type="submit" value=<spring:message code="update" text="default text" /> id="envoi" class="btn primary">
+			or <a href="dashboard" class="btn"><spring:message code="cancel" text="default text" /></a>
 		</div>
 	</form:form>
 	</c:if>

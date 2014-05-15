@@ -2,10 +2,14 @@ package com.excilys.computerdatabase.tags;
 
 
 import java.io.Writer;
+import java.util.Locale;
 
 import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.JspWriter;
 import javax.servlet.jsp.tagext.TagSupport;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 
 public class Pagination extends TagSupport {
 
@@ -18,6 +22,10 @@ public class Pagination extends TagSupport {
     private int currPage;
     private int totalPages;
     private int maxLinks = 10;
+    private String lang;
+    
+    @Autowired
+    private MessageSource messageSource;
 	
     private Writer getWriter() {
         JspWriter out = pageContext.getOut();
@@ -26,7 +34,15 @@ public class Pagination extends TagSupport {
 	
     public int doStartTag() throws JspException{
     	Writer out = getWriter();
-
+    	Locale locale = new Locale(lang,"");
+    	String previous = "Previous";
+    	String next = "Next";
+    	if(messageSource!=null){
+    		System.out.println(lang+" et locale: "+locale.getDisplayLanguage());
+    		previous = messageSource.getMessage("previous", null, locale);
+        	next = messageSource.getMessage("next", null, locale);
+    	}
+    			
     	boolean lastPage = currPage == totalPages;
     	int pgStart = Math.max(currPage - maxLinks / 2, 0);
     	int pgEnd = pgStart + maxLinks;
@@ -41,8 +57,8 @@ public class Pagination extends TagSupport {
     	try {
     		out.write("<ul class=\"paginatorList\">");
 
-    		if (currPage > 1)
-    			out.write(constructLink(currPage - 1, "Previous", "paginatorPrev"));
+    		if (currPage > 0)
+    			out.write(constructLink(currPage - 1, previous, "paginatorPrev"));
 
     		for (int i = pgStart; i < pgEnd; i++) {
     			if (i == currPage)
@@ -52,7 +68,7 @@ public class Pagination extends TagSupport {
     		}
 
     		if (!lastPage)
-    			out.write(constructLink(currPage + 1, "Next", "paginatorNext paginatorLast"));
+    			out.write(constructLink(currPage + 1, next, "paginatorNext paginatorLast"));
 
     		out.write("</ul>");
 
@@ -75,6 +91,14 @@ public class Pagination extends TagSupport {
 
 	public void setUri(String uri) {
 		this.uri = uri;
+	}
+	
+	public String getLang() {
+		return lang;
+	}
+
+	public void setLang(String lang) {
+		this.lang = lang;
 	}
 
 	public int getCurrPage() {
