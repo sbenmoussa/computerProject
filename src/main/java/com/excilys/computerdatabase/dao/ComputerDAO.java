@@ -5,8 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 
+import org.joda.time.DateTime;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerdatabase.model.Company;
@@ -29,8 +29,8 @@ public class ComputerDAO implements DAO<Computer>{
 		query = "insert into computer(name, introduced, discontinued, company_id) values(?,?,?,?)";
 		preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, object.getName());
-		preparedStatement.setDate(2, new java.sql.Date(object.getIntroduced().getTime()));
-		preparedStatement.setDate(3, new java.sql.Date(object.getDiscontinued().getTime()));
+		preparedStatement.setDate(2, new java.sql.Date(object.getIntroduced().toDate().getTime()));
+		preparedStatement.setDate(3, new java.sql.Date(object.getDiscontinued().toDate().getTime()));
 		preparedStatement.setFloat(4, object.getCompany().getId());
 		int result = preparedStatement.executeUpdate();
 		close(preparedStatement);
@@ -46,8 +46,8 @@ public class ComputerDAO implements DAO<Computer>{
 		query = "update computer set name = ? , introduced = ?, discontinued = ?, company_id = ? where id=?";
 		preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, object.getName());
-		preparedStatement.setDate(2, new java.sql.Date(object.getIntroduced().getTime()));
-		preparedStatement.setDate(3, new java.sql.Date(object.getDiscontinued().getTime()));
+		preparedStatement.setDate(2, new java.sql.Date(object.getIntroduced().toDate().getTime()));
+		preparedStatement.setDate(3, new java.sql.Date(object.getDiscontinued().toDate().getTime()));
 		preparedStatement.setFloat(4, object.getCompany().getId());
 		preparedStatement.setLong(5, object.getId());
 		int result = preparedStatement.executeUpdate();
@@ -85,14 +85,14 @@ public class ComputerDAO implements DAO<Computer>{
 		if(resultSet.next()){
 			result.setName(resultSet.getString("namecp"));
 			Company company = new Company.CompanyBuilder(resultSet.getLong("idcompa"),resultSet.getString("compa")).build();
-			Date intr = null;
-			Date disc = null;
+			DateTime intr = null;
+			DateTime disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
-				intr = new Date(resultSet.getTimestamp("intr").getTime());
+				intr = new DateTime(resultSet.getTimestamp("intr").getTime());
 			}
 
 			if (resultSet.getTimestamp("dis") != null) {
-				disc = new Date(resultSet.getTimestamp("dis").getTime());
+				disc = new DateTime(resultSet.getTimestamp("dis").getTime());
 			}
 
 			result.setIntroduced(intr);
@@ -126,14 +126,14 @@ public class ComputerDAO implements DAO<Computer>{
 		resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
 			Company com = new Company.CompanyBuilder(resultSet.getString("compa")).build();
-			Date intr = null;
-			Date disc = null;
+			DateTime intr = null;
+			DateTime disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
-				intr = new Date(resultSet.getTimestamp("intr").getTime());
+				intr = new DateTime(resultSet.getTimestamp("intr").getTime());
 			}
 
 			if (resultSet.getTimestamp("dis") != null) {
-				disc = new Date(resultSet.getTimestamp("dis").getTime());
+				disc = new DateTime(resultSet.getTimestamp("dis").getTime());
 			}
 			Computer c = new Computer.ComputerBuilder(resultSet.getLong("id"),resultSet.getString("namecp"), intr, disc,com).build();
 			computeresultSet.add(c);
@@ -165,13 +165,13 @@ public class ComputerDAO implements DAO<Computer>{
 		resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
 			Company com = new Company.CompanyBuilder(resultSet.getString("compa")).build();
-			Date intr = null;
-			Date disc = null;
+			DateTime intr = null;
+			DateTime disc = null;
 			if (resultSet.getTimestamp("intr") != null) {
-				intr = new Date(resultSet.getTimestamp("intr").getTime());
+				intr = new DateTime(resultSet.getTimestamp("intr").getTime());
 			}
 			if (resultSet.getTimestamp("dis") != null) {
-				disc = new Date(resultSet.getTimestamp("dis").getTime());
+				disc = new DateTime(resultSet.getTimestamp("dis").getTime());
 			}
 			Computer c = new Computer.ComputerBuilder(resultSet.getLong("id"),resultSet.getString("namecp"), intr, disc,com).build();
 			computeresultSet.add(c);

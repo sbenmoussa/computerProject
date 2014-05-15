@@ -1,30 +1,26 @@
 package com.excilys.computerdatabase.util;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class Util {
 
-	public String dateToString(Date date){
+	public String dateToString(DateTime date){
 		String result ="";
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
 		if(date !=null){
-			result = sdf.format(date);
+			result = fmt.print(date);
 		}
 		return result;
 	}
 
-	public Date stringToDate(String date){
-		Date result = new Date();
-		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	public DateTime stringToDate(String date){
+		DateTime result = new DateTime();
+		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 		if(date != null){
-			try {
-				result = sdf.parse(date);
-			} catch (ParseException e) {
-				System.out.println("impossible de parser la date");
-			}
+			DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+			result = formatter.parseDateTime(date);
 		}	
 		return result;
 	}

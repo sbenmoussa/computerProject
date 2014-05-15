@@ -1,10 +1,11 @@
 package com.excilys.computerdatabase.validator;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+
+import org.joda.time.DateTime;
+import org.joda.time.format.DateTimeFormat;
+import org.joda.time.format.DateTimeFormatter;
 
 public class DateValidator implements ConstraintValidator<ComputerDate, String> {
 
@@ -28,10 +29,10 @@ public class DateValidator implements ConstraintValidator<ComputerDate, String> 
 		}
 		else{
 			try{			
-				SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-				Date intro = sdf.parse(introduced);
-				Date disc = sdf.parse(date);
-				if((disc.getTime() - intro.getTime()) <= 0){
+				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+				DateTime intro = formatter.parseDateTime(introduced);
+				DateTime disc = formatter.parseDateTime(date);
+				if((disc.toDate().getTime() - intro.toDate().getTime()) <= 0){
 					return false;
 				}
 			}

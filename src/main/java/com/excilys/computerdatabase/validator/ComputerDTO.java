@@ -13,7 +13,7 @@ import org.springframework.stereotype.Component;
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.util.*;
-import com.excilys.computerdatabase.validator.ComputerDate;
+//import com.excilys.computerdatabase.validator.ComputerDate;
 
 @Component
 public class ComputerDTO {

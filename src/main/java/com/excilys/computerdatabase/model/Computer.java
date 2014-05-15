@@ -1,18 +1,15 @@
 package com.excilys.computerdatabase.model;
 
-import java.util.Date;
-
+import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.*;
-//Simport org.springframework.stereotype.Component;
 
 
-//@Component
 public class Computer {
 
 	private long id;
 	private String name;
-	private Date introduced;
-	private Date discontinued;
+	private DateTime introduced;
+	private DateTime discontinued;
 	private Company company;
 	
 	private Computer(ComputerBuilder builder){
@@ -39,16 +36,16 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	public Date getIntroduced() {
+	public DateTime getIntroduced() {
 		return introduced;
 	}
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(DateTime introduced) {
 		this.introduced = introduced;
 	}
-	public Date getDiscontinued() {
+	public DateTime getDiscontinued() {
 		return discontinued;
 	}
-	public void setDiscontinued(Date discontinued) {
+	public void setDiscontinued(DateTime discontinued) {
 		this.discontinued = discontinued;
 	}
 	public Company getCompany() {
@@ -68,8 +65,8 @@ public class Computer {
 	public static class ComputerBuilder{
 		private long id;
 		private String name;
-		private Date introduced;
-		private Date discontinued;
+		private DateTime introduced;
+		private DateTime discontinued;
 		private Company company;
 		
 		public ComputerBuilder(){
@@ -80,7 +77,7 @@ public class Computer {
 			this.setCompany(new Company.CompanyBuilder().build());
 		}
 		
-		public ComputerBuilder(long id, String name, Date introduced, Date discontinued, Company company){
+		public ComputerBuilder(long id, String name, DateTime introduced, DateTime discontinued, Company company){
 			this.setId(id);
 			this.setName(name);
 			this.setIntroduced(introduced);
@@ -98,12 +95,12 @@ public class Computer {
 			return this;
 		}
 		
-		public ComputerBuilder introduced(Date introduced){
+		public ComputerBuilder introduced(DateTime introduced){
 			this.introduced = introduced;
 			return this;
 		}
 		
-		public ComputerBuilder discontinued(Date discontinued){
+		public ComputerBuilder discontinued(DateTime discontinued){
 			this.discontinued = discontinued;
 			return this;
 		}
@@ -133,19 +130,19 @@ public class Computer {
 			this.name = name;
 		}
 
-		public Date getIntroduced() {
+		public DateTime getIntroduced() {
 			return introduced;
 		}
 
-		public void setIntroduced(Date introduced) {
+		public void setIntroduced(DateTime introduced) {
 			this.introduced = introduced;
 		}
 
-		public Date getDiscontinued() {
+		public DateTime getDiscontinued() {
 			return discontinued;
 		}
 
-		public void setDiscontinued(Date discontinued) {
+		public void setDiscontinued(DateTime discontinued) {
 			this.discontinued = discontinued;
 		}
 
