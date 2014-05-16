@@ -80,19 +80,11 @@
 	 <context:property-placeholder location="classpath:jdbc.properties"/>
 	 <!--  Erreur n'arrive pas à trouver jdbc/DatabaseName dans l'arbre jndi corriger d'abbord config serveur -->
 <!-- 	 <context:property-placeholder location="classpath:env.properties"/> -->
-<!-- 	 <jee:jndi-lookup id="dataSource" jndi-name="jdbc/dataSource"/> -->
-<!-- 	 <jee:jndi-lookup id="dbDataSource" jndi-name="jdbc/DatabaseName" expected-type="javax.sql.DataSource" /> -->
+<!-- 	 <jee:jndi-lookup id="dataSource" jndi-name="jdbc/DatabaseName" expected-type="javax.sql.DataSource" /> -->
    
 <!--    <bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
 <!--     <property name="jndiName" value="java:comp/env/jdbc/DatabaseName"/> -->
 <!-- 	</bean> -->
-<!--  	 <bean id="dataSource" -->
-<!--          class="org.springframework.jdbc.datasource.DriverManagerDataSource" -->
-<!--          destroy-method="close" -->
-<!--          p:driverClassName="${jdbc.driverClassName}" -->
-<!--          p:jdbcUrl="${jdbc.url}" -->
-<!--          p:user="${jdbc.username}" -->
-<!--          p:password="${jdbc.password}"/> -->
    	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 		<property name="driverClassName" value="${jdbc.driverClassName}" />
 		<property name="url" value="${jdbc.url}" />
@@ -105,14 +97,14 @@
 		<property name="dataSource" ref="dataSource"/>
 	</bean>	
 	
-<!-- 	<tx:advice id="serviceTxAdvice" transaction-manager="txManager"> -->
-<!-- 		<tx:attributes> -->
-<!-- 			<tx:method name="find*" propagation="REQUIRED" read-only="true" /> -->
-<!-- 			<tx:method name="filter*" propagation="REQUIRED" read-only="true" /> -->
-<!-- 			<tx:method name="get*" propagation="REQUIRED" read-only="true" /> -->
-<!-- 			<tx:method name="*" propagation="REQUIRED" /> -->
-<!-- 		</tx:attributes> -->
-<!-- 	</tx:advice> -->
+	<tx:advice id="serviceTxAdvice" transaction-manager="txManager">
+		<tx:attributes>
+			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="filter*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
+			<tx:method name="*" propagation="REQUIRED" rollback-for="SQLException"/>
+		</tx:attributes>
+	</tx:advice>
 	
 <!-- 	<aop:config> -->
 <!-- 		<aop:pointcut id="serviceMethodes" expression="execution(*com.excilys.computerdatabase.service.*.*(..))" /> -->

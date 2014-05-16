@@ -35,6 +35,8 @@ public class ComputerDTO {
 
 	@Valid
 	private CompanyDTO company;
+	
+	private Util util = new Util();
 
 	//@NotEmpty(message = "The introduced date must not be null")
 	//@NotNull(message = "The Company must be ")
@@ -44,7 +46,7 @@ public class ComputerDTO {
 	//@NotEmpty(message = "The Computer name must not be null")
 
 	public Computer toDTO(String data){
-		Util util = new Util();
+		
 		Computer computer = new
 				Computer.ComputerBuilder().id(id).name(name).introduced(util.stringToDate(introduced)).discontinued(util.stringToDate(discontinued)).company(company.toDTO(""))
 				.build();		
@@ -105,7 +107,8 @@ public class ComputerDTO {
 	}
 
 	public void setDiscontinued(String discontinued) {
-		this.discontinued = discontinued;
+		//if(util.stringToDate(discontinued).isBefore(util.stringToDate(getIntroduced())))
+			this.discontinued = discontinued;
 	}
 
 	public CompanyDTO getCompany() {
