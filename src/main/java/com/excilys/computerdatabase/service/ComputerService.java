@@ -8,16 +8,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
 
 import com.excilys.computerdatabase.connection.ConnectionManager;
 import com.excilys.computerdatabase.dao.DAOFactory;
-import com.excilys.computerdatabase.dao.UtilDAO;
+//import com.excilys.computerdatabase.dao.UtilDAO;
 import com.excilys.computerdatabase.model.Computer;
 
 @Service
+@Transactional
 public class ComputerService {
 
  
@@ -28,7 +30,7 @@ public class ComputerService {
 	private DAOFactory daofactory;
 	
 	@Autowired
-	private UtilDAO utildao;
+	//private UtilDAO utildao;
 	
 	
 	public void setConnectionManager(ConnectionManager connectionManager){
@@ -44,12 +46,12 @@ public class ComputerService {
 	}
 
 	
-
+	@Transactional()
 	public boolean insert(Computer o) {	
 		boolean success = false;
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
-		utildao.beginTransaction();
+		//utildao.beginTransaction();
 		try {
 			daofactory.getComputerDAO().create(o, connection);
 			UtilService.logInfo(" inséré avec succés", connection);
@@ -61,7 +63,7 @@ public class ComputerService {
 			return success;
 		}
 		finally{
-		utildao.endTransaction(success, connection);
+		//utildao.endTransaction(success, connection);
 		connectionManager.disconnect();
 		}
 		
@@ -71,7 +73,7 @@ public class ComputerService {
 		boolean success = false;
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
-		utildao.beginTransaction();
+		//utildao.beginTransaction();
 		try {
 			daofactory.getComputerDAO().update((Computer)o, connection);
 			UtilService.logInfo(" mis à jour avec succés", connection);
@@ -84,7 +86,7 @@ public class ComputerService {
 			return success;
 		}
 		finally{
-			utildao.endTransaction(success, connection);
+			//utildao.endTransaction(success, connection);
 			connectionManager.disconnect();
 		}
 	}
@@ -92,7 +94,7 @@ public class ComputerService {
 	public boolean delete(Long id) {
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
-		utildao.beginTransaction();
+		//utildao.beginTransaction();
 		boolean success = false;
 		try {
 			daofactory.getComputerDAO().delete(id, connection);
@@ -106,61 +108,64 @@ public class ComputerService {
 			return success;
 		}
 		finally{
-			utildao.endTransaction(success, connection);
+			//utildao.endTransaction(success, connection);
 			connectionManager.disconnect();
 		}
 	}
 
+	@Transactional(readOnly = true)
 	public ArrayList<Computer> getAll(int order) {
-		boolean success = false;
+		//boolean success = false;
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
-		utildao.beginTransaction();
+		//utildao.beginTransaction();
 		ArrayList<Computer> list = new ArrayList<Computer>();
 		try {
 			list=  daofactory.getComputerDAO().getAll(order, connection);
-			success = true;
+			//success = true;
 			return list;			
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 		}
 		finally{
-			utildao.endTransaction(success, connection);
+			//utildao.endTransaction(success, connection);
 			connectionManager.disconnect();
 		}
 		return null;
 	}
 
+	@Transactional(readOnly = true)
 	public ArrayList<Computer> filterByName(String name, int order) {
-		boolean success = false;
+		//boolean success = false;
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
-		utildao.beginTransaction();
+		//utildao.beginTransaction();
 		ArrayList<Computer> list = new ArrayList<Computer>();
 		try {
 			list = daofactory.getComputerDAO().filterByName(name,order, connection);	
-			success = true;
+			//success = true;
 			return list;	
 		}catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
-			utildao.endTransaction(success, connection);
+			//utildao.endTransaction(success, connection);
 			connectionManager.disconnect();
 		}
 		return list;
 	}
 
+	@Transactional(readOnly = true)
 	public Computer find(Long id)  {
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
-		utildao.beginTransaction();
+		//utildao.beginTransaction();
 		Computer result = new Computer.ComputerBuilder().build();
-		boolean success = false ;
+		//boolean success = false ;
 		try {
 			result =  daofactory.getComputerDAO().find(id, connection);
-			success = true;
+			//success = true;
 			if(result == null ){
 				System.out.println("resultat retournee par dao null");
 			}
@@ -170,7 +175,7 @@ public class ComputerService {
 			System.out.println("transaction annulée: "+e.getMessage());
 		}
 		finally{
-			utildao.endTransaction(success, connection);
+			//utildao.endTransaction(success, connection);
 			connectionManager.disconnect();
 		}
 		return result;

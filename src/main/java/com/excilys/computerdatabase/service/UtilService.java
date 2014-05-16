@@ -6,10 +6,14 @@ import java.sql.SQLException;
 import java.util.Date;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
+@Transactional
 public class UtilService {
  
+	@Transactional(propagation=Propagation.MANDATORY)
 	public static void logInfo(String message, Connection connection) throws SQLException{
 		System.out.println("méthode de l'insertion du log ");
 		PreparedStatement preparedStatement = connection.prepareStatement("insert into log4j (priority, category, thread, message, layout_msg, timestamp, addon) VALUES(?,?,?,?,?,?,?)");
