@@ -6,7 +6,7 @@
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
 	xmlns:jee="http://www.springframework.org/schema/jee"
 	xmlns:aop="http://www.springframework.org/schema/aop"
-	xmlns:tx="http://www.springframework.org/schema/tx"
+	
 	xsi:schemaLocation=" http://www.springframework.org/schema/context 
 						http://www.springframework.org/schema/context/spring-context-2.5.xsd
 						http://www.springframework.org/schema/beans 
@@ -19,8 +19,6 @@
 						http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd 
 						http://www.springframework.org/schema/jee 
 						http://www.springframework.org/schema/jee/spring-jee-3.0.xsd 
-						http://www.springframework.org/schema/tx
-						http://www.springframework.org/schema/tx/spring-tx-2.5.xsd
 						http://www.springframework.org/schema/aop
 						http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
 
@@ -33,7 +31,6 @@
 	<context:component-scan base-package=" com.excilys.computerdatabase.validator" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.controller" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.tags" />
-
 
 	<bean
 		class=" org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping " />
@@ -76,40 +73,5 @@
 	</bean>
 	<mvc:annotation-driven validator="validator" />
 	
-	<!--  Datasource Configuration -->
-	 <context:property-placeholder location="classpath:jdbc.properties"/>
-	 <!--  Erreur n'arrive pas à trouver jdbc/DatabaseName dans l'arbre jndi corriger d'abbord config serveur -->
-<!-- 	 <context:property-placeholder location="classpath:env.properties"/> -->
-<!-- 	 <jee:jndi-lookup id="dataSource" jndi-name="jdbc/DatabaseName" expected-type="javax.sql.DataSource" /> -->
-   
-<!--    <bean id="dbDataSource" class="org.springframework.jndi.JndiObjectFactoryBean"> -->
-<!--     <property name="jndiName" value="java:comp/env/jdbc/DatabaseName"/> -->
-<!-- 	</bean> -->
-   	<bean name="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
-		<property name="driverClassName" value="${jdbc.driverClassName}" />
-		<property name="url" value="${jdbc.url}" />
-		<property name="username" value="${jdbc.username}" />
-		<property name="password" value="${jdbc.password}" />
-	</bean>
- 
- 	<!--  Spring transaction Configuration -->
-	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-		<property name="dataSource" ref="dataSource"/>
-	</bean>	
 	
-	<tx:advice id="serviceTxAdvice" transaction-manager="txManager">
-		<tx:attributes>
-			<tx:method name="find*" propagation="REQUIRED" read-only="true" />
-			<tx:method name="filter*" propagation="REQUIRED" read-only="true" />
-			<tx:method name="get*" propagation="REQUIRED" read-only="true" />
-			<tx:method name="*" propagation="REQUIRED" rollback-for="SQLException"/>
-		</tx:attributes>
-	</tx:advice>
-	
-<!-- 	<aop:config> -->
-<!-- 		<aop:pointcut id="serviceMethodes" expression="execution(*com.excilys.computerdatabase.service.*.*(..))" /> -->
-<!-- 		<aop:advisor advice-ref="serviceTxAdvice" pointcut-ref="serviceMethodes" /> -->
-<!-- 	</aop:config> -->
-	
-	<tx:annotation-driven transaction-manager="txManager"/>
 </beans>

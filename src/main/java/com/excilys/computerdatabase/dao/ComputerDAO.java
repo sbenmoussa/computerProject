@@ -26,7 +26,7 @@ public class ComputerDAO implements DAO<Computer>{
 	public boolean create(Computer object, Connection connection) throws SQLException {
 		PreparedStatement preparedStatement =null;
 		String query = "";
-		query = "insert into computer(name, introduced, discontinued, company_id) values('testTransaction',now(),now(),1)";
+		query = "insert into computer(name, introduced, discontinued, company_id) values('testTransaction3',now(),now(),1)";
 		preparedStatement = connection.prepareStatement(query);
 		int result = preparedStatement.executeUpdate();
 		query = "insert into computer(name, introduced, discontinued, company_id) values(?,?,?,?)";	
@@ -36,13 +36,8 @@ public class ComputerDAO implements DAO<Computer>{
 		preparedStatement.setDate(3, new java.sql.Date(object.getDiscontinued().toDate().getTime()));
 		preparedStatement.setFloat(4, object.getCompany().getId());
 		result = preparedStatement.executeUpdate();
-		query = "insert into computer(name, introduced, discontinued, company_id) values('testTransaction2',now(),now(),1)";
-		result = preparedStatement.executeUpdate();
 		close(preparedStatement);
-		switch(result){
-		case 1 : return true;
-		default : return false;
-		}
+		return result == 1;
 	}
 
 	public boolean update(Computer object, Connection connection) throws SQLException {

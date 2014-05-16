@@ -32,6 +32,7 @@ class CustomErrorController {
 				);
 
 		model.addAttribute("errorMessage", message); 
+		request.setAttribute("errorMessage", message);
 		return "customError";
 	}
 
