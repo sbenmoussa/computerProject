@@ -35,6 +35,7 @@ public class CompanyService {
 	}
 
 
+	@Transactional()
 	public void insert(Company company) {	
 		//boolean success = false;
 		connectionManager.connect();
@@ -54,6 +55,7 @@ public class CompanyService {
 		}
 	}
 
+	@Transactional()
 	public void update(Company o) {
 		//boolean success = false;
 		connectionManager.connect();
@@ -73,6 +75,7 @@ public class CompanyService {
 		}
 	}
 
+	@Transactional()
 	public void delete(Long id) {
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();

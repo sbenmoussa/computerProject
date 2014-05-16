@@ -69,6 +69,7 @@ public class ComputerService {
 		
 	}
 
+	@Transactional()
 	public boolean update(Object o) {
 		boolean success = false;
 		connectionManager.connect();
@@ -91,6 +92,7 @@ public class ComputerService {
 		}
 	}
 
+	@Transactional()
 	public boolean delete(Long id) {
 		connectionManager.connect();
 		Connection connection = connectionManager.getConnection();
