@@ -29,11 +29,11 @@
   </appender>
   
 
-	<!--  Logger associe aux classes com.projet.computerdata.* -->
-	<logger name="com.excilys.computerdatabase.service.*" additivity="true">
-		<level value="DEBUG"/>
-		<appender-ref ref="DB"/>
-	</logger>
+ 	<!--  Logger associe aux classes com.projet.computerdata.* --> 
+<!-- 	<logger name="com.excilys.computerdatabase.service.*" additivity="true"> -->
+<!-- 		<level value="DEBUG"/> -->
+<!-- 		<appender-ref ref="DB"/> -->
+<!-- 	</logger> -->
 	
   <root >
     <appender-ref ref="DB"/>

@@ -1,5 +1,7 @@
 package com.excilys.computerdatabase.dao;
 
+import static com.excilys.computerdatabase.dao.DAOUtil.close;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -7,26 +9,35 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 
 import org.joda.time.DateTime;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
-
-import static com.excilys.computerdatabase.dao.UtilDAO.*;
+import com.jolbox.bonecp.BoneCPDataSource;
 
 @Repository
 public class ComputerDAO implements DAO<Computer>{
 
+	@Autowired
+	private BoneCPDataSource datasource;
 
+	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	
 	public ComputerDAO(){
 
 	}
 
 
-	public boolean create(Computer object, Connection connection) throws SQLException {
+	public boolean create(Computer object) throws SQLException {
+		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
 		PreparedStatement preparedStatement =null;
 		String query = "";
-		query = "insert into computer(name, introduced, discontinued, company_id) values('testTransaction3',now(),now(),1)";
+		Connection connection = DataSourceUtils.getConnection(datasource);
+		query = "insert into computer(name, introduced, discontinued, company_id) values('testTransaction3',now(),now(),1)";	
 		preparedStatement = connection.prepareStatement(query);
 		int result = preparedStatement.executeUpdate();
 		query = "insert into computer(name, introduced, discontinued, company_id) values(?,?,?,?)";	
@@ -40,10 +51,13 @@ public class ComputerDAO implements DAO<Computer>{
 		return result == 1;
 	}
 
-	public boolean update(Computer object, Connection connection) throws SQLException {
+
+	public boolean update(Computer object) throws SQLException {
+		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
 		PreparedStatement preparedStatement =null;
 		String query = "";
 		query = "update computer set name = ? , introduced = ?, discontinued = ?, company_id = ? where id=?";
+		Connection connection = DataSourceUtils.getConnection(datasource);
 		preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, object.getName());
 		preparedStatement.setDate(2, new java.sql.Date(object.getIntroduced().toDate().getTime()));
@@ -58,10 +72,12 @@ public class ComputerDAO implements DAO<Computer>{
 		}
 	}
 
-	public boolean delete(long id, Connection connection) throws SQLException {	
+	public boolean delete(long id) throws SQLException {	
+		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
 		PreparedStatement preparedStatement =null;
 		String query = "";
 		query = "delete from computer where id=?";
+		Connection connection = DataSourceUtils.getConnection(datasource);
 		preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setLong(1, id);
 		int result = preparedStatement.executeUpdate();
@@ -72,12 +88,14 @@ public class ComputerDAO implements DAO<Computer>{
 		}
 	}
 
-	public Computer find(long id, Connection connection) throws SQLException {
+	public Computer find(long id) throws SQLException {
+		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
 		PreparedStatement preparedStatement =null;
 		ResultSet resultSet = null;
 		String query = "";
 		Computer result  = new Computer.ComputerBuilder().build(); 		
 		query = "select  cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa, cm.id as idcompa from computer as cp join company as cm on cp.company_id = cm.id where cp.id="+id;
+		Connection connection = DataSourceUtils.getConnection(datasource);
 		preparedStatement = connection.prepareStatement(query);
 		resultSet = preparedStatement.executeQuery();
 		result.setId(id);
@@ -104,7 +122,8 @@ public class ComputerDAO implements DAO<Computer>{
 		return result;
 	}
 
-	public ArrayList<Computer> getAll(int order, Connection connection) throws SQLException {
+	public ArrayList<Computer> getAll(int order) throws SQLException {
+		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
 		PreparedStatement preparedStatement =null;
 		ResultSet resultSet = null;
 		String query = "";
@@ -121,7 +140,9 @@ public class ComputerDAO implements DAO<Computer>{
 		case 3:query += " order by compa";
 		break;
 		}
-
+		
+		Connection connection = DataSourceUtils.getConnection(datasource);
+		System.out.println(	"verif de connection datasource si dans transaction=  "+DataSourceUtils.isConnectionTransactional(connection, datasource));
 		preparedStatement = connection.prepareStatement(query);
 		resultSet = preparedStatement.executeQuery();
 		while (resultSet.next()) {
@@ -143,7 +164,9 @@ public class ComputerDAO implements DAO<Computer>{
 		return computeresultSet;
 	}
 
-	public ArrayList<Computer> filterByName(String name, int order, Connection connection) throws SQLException {
+	
+	public ArrayList<Computer> filterByName(String name, int order) throws SQLException {
+		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
 		PreparedStatement preparedStatement =null;
 		ResultSet resultSet = null;
 		ArrayList<Computer> computeresultSet = new ArrayList<Computer>();
@@ -159,7 +182,7 @@ public class ComputerDAO implements DAO<Computer>{
 		case 3:query += " order by compa";
 		break;
 		}
-
+		Connection connection = DataSourceUtils.getConnection(datasource);
 		preparedStatement = connection.prepareStatement(query);
 		preparedStatement.setString(1, "%"+name+"%");
 		resultSet = preparedStatement.executeQuery();

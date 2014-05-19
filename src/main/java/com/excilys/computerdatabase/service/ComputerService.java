@@ -1,8 +1,8 @@
 package com.excilys.computerdatabase.service;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,114 +13,102 @@ import org.springframework.transaction.annotation.Transactional;
 import ch.qos.logback.classic.LoggerContext;
 import ch.qos.logback.core.util.StatusPrinter;
 
-import com.excilys.computerdatabase.dao.DAOFactory;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import com.excilys.computerdatabase.dao.CompanyDAO;
+import com.excilys.computerdatabase.dao.ComputerDAO;
+import com.excilys.computerdatabase.dao.LogDAO;
 import com.excilys.computerdatabase.model.Computer;
-import com.jolbox.bonecp.BoneCPDataSource;
 
 @Service
 @Transactional
 public class ComputerService {
-
-	@Autowired
-	private BoneCPDataSource datasource;
-	
-	@Autowired
-	private DAOFactory daofactory;
 	
 	final Logger logger = LoggerFactory.getLogger(ComputerService.class);
+	
+	@Autowired
+	private ComputerDAO computerDao;
+	
+	@Autowired
+	private CompanyDAO companyDao;
+	
+	@Autowired
+	private LogDAO logDao;
+	
+	
 	public ComputerService(){	
 		LoggerContext lc = (LoggerContext) LoggerFactory.getILoggerFactory();
-		// print logback's internal status
 		StatusPrinter.print(lc);
-		//logger.info("Entering application.");
 	}
 
 	
-	@Transactional(readOnly = false)
+	@Transactional
 	public boolean insert(Computer o) {	
-		boolean success = false;		
-		//utildao.beginTransaction();
-		try {
-			Connection connection = DataSourceUtils.getConnection(datasource);
-			daofactory.getComputerDAO().create(o, connection);
-			UtilService.logInfo(" inséré avec succés", connection);
-			success = true;
-			return success;
-		} catch (SQLException e) {	
+		try{
+			computerDao.create(o);
+			return true;	
+		}catch(SQLException e){
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
-			return success;
+			throw new RuntimeException("An error has occured",e);
 		}
 	}
 
-	@Transactional()
+	@Transactional
 	public boolean update(Object o) {
-		boolean success = false;
 		try {
-			Connection connection = DataSourceUtils.getConnection(datasource);
-			daofactory.getComputerDAO().update((Computer)o, connection);
-			UtilService.logInfo(" mis à jour avec succés", connection);
+			computerDao.update((Computer)o);
 			logger.info(" mis à jour avec succés");
-			success = true;
-			return success;
+			return true;
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
-			return success;
+			throw new RuntimeException("An error has occured",e);
 		}
 	}
 
-	@Transactional()
+	@Transactional
 	public boolean delete(Long id) {
-		boolean success = false;
 		try {
-			Connection connection = DataSourceUtils.getConnection(datasource);
-			daofactory.getComputerDAO().delete(id, connection);
-			UtilService.logInfo(" supprimé avec succés", connection);
+			computerDao.delete(id);
 			logger.debug("suppression ok");
-			success = true;
-			return success;
+			return true;
 		}  catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
-			return success;
+			throw new RuntimeException("An error has occured",e);
 		}
 	}
 
-	@Transactional(readOnly = true)
-	public ArrayList<Computer> getAll(int order) {
-		ArrayList<Computer> list = new ArrayList<Computer>();
+	@Transactional (readOnly=true)
+	public List<Computer> getAll(int order) {
+		logger.debug("transaction status dans le service ");
+		ArrayList<Computer> list = null;
 		try {
-			Connection connection = DataSourceUtils.getConnection(datasource);
-			list=  daofactory.getComputerDAO().getAll(order, connection);
-			return list;			
+			list =  computerDao.getAll(order);		
+			return list;
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
+			throw new RuntimeException("An error has occured",e);
 		}
-		return null;
 	}
 
-	@Transactional(readOnly = true)
-	public ArrayList<Computer> filterByName(String name, int order) {
+	@Transactional (readOnly = true)
+	public List<Computer> filterByName(String name, int order) {
 		ArrayList<Computer> list = new ArrayList<Computer>();
 		try {
-			Connection connection = DataSourceUtils.getConnection(datasource);
-			list = daofactory.getComputerDAO().filterByName(name,order, connection);	
+			list = computerDao.filterByName(name,order);	
 			return list;	
 		}catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
+			throw new RuntimeException("An error has occured",e);
 		}
-		return list;
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional (readOnly = true)
 	public Computer find(Long id)  {
 		Computer result = new Computer.ComputerBuilder().build();
 		try {
-			Connection connection = DataSourceUtils.getConnection(datasource);
-			result =  daofactory.getComputerDAO().find(id, connection);
+			result =  computerDao.find(id);
 			if(result == null ){
 				System.out.println("resultat retournee par dao null");
 			}
@@ -128,7 +116,7 @@ public class ComputerService {
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
+			throw new RuntimeException("An error has occured",e);
 		}
-		return result;
 	}
 }

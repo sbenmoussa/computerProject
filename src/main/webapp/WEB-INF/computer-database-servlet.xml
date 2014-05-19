@@ -1,42 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
 <beans xmlns:context="http://www.springframework.org/schema/context"
-	xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xmlns:util="http://www.springframework.org/schema/util " xmlns:p="http://www.springframework.org/schema/p"
+	xmlns="http://www.springframework.org/schema/beans" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:p="http://www.springframework.org/schema/p"
 	xmlns:mvc="http://www.springframework.org/schema/mvc"
-	xmlns:jee="http://www.springframework.org/schema/jee"
-	xmlns:aop="http://www.springframework.org/schema/aop"
-	
 	xsi:schemaLocation=" http://www.springframework.org/schema/context 
-						http://www.springframework.org/schema/context/spring-context-2.5.xsd
+						http://www.springframework.org/schema/context/spring-context-4.0.xsd
 						http://www.springframework.org/schema/beans 
-						http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
-						http://www.springframework.org/schema/util 
-						http://www.springframework.org/schema/util/spring-util-2.5.xsd
+						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 						http://www.springframework.org/schema/mvc 
-						http://www.springframework.org/schema/mvc/spring-mvc-3.0.xsd  
-						http://www.springframework.org/schema/jdbc
-						http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd 
-						http://www.springframework.org/schema/jee 
-						http://www.springframework.org/schema/jee/spring-jee-3.0.xsd 
-						http://www.springframework.org/schema/aop
-						http://www.springframework.org/schema/aop/spring-aop-2.5.xsd" >
+						http://www.springframework.org/schema/mvc/spring-mvc-4.0.xsd " >
 
 	<!-- Using annotations -->
 	<context:annotation-config />
-	<context:component-scan base-package=" com.excilys.computerdatabase.connection" />
-	<context:component-scan base-package=" com.excilys.computerdatabase.model" />
-	<context:component-scan base-package=" com.excilys.computerdatabase.dao" />
-	<context:component-scan base-package=" com.excilys.computerdatabase.service" />
+
 	<context:component-scan base-package=" com.excilys.computerdatabase.validator" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.controller" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.tags" />
 
-	<bean
-		class=" org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping " />
-	<bean
-		class=" org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter " />
-		
+
 	<mvc:annotation-driven /> 
 	
 			<!-- Add Ressources Configuration -->
@@ -57,11 +40,12 @@
 	     </list>
 	     </property>
 <!-- 	     <property name="defaultEncoding" value="UTF-8"/> -->
-	     <property name="fallbackToSystemLocale" value="false"/>
+<!-- 	     <property name="fallbackToSystemLocale" value="false"/> -->
     </bean>
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor" p:paramName="language"/>
     </mvc:interceptors>
+    
 	<bean id="localeResolver" 
 		class="org.springframework.web.servlet.i18n.SessionLocaleResolver">
 		<property name="defaultLocale" value="fr" />

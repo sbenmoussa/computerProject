@@ -1,8 +1,10 @@
 package com.excilys.computerdatabase.validator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.constraints.NotNull;
+
 import org.springframework.stereotype.Component;
 
 import com.excilys.computerdatabase.model.Company;
@@ -30,9 +32,9 @@ public class CompanyDTO {
 		return company.getId()+","+company.getName();
 	}
 	
-	public ArrayList<String> fromDTOList(ArrayList<Company> companies){
+	public ArrayList<String> fromDTOList(List<Company> list){
 		ArrayList<String> result = new ArrayList<String>();
-		for(Company c : companies){
+		for(Company c : list){
 			result.add(fromDTO(c));
 		}
 		return result;		

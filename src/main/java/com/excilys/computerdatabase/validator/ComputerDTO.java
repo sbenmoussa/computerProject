@@ -1,6 +1,7 @@
 package com.excilys.computerdatabase.validator;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.validation.Valid;
 import javax.validation.constraints.*;
@@ -78,9 +79,9 @@ public class ComputerDTO {
 		return computer.getId()+","+computer.getName()+","+util.dateToString(computer.getIntroduced())+","+util.dateToString(computer.getDiscontinued())+","+computer.getCompany().getId()+","+computer.getCompany().getName();
 	}
 
-	public ArrayList<String> fromDTOList(ArrayList<Computer> computers){
+	public List<String> fromDTOList(List<Computer> list){
 		ArrayList<String> result = new ArrayList<String>();
-		for(Computer c : computers){
+		for(Computer c : list){
 			result.add(fromDTO(c));
 		}
 		return result;		
