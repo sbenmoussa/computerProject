@@ -25,13 +25,13 @@ public class ComputerDTO {
 	@Size(min= 1, max = 255)
 	private String name;
 
-	@Pattern(regexp = "^[0-9]{4}(-)[0-9]{2}(-)[0-9]{2}$")
+	@Pattern(regexp = "^([0-9]{4}(-)[0-9]{2}(-)[0-9]{2}){0,1}$", flags={})
 	private  String introduced = "";
 	
 	final String introducedValue = introduced;
 
 	//@ComputerDate(introducedDate = introducedValue , value = "")
-	@Pattern(regexp = "^[0-9]{4}(-)[0-9]{2}(-)[0-9]{2}$")
+	@Pattern(regexp = "^([0-9]{4}(-)[0-9]{2}(-)[0-9]{2}){0,1}$")
 	private String discontinued;
 
 	@Valid

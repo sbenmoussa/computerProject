@@ -64,7 +64,6 @@ public class Update {
 					System.out.println(fieldError.getField() + ":"+ fieldError.getCode()+"  , "+fieldError.getDefaultMessage());
 				}
 			}
-			//return "/updateComputer";
 		} else {
 			success = computerService.update(computer.toDTO(""));			
 		}

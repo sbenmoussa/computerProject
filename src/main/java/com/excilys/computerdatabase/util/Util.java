@@ -18,7 +18,7 @@ public class Util {
 	public DateTime stringToDate(String date){
 		DateTime result = new DateTime();
 		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
-		if(date != null){
+		if((date != null) && (!date.equals(""))){
 			DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
 			result = formatter.parseDateTime(date);
 		}	
