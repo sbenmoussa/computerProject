@@ -1,0 +1,7 @@
+com/excilys/computerdatabase/dao/ComputerDAO.class
+com/excilys/computerdatabase/dao/LogDAO.class
+com/excilys/computerdatabase/dao/DAOUtil.class
+org/persistence/App.class
+org/persist/App.class
+com/excilys/computerdatabase/dao/CompanyDAO.class
+com/excilys/computerdatabase/dao/DAO.class
