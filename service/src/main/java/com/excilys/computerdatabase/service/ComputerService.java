@@ -81,7 +81,7 @@ public class ComputerService {
 	@Transactional (readOnly=true)
 	public List<Computer> getAll(int order) {
 		logger.debug("transaction status dans le service ");
-		ArrayList<Computer> list = null;
+		List<Computer> list = null;
 		try {
 			list =  computerDao.getAll(order);		
 			return list;
@@ -93,7 +93,7 @@ public class ComputerService {
 
 	@Transactional (readOnly = true)
 	public List<Computer> filterByName(String name, int order) {
-		ArrayList<Computer> list = new ArrayList<Computer>();
+		List<Computer> list = new ArrayList<Computer>();
 		try {
 			list = computerDao.filterByName(name,order);	
 			return list;	

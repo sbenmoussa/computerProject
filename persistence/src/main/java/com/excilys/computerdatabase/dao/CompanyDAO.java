@@ -1,23 +1,17 @@
 package com.excilys.computerdatabase.dao;
 
-
-import static com.excilys.computerdatabase.dao.DAOUtil.close;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import javax.sql.DataSource;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
-
-
 
 import com.excilys.computerdatabase.dao.DAO;
 import com.excilys.computerdatabase.model.Company;
@@ -27,120 +21,76 @@ public class CompanyDAO implements DAO<Company>{
 
 	@Autowired
 	private DataSource datasource;
-
-	private static Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
+	
+	private JdbcTemplate jt ;
 	
 	public CompanyDAO(){
 	}
 	
 	public boolean create(Company object) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		String query = "";
-		query = "insert into company(name) values(?)";
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, object.getName());
-		int result = preparedStatement.executeUpdate();
-		close(preparedStatement);
-		switch(result){
-		case 1 : return true;
-		default : return false;
-		}
+		jt  = new JdbcTemplate(datasource);		
+		String query = "insert into company(name) values(?)";
+		int result= jt.update(query, new Object[]{object.getName()});
+		return result == 1;
 	}
 
 
 	public boolean update(Company object) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		String query = "";
-		query = "update company set name = ?  where id=?";
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, object.getName());
-		preparedStatement.setLong(2, object.getId());
-		int result = preparedStatement.executeUpdate();
-		close(preparedStatement);
-		switch(result){
-		case 1 : return true;
-		default : return false;
-		}
+		String query = "update company set name = ?  where id=?";
+		jt  = new JdbcTemplate(datasource);
+		int result= jt.update(query, new Object[]{object.getName(), object.getId()});
+		return result == 1;
 	}
 
 
 	public boolean delete(long id) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		String query = "";
-		query = "delete from company where id=?";
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setLong(1, id);
-		int result = preparedStatement.executeUpdate();
-		close(preparedStatement);
-		switch(result){
-		case 1 : return true;
-		default : return false;
-		}
+		String query = "delete from company where id=?";
+		jt  = new JdbcTemplate(datasource);
+		int result= jt.update(query, new Object[]{id});
+		return result == 1;
 	}
 
 
 	public Company find(long id) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		ResultSet resultSet = null;
-		String query = "";
-		Company result  = new Company.CompanyBuilder().build(); 		
-		query = "select  cm.name as name from company as cm where cm.id="+id;
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		resultSet = preparedStatement.executeQuery();
+		jt  = new JdbcTemplate(datasource);	
+		Company result  = new Company.CompanyBuilder().build();  		
+		String query = "select  cm.name as name from company as cm where cm.id=?";
+		result = jt.query(query, new Object[]{id},new ResultSetExtractor<Company>(){
+			@Override
+			public Company extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				Company result  = new Company.CompanyBuilder().build(); 
+				result.setName(rs.getString("name"));
+				return result;
+			}
+			
+		});
 		result.setId(id);
-		if(resultSet.next()){
-			result.setName(resultSet.getString("name"));
-		}
-		close(resultSet);
-		close(preparedStatement);
 		return result;
 	}
 
-	public ArrayList<Company> getAll(int order) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		ResultSet resultSet = null;
-		String query = "";
-		ArrayList<Company> companies = new ArrayList<Company>();
-		query = "select cm.id as id, cm.name as compa from company as cm";
-		preparedStatement = DataSourceUtils.getConnection(datasource).prepareStatement(query);
-		resultSet = preparedStatement.executeQuery();
-		while (resultSet.next()) {
-			Company com = new Company.CompanyBuilder(resultSet.getString("compa")).build();
-			com.setId(Long.parseLong(resultSet.getString("id")));
-			companies.add(com);
-		}
-		close(resultSet);
-		close(preparedStatement);
+	public List<Company> getAll(int order) throws SQLException {
+		jt  = new JdbcTemplate(datasource);
+		String query = "select cm.id as id, cm.name as compa from company as cm";
+		List<Company> companies = jt.query(query, new RowMapper<Company>(){
+			public Company mapRow(ResultSet rs, int rowNum) throws SQLException{
+				Company com = new Company.CompanyBuilder(rs.getString("compa")).id(rs.getLong("id")).build();
+				return com;
+			}
+		});	
 		return companies;
 	}
 
-	public ArrayList<Company> filterByName(String name, int order)
+	public List<Company> filterByName(String name, int order)
 			throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		ResultSet resultSet = null;
-		String query = "";
-		ArrayList<Company> companyresultSet = new ArrayList<Company>();
-		query = "select cp.id as id, cp.name as name from company as cp where cp.name like ?";
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, "%"+name+"%");
-		resultSet = preparedStatement.executeQuery();
-		while (resultSet.next()) {
-			Company c = new Company.CompanyBuilder(resultSet.getLong("id"),resultSet.getString("name")).build();
-			companyresultSet.add(c);
-		}
-		close(resultSet);
-		close(preparedStatement);
+		jt  = new JdbcTemplate(datasource);
+		String query = "select cp.id as id, cp.name as name from company as cp where cp.name like ?";
+		List<Company> companyresultSet = jt.query(query, new Object[]{new String("%"+name+"%")},new RowMapper<Company>(){
+			public Company mapRow(ResultSet rs, int rowNum) throws SQLException{
+				Company com = new Company.CompanyBuilder(rs.getLong("id"),rs.getString("name")).build();
+				return com;
+			}
+		});	
 		return companyresultSet;
 	}
 }

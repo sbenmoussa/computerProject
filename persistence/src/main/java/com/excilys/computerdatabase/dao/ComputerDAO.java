@@ -1,27 +1,16 @@
 package com.excilys.computerdatabase.dao;
 
-import static com.excilys.computerdatabase.dao.DAOUtil.close;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
-
-
-
+import java.util.List;
 
 import org.joda.time.DateTime;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.stereotype.Repository;
-
-
-
-
-
+import org.springframework.jdbc.core.RowMapper;
 
 import com.excilys.computerdatabase.model.Company;
 import com.excilys.computerdatabase.model.Computer;
@@ -32,112 +21,74 @@ public class ComputerDAO implements DAO<Computer>{
 
 	@Autowired
 	private BoneCPDataSource datasource;
-
-	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
+	
+	private JdbcTemplate jt;
 	
 	public ComputerDAO(){
-
+		
 	}
 
-
 	public boolean create(Computer object) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		String query = "";
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		query = "insert into computer(name, introduced, discontinued, company_id) values('testTransaction3',now(),now(),1)";	
-		preparedStatement = connection.prepareStatement(query);
-		int result = preparedStatement.executeUpdate();
-		query = "insert into computer(name, introduced, discontinued, company_id) values(?,?,?,?)";	
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, object.getName());
-		preparedStatement.setDate(2, new java.sql.Date(object.getIntroduced().toDate().getTime()));
-		preparedStatement.setDate(3, new java.sql.Date(object.getDiscontinued().toDate().getTime()));
-		preparedStatement.setFloat(4, object.getCompany().getId());
-		result = preparedStatement.executeUpdate();
-		close(preparedStatement);
+		jt  = new JdbcTemplate(datasource);		
+		String query = "insert into computer(name, introduced, discontinued, company_id) values(?,?,?,?)";	
+		long id1 = object.getCompany().getId();
+		System.out.println(id1);
+		Long id= ((object.getCompany().getId()==0)? null : object.getCompany().getId());
+		int result= jt.update(query, new Object[]{object.getName(), new java.sql.Date(object.getIntroduced().toDate().getTime()), new java.sql.Date(object.getDiscontinued().toDate().getTime()), id});
 		return result == 1;
 	}
 
 
 	public boolean update(Computer object) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		String query = "";
-		query = "update computer set name = ? , introduced = ?, discontinued = ?, company_id = ? where id=?";
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, object.getName());
-		preparedStatement.setDate(2, new java.sql.Date(object.getIntroduced().toDate().getTime()));
-		preparedStatement.setDate(3, new java.sql.Date(object.getDiscontinued().toDate().getTime()));
-		preparedStatement.setFloat(4, object.getCompany().getId());
-		preparedStatement.setLong(5, object.getId());
-		int result = preparedStatement.executeUpdate();
-		close(preparedStatement);
-		switch(result){
-		case 1 : return true;
-		default : return false;
-		}
+		jt  = new JdbcTemplate(datasource);
+		String query = "update computer set name = ? , introduced = ?, discontinued = ?, company_id = ? where id=?";
+		long id= (object.getCompany().getId()==0)? null : object.getCompany().getId();
+		int result= jt.update(query, new Object[]{object.getName(), new java.sql.Date(object.getIntroduced().toDate().getTime()), new java.sql.Date(object.getDiscontinued().toDate().getTime()), id,object.getId()});
+		return result == 1;
 	}
 
 	public boolean delete(long id) throws SQLException {	
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		String query = "";
-		query = "delete from computer where id=?";
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setLong(1, id);
-		int result = preparedStatement.executeUpdate();
-		close(preparedStatement);
-		switch(result){
-		case 1 : return true;
-		default : return false;
-		}
+		jt  = new JdbcTemplate(datasource);
+		String query = "delete from computer where id=?";
+		int result= jt.update(query, new Object[]{id});
+		return result == 1;
 	}
 
 	public Computer find(long id) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		ResultSet resultSet = null;
-		String query = "";
+		jt  = new JdbcTemplate(datasource);	
 		Computer result  = new Computer.ComputerBuilder().build(); 		
-		query = "select  cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa, cm.id as idcompa from computer as cp join company as cm on cp.company_id = cm.id where cp.id="+id;
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		resultSet = preparedStatement.executeQuery();
+		String query = "select  cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa, cm.id as idcompa from computer as cp join company as cm on cp.company_id = cm.id where cp.id="+id;
+		result = jt.query(query, new ResultSetExtractor<Computer>(){
+			@Override
+			public Computer extractData(ResultSet rs) throws SQLException,
+					DataAccessException {
+				Computer result  = new Computer.ComputerBuilder().build(); 
+				result.setName(rs.getString("namecp"));
+				Company company = new Company.CompanyBuilder(rs.getLong("idcompa"),rs.getString("compa")).build();
+				DateTime intr = null;
+				DateTime disc = null;
+				if (rs.getTimestamp("intr") != null) {
+					intr = new DateTime(rs.getTimestamp("intr").getTime());
+				}
+
+				if (rs.getTimestamp("dis") != null) {
+					disc = new DateTime(rs.getTimestamp("dis").getTime());
+				}
+
+				result.setIntroduced(intr);
+				result.setDiscontinued(disc);
+				result.setCompany(company);
+				return result;
+			}
+			
+		});
 		result.setId(id);
-
-		if(resultSet.next()){
-			result.setName(resultSet.getString("namecp"));
-			Company company = new Company.CompanyBuilder(resultSet.getLong("idcompa"),resultSet.getString("compa")).build();
-			DateTime intr = null;
-			DateTime disc = null;
-			if (resultSet.getTimestamp("intr") != null) {
-				intr = new DateTime(resultSet.getTimestamp("intr").getTime());
-			}
-
-			if (resultSet.getTimestamp("dis") != null) {
-				disc = new DateTime(resultSet.getTimestamp("dis").getTime());
-			}
-
-			result.setIntroduced(intr);
-			result.setDiscontinued(disc);
-			result.setCompany(company);
-		}
-		close(resultSet);
-		close(preparedStatement);
 		return result;
 	}
 
-	public ArrayList<Computer> getAll(int order) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		ResultSet resultSet = null;
-		String query = "";
-		
-		ArrayList<Computer> computeresultSet = new ArrayList<Computer>();
-		query ="select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id ";
+	public List<Computer> getAll(int order) throws SQLException {
+		jt  = new JdbcTemplate(datasource);
+		String query ="select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id ";
 
 		switch(order){
 		case 0 : query += " order by cp.name";
@@ -148,37 +99,29 @@ public class ComputerDAO implements DAO<Computer>{
 		break;
 		case 3:query += " order by compa";
 		break;
-		}
-		
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		System.out.println(	"verif de connection datasource si dans transaction=  "+DataSourceUtils.isConnectionTransactional(connection, datasource));
-		preparedStatement = connection.prepareStatement(query);
-		resultSet = preparedStatement.executeQuery();
-		while (resultSet.next()) {
-			Company com = new Company.CompanyBuilder(resultSet.getString("compa")).build();
-			DateTime intr = null;
-			DateTime disc = null;
-			if (resultSet.getTimestamp("intr") != null) {
-				intr = new DateTime(resultSet.getTimestamp("intr").getTime());
+		}	
+		List<Computer> computeresultSet = jt.query(query, new RowMapper<Computer>(){
+			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException{
+				Company com = new Company.CompanyBuilder(rs.getString("compa")).build();
+				DateTime intr = null;
+				DateTime disc = null;
+				if (rs.getTimestamp("intr") != null) {
+					intr = new DateTime(rs.getTimestamp("intr").getTime());
+				}
+	
+				if (rs.getTimestamp("dis") != null) {
+					disc = new DateTime(rs.getTimestamp("dis").getTime());
+				}
+				Computer c = new Computer.ComputerBuilder(rs.getLong("id"),rs.getString("namecp"), intr, disc,com).build();
+				return c;
 			}
-
-			if (resultSet.getTimestamp("dis") != null) {
-				disc = new DateTime(resultSet.getTimestamp("dis").getTime());
-			}
-			Computer c = new Computer.ComputerBuilder(resultSet.getLong("id"),resultSet.getString("namecp"), intr, disc,com).build();
-			computeresultSet.add(c);
-		}
-		close(resultSet);
-		close(preparedStatement);
+		});	
 		return computeresultSet;
 	}
 
 	
-	public ArrayList<Computer> filterByName(String name, int order) throws SQLException {
-		logger.debug("Connection:" + DataSourceUtils.getConnection(datasource));
-		PreparedStatement preparedStatement =null;
-		ResultSet resultSet = null;
-		ArrayList<Computer> computeresultSet = new ArrayList<Computer>();
+	public List<Computer> filterByName(String name, int order) throws SQLException {
+		jt  = new JdbcTemplate(datasource);
 		String query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp join company as cm on cp.company_id = cm.id where cp.name like ?";
 
 		switch(order){
@@ -191,25 +134,22 @@ public class ComputerDAO implements DAO<Computer>{
 		case 3:query += " order by compa";
 		break;
 		}
-		Connection connection = DataSourceUtils.getConnection(datasource);
-		preparedStatement = connection.prepareStatement(query);
-		preparedStatement.setString(1, "%"+name+"%");
-		resultSet = preparedStatement.executeQuery();
-		while (resultSet.next()) {
-			Company com = new Company.CompanyBuilder(resultSet.getString("compa")).build();
-			DateTime intr = null;
-			DateTime disc = null;
-			if (resultSet.getTimestamp("intr") != null) {
-				intr = new DateTime(resultSet.getTimestamp("intr").getTime());
+		List<Computer> computeresultSet = jt.query(query, new Object[]{new String("%"+name+"%")},new RowMapper<Computer>(){
+			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException{
+				Company com = new Company.CompanyBuilder(rs.getString("compa")).build();
+				DateTime intr = null;
+				DateTime disc = null;
+				if (rs.getTimestamp("intr") != null) {
+					intr = new DateTime(rs.getTimestamp("intr").getTime());
+				}
+	
+				if (rs.getTimestamp("dis") != null) {
+					disc = new DateTime(rs.getTimestamp("dis").getTime());
+				}
+				Computer c = new Computer.ComputerBuilder(rs.getLong("id"),rs.getString("namecp"), intr, disc,com).build();
+				return c;
 			}
-			if (resultSet.getTimestamp("dis") != null) {
-				disc = new DateTime(resultSet.getTimestamp("dis").getTime());
-			}
-			Computer c = new Computer.ComputerBuilder(resultSet.getLong("id"),resultSet.getString("namecp"), intr, disc,com).build();
-			computeresultSet.add(c);
-		}
-		close(resultSet);
-		close(preparedStatement);
+		});	
 		return computeresultSet;
 	}
 

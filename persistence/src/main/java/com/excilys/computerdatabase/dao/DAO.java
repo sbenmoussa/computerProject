@@ -1,7 +1,7 @@
 package com.excilys.computerdatabase.dao;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
@@ -16,7 +16,7 @@ public interface DAO<T> {
 	
 	public abstract T find(long id) throws SQLException ;
 	
-	public abstract ArrayList<T> getAll(int order) throws SQLException;
+	public abstract List<T> getAll(int order) throws SQLException;
 	
-	public abstract ArrayList<T> filterByName(String name, int order) throws SQLException;
+	public abstract List<T> filterByName(String name, int order) throws SQLException;
 }
