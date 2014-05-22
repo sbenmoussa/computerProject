@@ -51,6 +51,26 @@ http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 		<property name="dataSource" ref="dataSource" />
 	</bean>
 
+	<!--  Hibernate	configuration -->
+	<bean id="sessionFactory" class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="hibernateProperties" >
+			<value>hibernate.dialect=org.hibernate.dialect.HSQLDialect</value>
+		</property>
+		<property name="annotatedClasses" >
+			<list>
+				<value>com.excilys.computerdatabase.dao.CompanyDAO</value>
+				<value>com.excilys.computerdatabase.dao.ComputerDAO</value>
+			</list>
+		</property>
+	</bean>
 	
-
+	<!-- JPA configuration -->
+	<bean id="EMF" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="dataSource" ref="dataSource"></property>
+		<property name="loadTimeWeaver">
+			<bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver">
+			</bean>
+		</property>
+	</bean>
 </beans>

@@ -1,15 +1,34 @@
 package com.excilys.computerdatabase.model;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.*;
 
-
+@Entity
+@Table(name = "Computer")
 public class Computer {
 
+	@Id
+	@GeneratedValue( strategy = GenerationType.IDENTITY )
 	private long id;
+	
+	@Column( name = "name" )
 	private String name;
+	
+	@Column( name = "introduced" )
 	private DateTime introduced;
+	
+	@Column( name = "discontinued" )
 	private DateTime discontinued;
+	
+	@OneToOne(targetEntity=Company.class)
 	private Company company;
 	
 	private Computer(ComputerBuilder builder){

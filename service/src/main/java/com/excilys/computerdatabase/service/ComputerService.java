@@ -79,11 +79,11 @@ public class ComputerService {
 	}
 
 	@Transactional (readOnly=true)
-	public List<Computer> getAll(int order) {
+	public List<Computer> getAll(int order, int page) {
 		logger.debug("transaction status dans le service ");
 		List<Computer> list = null;
 		try {
-			list =  computerDao.getAll(order);		
+			list =  computerDao.getAll(order, page);		
 			return list;
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
@@ -92,10 +92,10 @@ public class ComputerService {
 	}
 
 	@Transactional (readOnly = true)
-	public List<Computer> filterByName(String name, int order) {
+	public List<Computer> filterByName(String name, int order, int page) {
 		List<Computer> list = new ArrayList<Computer>();
 		try {
-			list = computerDao.filterByName(name,order);	
+			list = computerDao.filterByName(name,order, page);	
 			return list;	
 		}catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
@@ -113,6 +113,16 @@ public class ComputerService {
 				System.out.println("resultat retournee par dao null");
 			}
 			return result;	
+		} catch (SQLException e) {	
+			logger.error("transaction annulée: "+e.getMessage());
+			System.out.println("transaction annulée: "+e.getMessage());
+			throw new RuntimeException("An error has occured",e);
+		}
+	}
+	
+	public int getTotal(String name){
+		try {
+			return computerDao.count(name);
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());

@@ -43,15 +43,15 @@ public class Pagination extends TagSupport {
         	next = messageSource.getMessage("next", null, locale);
     	}
     			
-    	boolean lastPage = currPage == totalPages;
+    	boolean lastPage = currPage == (totalPages/10);
     	int pgStart = Math.max(currPage - maxLinks / 2, 0);
     	int pgEnd = pgStart + maxLinks;
-    	if (pgEnd > totalPages + 1) {
-    		int diff = pgEnd - totalPages;
+    	if (pgEnd > (totalPages/10) + 1) {
+    		int diff = pgEnd - (totalPages/10);
     		pgStart -= diff - 1;
     		if (pgStart < 1)
     			pgStart = 1;
-    		pgEnd = totalPages + 1;
+    		pgEnd = (totalPages/10) + 1;
     	}
 
     	try {
@@ -62,7 +62,7 @@ public class Pagination extends TagSupport {
 
     		for (int i = pgStart; i < pgEnd; i++) {
     			if (i == currPage)
-    				out.write("<li class=\"paginatorCurr"+ (lastPage && i == totalPages ? " paginatorLast" : "")  +"\">"+ currPage + "</li>");
+    				out.write("<li class=\"paginatorCurr"+ (lastPage && i == (totalPages/10) ? " paginatorLast" : "")  +"\">"+ currPage + "</li>");
     			else
     				out.write(constructLink(i));
     		}

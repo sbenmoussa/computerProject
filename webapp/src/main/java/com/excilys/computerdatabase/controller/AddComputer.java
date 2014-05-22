@@ -38,7 +38,7 @@ public class AddComputer {
 	@RequestMapping(value="/addComputer", method = RequestMethod.GET)
 	public ComputerDTO get(ModelMap model){	
 		List<Company> companies = new ArrayList<Company>();
-		companies = companyService.getAll(0);
+		companies = companyService.getAll(0,0);
 		ComputerDTO computerdto = new  ComputerDTO();
 		model.addAttribute("companies", companies);
 		model.addAttribute("computerdto", computerdto);

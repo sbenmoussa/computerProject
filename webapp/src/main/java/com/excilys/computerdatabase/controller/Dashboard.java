@@ -25,37 +25,29 @@ public class Dashboard {
 
 		List<String> computers = new ArrayList<String>();
 		ComputerDTO computerDto = new ComputerDTO();
-
-		String name = search;
-		if(order != null){
-			if(name !=null){
-				computers = computerDto.fromDTOList( computerService.filterByName(name, order));
-				model.addAttribute("search", name);
-			}
-			else{
-				computers = computerDto.fromDTOList( computerService.getAll(order));		
-			}
-			model.addAttribute("order", order);
+		int count = computerService.getTotal("");
+		
+		if(order == null)
+			order =0;
+		
+		if(page == null)
+			page=0;
+		
+		if(search !=null){
+			System.out.println("search not null");
+			computers = computerDto.fromDTOList( computerService.filterByName(search, order, page));
+			model.addAttribute("search", search);
+			count = computerService.getTotal(search);
 		}
-
 		else{
-			if(name !=null){
-				computers = computerDto.fromDTOList(computerService.filterByName(name, 0));
-				model.addAttribute("search", name);
-			}
-			else{
-				computers = computerDto.fromDTOList(computerService.getAll(0));		
-			}
-			model.addAttribute("order", 0);
+			System.out.println("search null");
+			computers = computerDto.fromDTOList( computerService.getAll(order, page));		
 		}
-
+		
+		model.addAttribute("count",count);
+		model.addAttribute("order", order);
 		model.addAttribute("computers", computers);
-		if(page != null){
-			model.addAttribute("page", page);
-		}	
-		else{
-			model.addAttribute("page", 0);
-		}
+		model.addAttribute("page", page);
 	}
 	
 	@RequestMapping(value="/dashboard", method = RequestMethod.POST)

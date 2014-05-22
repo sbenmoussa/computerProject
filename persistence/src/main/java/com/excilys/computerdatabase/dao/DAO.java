@@ -16,7 +16,9 @@ public interface DAO<T> {
 	
 	public abstract T find(long id) throws SQLException ;
 	
-	public abstract List<T> getAll(int order) throws SQLException;
+	public abstract List<T> getAll(int order, int page) throws SQLException;
 	
-	public abstract List<T> filterByName(String name, int order) throws SQLException;
+	public abstract List<T> filterByName(String name, int order, int page) throws SQLException;
+	
+	int count(String name) throws SQLException;
 }

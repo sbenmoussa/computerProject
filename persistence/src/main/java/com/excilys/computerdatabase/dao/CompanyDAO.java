@@ -22,13 +22,13 @@ public class CompanyDAO implements DAO<Company>{
 	@Autowired
 	private DataSource datasource;
 	
+	@Autowired
 	private JdbcTemplate jt ;
 	
-	public CompanyDAO(){
-	}
+//	@Autowired
+//	private SessionFactory sessionFactory;
 	
-	public boolean create(Company object) throws SQLException {
-		jt  = new JdbcTemplate(datasource);		
+	public boolean create(Company object) throws SQLException {	
 		String query = "insert into company(name) values(?)";
 		int result= jt.update(query, new Object[]{object.getName()});
 		return result == 1;
@@ -37,7 +37,6 @@ public class CompanyDAO implements DAO<Company>{
 
 	public boolean update(Company object) throws SQLException {
 		String query = "update company set name = ?  where id=?";
-		jt  = new JdbcTemplate(datasource);
 		int result= jt.update(query, new Object[]{object.getName(), object.getId()});
 		return result == 1;
 	}
@@ -45,14 +44,12 @@ public class CompanyDAO implements DAO<Company>{
 
 	public boolean delete(long id) throws SQLException {
 		String query = "delete from company where id=?";
-		jt  = new JdbcTemplate(datasource);
 		int result= jt.update(query, new Object[]{id});
 		return result == 1;
 	}
 
 
 	public Company find(long id) throws SQLException {
-		jt  = new JdbcTemplate(datasource);	
 		Company result  = new Company.CompanyBuilder().build();  		
 		String query = "select  cm.name as name from company as cm where cm.id=?";
 		result = jt.query(query, new Object[]{id},new ResultSetExtractor<Company>(){
@@ -69,8 +66,7 @@ public class CompanyDAO implements DAO<Company>{
 		return result;
 	}
 
-	public List<Company> getAll(int order) throws SQLException {
-		jt  = new JdbcTemplate(datasource);
+	public List<Company> getAll(int order, int page) throws SQLException {
 		String query = "select cm.id as id, cm.name as compa from company as cm";
 		List<Company> companies = jt.query(query, new RowMapper<Company>(){
 			public Company mapRow(ResultSet rs, int rowNum) throws SQLException{
@@ -81,9 +77,8 @@ public class CompanyDAO implements DAO<Company>{
 		return companies;
 	}
 
-	public List<Company> filterByName(String name, int order)
+	public List<Company> filterByName(String name, int order, int page)
 			throws SQLException {
-		jt  = new JdbcTemplate(datasource);
 		String query = "select cp.id as id, cp.name as name from company as cp where cp.name like ?";
 		List<Company> companyresultSet = jt.query(query, new Object[]{new String("%"+name+"%")},new RowMapper<Company>(){
 			public Company mapRow(ResultSet rs, int rowNum) throws SQLException{
@@ -93,4 +88,10 @@ public class CompanyDAO implements DAO<Company>{
 		});	
 		return companyresultSet;
 	}
+	
+	@Override
+	public int count(String name) throws SQLException {
+		return jt.queryForInt("select count(*) from company");
+	}
+
 }

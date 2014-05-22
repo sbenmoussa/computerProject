@@ -1,8 +1,8 @@
 com/excilys/computerdatabase/controller/Dashboard.class
 org/webap/App.class
 com/excilys/computerdatabase/controller/Update.class
-com/excilys/computerdatabase/controller/CustomErrorController.class
 org/webapp/App.class
+com/excilys/computerdatabase/controller/CustomErrorController.class
 com/excilys/computerdatabase/controller/Remove.class
 com/excilys/computerdatabase/tags/Pagination.class
 com/excilys/computerdatabase/controller/AddComputer.class

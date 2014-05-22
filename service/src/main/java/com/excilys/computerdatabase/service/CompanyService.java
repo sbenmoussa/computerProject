@@ -66,9 +66,9 @@ public class CompanyService {
 	}
 
 	@Transactional(readOnly = false)
-	public List<Company> getAll(int order) {
+	public List<Company> getAll(int order, int page) {
 		try {
-			return  companyDao.getAll(order);	
+			return  companyDao.getAll(order, page);	
 		}catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
@@ -77,9 +77,9 @@ public class CompanyService {
 	}
 
 	@Transactional(readOnly = true)
-	public List<Company> filterByName(String name, int order) {
+	public List<Company> filterByName(String name, int order, int page) {
 		try {
-			return  companyDao.filterByName(name,order);
+			return  companyDao.filterByName(name,order, page);
 		} catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());
