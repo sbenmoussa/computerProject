@@ -43,7 +43,7 @@ public class Update {
 		if((idUpdate != null) && (!idUpdate.equals(""))){
 			cp = computerService.find(idUpdate);
 			String comp  = computerDto.fromDTO(cp);
-			companies = companyDto.fromDTOList( companyService.getAll(0,0));		
+			companies = companyDto.fromDTOList( companyService.getAll(0,0));
 			model.addAttribute("companies", companies);
 			model.addAttribute("comp", comp);
 			return cp;

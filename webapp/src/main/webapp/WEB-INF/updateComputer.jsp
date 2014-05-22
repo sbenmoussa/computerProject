@@ -69,14 +69,14 @@
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="company"><spring:message code="companyname" text="default text" />:</label>
+				<label for="company"><spring:message code="company" text="default text" />:</label>
 				<div class="input">
 					<form:select path="company.id" name="company" id="company">
 						<option value="0">--</option>
 						<c:forEach items="${ companies }" var="company" varStatus="boucle">
 							<c:choose>
 								<c:when
-									test='${ company.split(",")[0]  == computer.getCompany().getId() }'>
+									test='${ company.split(",")[0]  == comp.split(",")[4] }'>
 									<option selected value='${ company.split(",")[0] }'>${ company.split(",")[1] }</option>
 								</c:when>
 

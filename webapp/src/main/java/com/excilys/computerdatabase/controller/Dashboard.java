@@ -42,8 +42,7 @@ public class Dashboard {
 		else{
 			System.out.println("search null");
 			computers = computerDto.fromDTOList( computerService.getAll(order, page));		
-		}
-		
+		}		
 		model.addAttribute("count",count);
 		model.addAttribute("order", order);
 		model.addAttribute("computers", computers);
@@ -53,7 +52,6 @@ public class Dashboard {
 	@RequestMapping(value="/dashboard", method = RequestMethod.POST)
 	public void post(ModelMap model, @ModelAttribute ComputerDTO computer){
 		System.out.println("la méthode post du dashboard");
-		//return new ModelAndView("redirect:/dashboard");
 		get(model,null, null , 0);
 	}
 }

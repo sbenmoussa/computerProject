@@ -30,22 +30,19 @@ public class CompanyDAO implements DAO<Company>{
 	
 	public boolean create(Company object) throws SQLException {	
 		String query = "insert into company(name) values(?)";
-		int result= jt.update(query, new Object[]{object.getName()});
-		return result == 1;
+		return jt.update(query, new Object[]{object.getName()}) == 1;
 	}
 
 
 	public boolean update(Company object) throws SQLException {
 		String query = "update company set name = ?  where id=?";
-		int result= jt.update(query, new Object[]{object.getName(), object.getId()});
-		return result == 1;
+		return jt.update(query, new Object[]{object.getName(), object.getId()}) == 1;
 	}
 
 
 	public boolean delete(long id) throws SQLException {
 		String query = "delete from company where id=?";
-		int result= jt.update(query, new Object[]{id});
-		return result == 1;
+		return jt.update(query, new Object[]{id}) == 1;
 	}
 
 
@@ -56,12 +53,12 @@ public class CompanyDAO implements DAO<Company>{
 			@Override
 			public Company extractData(ResultSet rs) throws SQLException,
 					DataAccessException {
-				Company result  = new Company.CompanyBuilder().build(); 
-				result.setName(rs.getString("name"));
-				return result;
-			}
-			
-		});
+				Company result  = new Company.CompanyBuilder().build();
+				if(rs.next()){
+					result.setName(rs.getString("name"));
+				}
+				return result;			
+			}});
 		result.setId(id);
 		return result;
 	}
@@ -70,8 +67,7 @@ public class CompanyDAO implements DAO<Company>{
 		String query = "select cm.id as id, cm.name as compa from company as cm";
 		List<Company> companies = jt.query(query, new RowMapper<Company>(){
 			public Company mapRow(ResultSet rs, int rowNum) throws SQLException{
-				Company com = new Company.CompanyBuilder(rs.getString("compa")).id(rs.getLong("id")).build();
-				return com;
+				return new Company.CompanyBuilder(rs.getString("compa")).id(rs.getLong("id")).build();
 			}
 		});	
 		return companies;
