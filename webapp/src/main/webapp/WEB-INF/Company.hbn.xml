@@ -5,8 +5,8 @@ xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
 					http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd" 
 version="2.0">
 
-<persistence-unit name="companyPU" transaction-type="JTA">
-    <jta-data-source>jdbc/bonecp_resource</jta-data-source>
+<persistence-unit name="companyPU" transaction-type="RESOURCE_LOCAL">
+<!--     <jta-data-source>jdbc/bonecp_resource</jta-data-source> -->
     <class>com.excilys.computerdatabase.model.Company</class>       
 </persistence-unit>
 

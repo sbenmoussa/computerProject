@@ -76,11 +76,18 @@ public class ComputerDTO {
 
 	public String fromDTO(Computer computer){
 		Util util = new Util();
-		return computer.getId()+","+computer.getName()+","+util.dateToString(computer.getIntroduced())+","+util.dateToString(computer.getDiscontinued())+","+computer.getCompany().getId()+","+computer.getCompany().getName();
+		try{
+			return computer.getId()+","+computer.getName()+","+util.dateToString(computer.getIntroduced())+","+util.dateToString(computer.getDiscontinued())+","+computer.getCompany().getId()+","+computer.getCompany().getName();			
+		}catch(NullPointerException e){
+			System.out.println("l'id de la company est null");
+			return computer.getId()+","+computer.getName()+","+util.dateToString(computer.getIntroduced())+","+util.dateToString(computer.getDiscontinued())+",0, Unknown";
+		}		
+		
 	}
 
 	public List<String> fromDTOList(List<Computer> list){
 		ArrayList<String> result = new ArrayList<String>();
+		System.out.println(list.size()+" computer trouvés");
 		for(Computer c : list){
 			result.add(fromDTO(c));
 		}

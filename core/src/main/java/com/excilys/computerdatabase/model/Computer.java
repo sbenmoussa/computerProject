@@ -2,18 +2,22 @@ package com.excilys.computerdatabase.model;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.*;
 
 @Entity
-@Table(name = "Computer")
+@Table(name = "computer")
 public class Computer {
 
 	@Id
@@ -23,14 +27,16 @@ public class Computer {
 	@Column( name = "name" )
 	private String name;
 	
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@Column( name = "introduced" )
 	private DateTime introduced;
 	
+	@Type(type = "org.jadira.usertype.dateandtime.joda.PersistentDateTime")
 	@Column( name = "discontinued" )
 	private DateTime discontinued;
 	
-	@OneToOne(targetEntity=Company.class)
-	@JoinColumn(name="Company_id")
+	@ManyToOne(targetEntity=Company.class, fetch = FetchType.EAGER)
+	@JoinColumn(name="company_id",  unique=true)
 	private Company company;
 	
 	private Computer(ComputerBuilder builder){

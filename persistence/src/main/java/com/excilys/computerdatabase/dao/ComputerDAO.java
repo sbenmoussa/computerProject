@@ -2,8 +2,12 @@ package com.excilys.computerdatabase.dao;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
+import org.hibernate.Query;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
@@ -25,8 +29,10 @@ public class ComputerDAO implements DAO<Computer>{
 	@Autowired
 	private JdbcTemplate jt;
 	
-//	@Autowired
-//	private SessionFactory sessionFactory;
+	@Autowired
+	private SessionFactory sessionFactory;
+	
+	//private Session session;
 
 	public boolean create(Computer object) throws SQLException {		
 		String query = "insert into computer(name, introduced, discontinued, company_id) values(?,?,?,?)";	
@@ -81,78 +87,44 @@ public class ComputerDAO implements DAO<Computer>{
 	}
 
 	public List<Computer> getAll(int order, int page) throws SQLException {
-		String query ="select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left join company as cm on cp.company_id = cm.id ";
+		String query = "from Computer as computer left outer join fetch computer.company as company ";
 		switch(order){
-		case 0 : query += " order by cp.name";
+		case 0 : query += " order by computer.name";
 		break;
-		case 1: query += " order by intr";
+		case 1: query += " order by computer.introduced";
 		break;
-		case 2: query += " order by dis";
+		case 2: query += " order by computer.discontinued";
 		break;
-		case 3:query += " order by compa";
+		case 3:query += " order by computer.company.name";
 		break;
-		}	
-		query += " limit "+page*10+",10";
-		List<Computer> computeresultSet = jt.query(query, new RowMapper<Computer>(){
-			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException{
-				Company com = new Company.CompanyBuilder(rs.getString("compa")).build();
-				DateTime intr = null;
-				DateTime disc = null;
-				if (rs.getTimestamp("intr") != null) {
-					intr = new DateTime(rs.getTimestamp("intr").getTime());
-				}
-	
-				if (rs.getTimestamp("dis") != null) {
-					disc = new DateTime(rs.getTimestamp("dis").getTime());
-				}
-				Computer c = new Computer.ComputerBuilder(rs.getLong("id"),rs.getString("namecp"), intr, disc,com).build();
-				return c;
-			}
-		});	
-		return computeresultSet;
+		}
+		return (List<Computer>) sessionFactory.getCurrentSession().createQuery(query).setFirstResult(page*10).setMaxResults(10).list();
 	}
 
 	
 	public List<Computer> filterByName(String name, int order, int page) throws SQLException {
 		System.out.println("nom du computer recherché "+name);
-		String query = "select cp.id as id, cp.name as namecp, cp.introduced as intr, cp.discontinued as dis, cm.name as compa from computer as cp left outer join company as cm on cp.company_id = cm.id where cp.name like ?";		
+		String query = "from Computer as computer left outer join fetch computer.company as company where computer.name like '%"+name+"%' ";
 		switch(order){
-		case 0 : query += " order by cp.name";
+		case 0 : query += " order by computer.name";
 		break;
-		case 1: query += " order by intr";
+		case 1: query += " order by computer.introduced";
 		break;
-		case 2: query += " order by dis";
+		case 2: query += " order by computer.discontinued";
 		break;
-		case 3:query += " order by compa";
+		case 3:query += " order by computer.company.name";
 		break;
 		}
-		query += " limit "+page*10+",10";
-		List<Computer> computeresultSet = jt.query(query, new Object[]{new String("%"+name+"%")},new RowMapper<Computer>(){
-			public Computer mapRow(ResultSet rs, int rowNum) throws SQLException{
-				Company com = new Company.CompanyBuilder(rs.getString("compa")).build();
-				DateTime intr = null;
-				DateTime disc = null;
-				if (rs.getTimestamp("intr") != null) {
-					intr = new DateTime(rs.getTimestamp("intr").getTime());
-				}
-	
-				if (rs.getTimestamp("dis") != null) {
-					disc = new DateTime(rs.getTimestamp("dis").getTime());
-				}
-				Computer c = new Computer.ComputerBuilder(rs.getLong("id"),rs.getString("namecp"), intr, disc,com).build();
-				return c;
-			}
-		});	
-		System.out.println("nombre de résultats  "+computeresultSet.size());
-		return computeresultSet;
+		return (List<Computer>) sessionFactory.getCurrentSession().createQuery(query).setFirstResult(page*10).setMaxResults(10).list();
 	}
 
 	@Override
 	public int count(String name) throws SQLException {
-		if(name.equals("") ||( name == null)){
-			return jt.queryForInt("select count(*) from computer");
-		}
-		return jt.queryForInt("select count(*) from computer where name like ?",new Object[]{new String("%"+name+"%")});
+//		if(name.equals("") ||( name == null)){
+//			return sessionFactory.getCurrentSession().createQuery("select count(computer) from Computer as computer left outer join fetch computer.company as company where computer.name like '%"+name+"%' ");
+//		}
+//		return sessionFactory.getCurrentSession().createQuery("select count(computer) from Computer as computer left outer join fetch computer.company as company");
+//	}
+		return 555;
 	}
-
 }

@@ -1,4 +1,4 @@
-org/service/App.class
-com/excilys/computerdatabase/service/CompanyService.class
 com/excilys/computerdatabase/service/ComputerService.class
 org/servic/App.class
+org/service/App.class
+com/excilys/computerdatabase/service/CompanyService.class

@@ -4,10 +4,13 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.Resource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ch.qos.logback.classic.LoggerContext;
@@ -24,9 +27,11 @@ public class ComputerService {
 	
 	final Logger logger = LoggerFactory.getLogger(ComputerService.class);
 	
+	@Resource
 	@Autowired
 	private ComputerDAO computerDao;
 	
+	@Resource
 	@Autowired
 	private CompanyDAO companyDao;
 	
@@ -40,7 +45,7 @@ public class ComputerService {
 	}
 
 	
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	public boolean insert(Computer o) {	
 		try{
 			computerDao.create(o);
@@ -52,7 +57,7 @@ public class ComputerService {
 		}
 	}
 
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	public boolean update(Object o) {
 		try {
 			computerDao.update((Computer)o);
@@ -65,7 +70,7 @@ public class ComputerService {
 		}
 	}
 
-	@Transactional
+	@Transactional(propagation=Propagation.REQUIRED)
 	public boolean delete(Long id) {
 		try {
 			computerDao.delete(id);
@@ -78,7 +83,7 @@ public class ComputerService {
 		}
 	}
 
-	@Transactional (readOnly=true)
+	@Transactional (readOnly=true, propagation=Propagation.REQUIRED)
 	public List<Computer> getAll(int order, int page) {
 		logger.debug("transaction status dans le service ");
 		List<Computer> list = null;
@@ -91,7 +96,7 @@ public class ComputerService {
 		}
 	}
 
-	@Transactional (readOnly = true)
+	@Transactional (readOnly = true, propagation=Propagation.REQUIRED)
 	public List<Computer> filterByName(String name, int order, int page) {
 		List<Computer> list = new ArrayList<Computer>();
 		try {
@@ -104,7 +109,7 @@ public class ComputerService {
 		}
 	}
 
-	@Transactional (readOnly = true)
+	@Transactional (readOnly = true, propagation=Propagation.REQUIRED)
 	public Computer find(Long id)  {
 		Computer result = new Computer.ComputerBuilder().build();
 		try {
@@ -120,6 +125,7 @@ public class ComputerService {
 		}
 	}
 	
+	@Transactional (readOnly = true, propagation=Propagation.REQUIRED)
 	public int getTotal(String name){
 		try {
 			return computerDao.count(name);

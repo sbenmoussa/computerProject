@@ -8,7 +8,7 @@
 
 
 	<c:if test="${ computers != null }" var="result">
-		<h1 id="homeTitle">${ computers.size() } <spring:message code="found" text="default text" /> </h1>
+		<h1 id="homeTitle">${ count }  <spring:message code="found" text="default text" /> </h1>
 	</c:if>
 
 	<c:if test="${ computers == null }" var="result">
@@ -56,16 +56,16 @@
 				<tr>
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
-					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="dashboard?page=${page}&order=0"><spring:message code="computername" text="default text" /></a></th>
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="dashboard?page=${page}&order=1"><spring:message code="introducedText" text="default text" /></a></th>
+					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="?page=${page}&order=0&search=${search}"><spring:message code="computername" text="default text" /></a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="?page=${page}&order=1&search=${search}"><spring:message code="introducedText" text="default text" /></a></th>
 					<!-- Table header for Discontinued Date -->
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="dashboard?page=${page}&order=2"><spring:message code="discontinuedText" text="default text" /></a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=2&search=${search}"><spring:message code="discontinuedText" text="default text" /></a></th>
 					<!-- Table header for Company -->
-					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="dashboard?page=${page}&order=3"><spring:message code="company" text="default text" /></a></th>
+					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=3&search=${search}"><spring:message code="company" text="default text" /></a></th>
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${ computers }" var="computer"  begin='${page * 10}' end='${(page*10) + 9}'>
+				<c:forEach items="${ computers }" var="computer"  begin='0' end='${computers.size()}'>
 					<tr>
 						<td><a href='updateComputer?idUpdate= ${ computer.split(",")[0] }' onclick="">${ computer.split(",")[1] }</a></td>
 						<td>${ computer.split(",")[2] }</td>
@@ -87,12 +87,12 @@
 		
 		<c:choose>
 			<c:when test='${search != null}'>
-				<c:url var="searchUri" value="dashboard??s=${searchval}&page=##&order=${order}&search=${search}" />
-				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" lang="${pageContext.response.locale}"/>
+				<c:url var="searchUri" value="dashboard?page=##&order=${order}&search=${search}" />
+				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${count}" uri="${searchUri}" lang="${pageContext.response.locale}"/>
 			</c:when>
 			<c:otherwise>
-				<c:url var="searchUri" value="dashboard??s=${searchval}&page=##&order=${order}" />
-				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${computers.size()}" uri="${searchUri}" lang="${pageContext.response.locale}"/>
+				<c:url var="searchUri" value="dashboard?page=##&order=${order}" />
+				<utile:pagination maxLinks="10" currPage="${page}" totalPages="${count}" uri="${searchUri}" lang="${pageContext.response.locale}"/>
 			</c:otherwise>
 		</c:choose>
 
