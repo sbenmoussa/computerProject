@@ -3,10 +3,7 @@ com/excilys/computerdatabase/dao/LogDAO.class
 com/excilys/computerdatabase/dao/Util.class
 com/excilys/computerdatabase/dao/ComputerDAO$1.class
 com/excilys/computerdatabase/dao/CompanyDAO$3.class
-org/persistence/App.class
-org/persist/App.class
 com/excilys/computerdatabase/dao/CompanyDAO.class
-com/excilys/computerdatabase/dao/ComputerDAO$2.class
 com/excilys/computerdatabase/dao/DAO.class
 com/excilys/computerdatabase/dao/CompanyDAO$2.class
 com/excilys/computerdatabase/dao/CompanyDAO$1.class

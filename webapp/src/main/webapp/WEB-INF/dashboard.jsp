@@ -45,7 +45,6 @@
 		<script>
 			function callServlet(monForm,idC){	 
 				console.log('idc '+idC);
-				//document.getElementsByName('idComputer').value = idC+'';
 				document.getElementById('idComputer').setAttribute('value', idC);
 				monForm.submit();
 			}

@@ -65,7 +65,7 @@ public class CompanyService {
 		}
 	}
 
-	@Transactional(readOnly = false)
+	@Transactional(readOnly = true)
 	public List<Company> getAll(int order, int page) {
 		try {
 			return  companyDao.getAll(order, page);	

@@ -1,46 +1,66 @@
 package com.excilys.computerdatabase.validator;
 
+import java.util.Locale;
+
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
+
+//import org.joda.time.DateTime;
+//import org.joda.time.format.DateTimeFormat;
+//import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
 
 public class DateValidator implements ConstraintValidator<ComputerDate, String> {
 
 	private String introduced;
-	private String discontinued;
+	private String date;
+	
+	@Autowired
+	private Locale locale;
+	
+	@Autowired
+    private MessageSource messageSource;
 	
 	@Override
 	public void initialize(ComputerDate constraintAnnotation) {
-		this.discontinued = constraintAnnotation.value();
+		this.date= constraintAnnotation.value();
 		this.introduced = constraintAnnotation.introducedDate();
 	}
 
 	@Override
 	public boolean isValid(String date, ConstraintValidatorContext context) {
-		System.out.println("dis à l'initialisation= "+ discontinued+" et objet récupéré en param de isvalid= "+date+" et introduced = "+introduced);
-		if (((date == null) || (date.isEmpty()))){
-			return true;
-		}     
-		else if((introduced.isEmpty()) || (introduced == null)){
+		System.out.println("dis à l'initialisation= "+ date+" et objet récupéré en param de isvalid= "+date+" et introduced = "+introduced);	
+		String pattern = messageSource.getMessage("pattern.date.pattern", null, locale);
+		
+		
+		if((this.date.matches(pattern)) || (this.date.isEmpty())){
 			return true;
 		}
 		else{
-			try{			
-				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
-				DateTime intro = formatter.parseDateTime(introduced);
-				DateTime disc = formatter.parseDateTime(date);
-				if((disc.toDate().getTime() - intro.toDate().getTime()) <= 0){
-					return false;
-				}
-			}
-			catch(Exception e){
-				return false;
-			}
-			return true;
+			return false;
 		}
+//		if (((date == null) || (date.isEmpty()))){
+//			return true;
+//		}     
+//		else if((introduced.isEmpty()) || (introduced == null)){
+//			return true;
+//		}
+//		else{
+//			try{			
+//				DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+//				DateTime intro = formatter.parseDateTime(introduced);
+//				DateTime disc = formatter.parseDateTime(date);
+//				if((disc.toDate().getTime() - intro.toDate().getTime()) <= 0){
+//					return false;
+//				}
+//			}
+//			catch(Exception e){
+//				return false;
+//			}
+//			return true;
+//		}
 	}
 
 }

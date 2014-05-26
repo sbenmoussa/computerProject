@@ -5,48 +5,26 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.excilys</groupId>
-		<artifactId>Computer-database</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>computer-database</artifactId>
+		<version>3.3.1</version>
 	</parent>
-	<groupId>com.excilys.computerdatabase.service</groupId>
+	<groupId>com.excilys.computerdatabase</groupId>
 	<artifactId>service</artifactId>
-	<packaging>jar</packaging>
 	<name>service</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
+	
+		<!-- Internal Dependencies -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.excilys.computerdatabase.model</groupId>
+			<groupId>com.excilys.computerdatabase</groupId>
 			<artifactId>core</artifactId>
-			<scope>compile</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.excilys.computerdatabase.dao</groupId>
+			<groupId>com.excilys.computerdatabase</groupId>
 			<artifactId>persistence</artifactId>
-			<scope>compile</scope>
-		</dependency>
-				<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-core</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>ch.qos.logback</groupId>
-			<artifactId>logback-classic</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>jcl-over-slf4j</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-api</artifactId>
 		</dependency>
 	</dependencies>
 </project>

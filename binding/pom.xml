@@ -5,55 +5,34 @@
 	<modelVersion>4.0.0</modelVersion>
 	<parent>
 		<groupId>com.excilys</groupId>
-		<artifactId>Computer-database</artifactId>
-		<version>0.0.1-SNAPSHOT</version>
+		<artifactId>computer-database</artifactId>
+		<version>3.3.1</version>
 	</parent>
-	<groupId>com.excilys.computerdatabase.validator</groupId>
+	<groupId>com.excilys.computerdatabase</groupId>
 	<artifactId>binding</artifactId>
-	<packaging>jar</packaging>
 	<name>binding</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator-cdi</artifactId>
-			<scope>compile</scope>
-		</dependency>
-		<dependency>
-			<groupId>javax.validation</groupId>
-			<artifactId>validation-api</artifactId>
-			<scope>compile</scope>
-		</dependency>
+		
+		<!-- Use Joda Time -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 		</dependency>
+		
+		<!-- Internal Dependancy-->
 		<dependency>
-			<groupId>com.excilys.computerdatabase.model</groupId>
+			<groupId>com.excilys.computerdatabase</groupId>
 			<artifactId>core</artifactId>
-			<scope>compile</scope>
 		</dependency>
+		
+		<!-- Validation -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-core</artifactId>
-			<exclusions>
-				<exclusion>
-					<artifactId>commons-logging</artifactId>
-					<groupId>commons-logging</groupId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
 		</dependency>
 	</dependencies>
 </project>

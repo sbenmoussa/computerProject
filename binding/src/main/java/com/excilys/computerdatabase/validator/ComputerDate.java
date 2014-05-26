@@ -19,6 +19,5 @@ public @interface ComputerDate {
 	Class<? extends Payload>[] payload() default {};
 	String value();
 	String introducedDate() default "";
-	// Et là on ajoute notre liste de conditions
-	//public Condition[] conditions() default {};
+	String language();
 }

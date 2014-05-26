@@ -6,6 +6,7 @@ import java.util.List;
 
 import javax.sql.DataSource;
 
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -25,8 +26,8 @@ public class CompanyDAO implements DAO<Company>{
 	@Autowired
 	private JdbcTemplate jt ;
 	
-//	@Autowired
-//	private SessionFactory sessionFactory;
+	@Autowired
+	private SessionFactory sessionFactory;
 	
 	public boolean create(Company object) throws SQLException {	
 		String query = "insert into company(name) values(?)";
