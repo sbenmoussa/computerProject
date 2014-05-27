@@ -10,8 +10,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.excilys.computerdatabase.DTO.ComputerDTO;
+import com.excilys.computerdatabase.mapper.ComputerMapper;
 import com.excilys.computerdatabase.service.ComputerService;
-import com.excilys.computerdatabase.validator.ComputerDTO;
 
 @Controller
 public class Dashboard {
@@ -19,13 +20,14 @@ public class Dashboard {
 	@Autowired
 	private ComputerService computerService;
 
+	@Autowired
+	ComputerMapper mapperComputer ;
 
 	@RequestMapping(value="/dashboard",method = RequestMethod.GET)
 	public void get(ModelMap model, Integer order,  String search , Integer page){
 
-		List<String> computers = new ArrayList<String>();
-		ComputerDTO computerDto = new ComputerDTO();
-		int count = computerService.getTotal("");
+		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
+		long count ;
 		
 		if(order == null)
 			order =0;
@@ -35,13 +37,14 @@ public class Dashboard {
 		
 		if(search !=null){
 			System.out.println("search not null");
-			computers = computerDto.fromDTOList( computerService.filterByName(search, order, page));
+			computers = mapperComputer.toDTOList( computerService.filterByName(search, order, page));
 			model.addAttribute("search", search);
 			count = computerService.getTotal(search);
 		}
 		else{
 			System.out.println("search null");
-			computers = computerDto.fromDTOList( computerService.getAll(order, page));		
+			count = computerService.getTotal("");
+			computers = mapperComputer.toDTOList( computerService.getAll(order, page));		
 		}		
 		model.addAttribute("count",count);
 		model.addAttribute("order", order);

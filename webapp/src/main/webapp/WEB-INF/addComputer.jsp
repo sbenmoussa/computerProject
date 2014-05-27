@@ -20,21 +20,21 @@
 
 <section id="main">
 
-	<h1><spring:message code="addsubtitle" text="default text" /></h1>
+	<h1><spring:message code="addsubtitle" text="Add Computer" /></h1>
 	
 	<c:if test='${ (add != null) && (add =="Success") }' var="result">
-		<h2 style="color: red"><spring:message code="successop" text="default text" /> <a href="dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red"><spring:message code="successop" text="success" /> <a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
-		<h2 style="color: red" ><spring:message code="failadd" text="default text" /><a href="dashboard" class="btn">dashboard</a></h2>
+		<h2 style="color: red" ><spring:message code="failadd" text="fail" /><a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
 	
 	<form:form action="addComputer" commandName="computerdto" method="POST" id="formulaire">
 	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<div class="clearfix">
-				<label for="name"><spring:message code="computername" text="default text" />:</label>
+				<label for="name"><spring:message code="computername" text="name" />:</label>
 				<div class="input">
 					<form:input  path="name" type="text" name="name" id="name"/>
 					<form:errors path="name" cssClass="error" />
@@ -43,23 +43,23 @@
 			</div>
 	
 			<div class="clearfix">
-				<label for="introducedDate"><spring:message code="introducedText" text="default text" />:</label>
+				<label for="introducedDate"><spring:message code="introducedText" text="introduced" />:</label>
 				<div class="input">
-					<form:input  path="introduced" type="date" name="introduced" id="introduced"  placeholder="YYYY-MM-DD"/>
+					<form:input  path="introduced" type="date" name="introduced" id="introduced"  placeholder="<spring:message code='pattern.date.string' text='YYYY-MM-DD' />"/>
 					<form:errors path="introduced" cssClass="error" />
-					<span class="help-inline">YYYY-MM-DD</span>
+					<span class="help-inline"><spring:message code="pattern.date.string" text="YYYY-MM-DD" /></span>
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="discontinued"><spring:message code="discontinuedText" text="default text" />:</label>
+				<label for="discontinued"><spring:message code="discontinuedText" text="discontinued" />:</label>
 				<div class="input">
-					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" placeholder="YYYY-MM-DD"/>
+					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" placeholder="<spring:message code='pattern.date.string' text='YYYY-MM-DD'/>"/>
 					<form:errors path="discontinued" cssClass="error" />
-					<span class="help-inline">YYYY-MM-DD</span>
+					<span class="help-inline"><spring:message code="pattern.date.string" text="YYYY-MM-DD" /></span>
 				</div>
 			</div>
 			<div class="clearfix">
-				<label for="company"><spring:message code="company" text="default text" />:</label>
+				<label for="company"><spring:message code="company" text="company" />:</label>
 				<div class="input">
 					<form:select path="company.id" name="company" id="company">
 					<option value="0">--</option>
@@ -73,8 +73,8 @@
 			</div>
 		</fieldset>
 		<div class="actions">
-			<input type="submit" value=<spring:message code="add" text="default text" /> class="btn primary">
-			or <a href="dashboard " class="btn"><spring:message code="cancel" text="default text" /></a>
+			<input type="submit" value=<spring:message code="add" text="ok" /> class="btn primary">
+			or <a href="dashboard " class="btn"><spring:message code="cancel" text="Cancel" /></a>
 		</div>
 	</form:form>
 	

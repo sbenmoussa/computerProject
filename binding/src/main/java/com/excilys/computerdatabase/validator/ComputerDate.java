@@ -19,5 +19,5 @@ public @interface ComputerDate {
 	Class<? extends Payload>[] payload() default {};
 	String value();
 	String introducedDate() default "";
-	String language();
+	String language() default "fr";
 }

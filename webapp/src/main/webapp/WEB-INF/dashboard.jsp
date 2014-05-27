@@ -8,7 +8,7 @@
 
 
 	<c:if test="${ computers != null }" var="result">
-		<h1 id="homeTitle">${ count }  <spring:message code="found" text="default text" /> </h1>
+		<h1 id="homeTitle">${ count }  <spring:message code="found" text="found" /> </h1>
 	</c:if>
 
 	<c:if test="${ computers == null }" var="result">
@@ -18,18 +18,18 @@
 	</c:if>
 	
 	<c:if test='${ (update != null)  && (update =="true") }' var="result">
-		<h2 style="color: red"><spring:message code="successupdate" text="default text" /></h2> 
+		<h2 style="color: red"><spring:message code="successupdate" text="success" /></h2> 
 	</c:if>
 	
 	<c:if test='${ (update != null)  && (update=="false") }' var="result">
-		<h2 style="color: red" ><spring:message code="failupdate" text="default text" /></h2>
+		<h2 style="color: red" ><spring:message code="failupdate" text="fail" /></h2>
 	</c:if>
 	<c:if test='${ (add != null)  && (add =="true") }' var="result">
-		<h2 style="color: red"><spring:message code="successop" text="default text" /></h2>
+		<h2 style="color: red"><spring:message code="successop" text="success" /></h2>
 	</c:if>
 	
 	<c:if test='${ (add != null)  && (add =="false") }' var="result">
-		<h2 style="color: red" ><spring:message code="failadd" text="default text" /></h2>
+		<h2 style="color: red" ><spring:message code="failadd" text="fail" /></h2>
 	</c:if>
 
 	<div id="actions">
@@ -37,10 +37,10 @@
 			<input type="search" id="searchbox" name="search"
 				value="" placeholder="Search name">
 			<input type="submit" id="searchsubmit"
-				value=<spring:message code="filterbutton" text="default text" />
+				value=<spring:message code="filterbutton" text="filter" />
 				class="btn primary">
 		</form>
-		<a class="btn success" id="add" href="addComputer"><spring:message code="addsubtitle" text="default text" /></a>
+		<a class="btn success" id="add" href="addComputer"><spring:message code="addsubtitle" text="add Computer" /></a>
 	</div>
 		<script>
 			function callServlet(monForm,idC){	 
@@ -55,23 +55,23 @@
 				<tr>
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
-					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="?page=${page}&order=0&search=${search}"><spring:message code="computername" text="default text" /></a></th>
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="?page=${page}&order=1&search=${search}"><spring:message code="introducedText" text="default text" /></a></th>
+					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="?page=${page}&order=0&search=${search}"><spring:message code="computername" text="name" /></a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="?page=${page}&order=1&search=${search}"><spring:message code="introducedText" text="introduced" /></a></th>
 					<!-- Table header for Discontinued Date -->
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=2&search=${search}"><spring:message code="discontinuedText" text="default text" /></a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=2&search=${search}"><spring:message code="discontinuedText" text="discontinued" /></a></th>
 					<!-- Table header for Company -->
-					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=3&search=${search}"><spring:message code="company" text="default text" /></a></th>
+					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=3&search=${search}"><spring:message code="company" text="company" /></a></th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${ computers }" var="computer"  begin='0' end='${computers.size()}'>
 					<tr>
-						<td><a href='updateComputer?idUpdate= ${ computer.split(",")[0] }' onclick="">${ computer.split(",")[1] }</a></td>
-						<td>${ computer.split(",")[2] }</td>
-						<td>${ computer.split(",")[3] }</td>
-						<td>${ computer.split(",")[5] }</td>
-						<td><input type="button" name=${ computer.split(",")[0] }
-							id=${ computer.split(",")[0] } value=<spring:message code="delete" text="default text" /> class="btn btn-ttc" style="color:red" onclick='callServlet(this.form,${ computer.split(",")[0] });' /></td>
+						<td><a href='updateComputer?idUpdate= ${ computer.id }' onclick="">${ computer.name }</a></td>
+						<td>${ computer.introduced }</td>
+						<td>${ computer.discontinued}</td>
+						<td>${ computer.company.name }</td>
+						<td><input type="button" name=${ computer.id }
+							id=${ computer.id } value=<spring:message code="delete" text="delete" /> class="btn btn-ttc" style="color:red" onclick='callServlet(this.form,${ computer.id });' /></td>
 					</tr>
 				</c:forEach>
 

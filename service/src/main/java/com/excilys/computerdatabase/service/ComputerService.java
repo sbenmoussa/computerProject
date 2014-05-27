@@ -56,7 +56,7 @@ public class ComputerService {
 		}
 	}
 
-	@Transactional(readOnly = true)
+	@Transactional
 	public boolean update(Computer o) {
 		try {
 			computerDao.update(o);
@@ -125,7 +125,7 @@ public class ComputerService {
 	}
 	
 	@Transactional (readOnly = true)
-	public int getTotal(String name){
+	public long getTotal(String name){
 		try {
 			return computerDao.count(name);
 		} catch (SQLException e) {	

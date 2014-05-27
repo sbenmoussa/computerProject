@@ -14,11 +14,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import com.excilys.computerdatabase.DTO.CompanyDTO;
+import com.excilys.computerdatabase.DTO.ComputerDTO;
+import com.excilys.computerdatabase.mapper.CompanyMapper;
+import com.excilys.computerdatabase.mapper.ComputerMapper;
 import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
-import com.excilys.computerdatabase.validator.CompanyDTO;
-import com.excilys.computerdatabase.validator.ComputerDTO;
 
 @Controller
 public class Update {
@@ -28,22 +30,22 @@ public class Update {
        
 	@Autowired
 	private CompanyService companyService;
-
-	@Autowired
-	private ComputerDTO computerDto;
 	
 	@Autowired
-	CompanyDTO companyDto;
+	ComputerMapper mapperComputer ;
+	
+	@Autowired
+	CompanyMapper mapperCompany ;
 	
 	@RequestMapping(value="/updateComputer", method = RequestMethod.GET)
 	public Computer get(ModelMap model, Long idUpdate){	
 		System.out.println("l'id est "+idUpdate);
-		List<String> companies = new ArrayList<String>();
+		List<CompanyDTO> companies = new ArrayList<CompanyDTO>();
 		Computer cp = null;
 		if((idUpdate != null) && (!idUpdate.equals(""))){
 			cp = computerService.find(idUpdate);
-			String comp  = computerDto.fromDTO(cp);
-			companies = companyDto.fromDTOList( companyService.getAll(0,0));
+			ComputerDTO comp  = mapperComputer.toDTO(cp);
+			companies = mapperCompany.toDTOList( companyService.getAll(0,0));
 			model.addAttribute("companies", companies);
 			model.addAttribute("comp", comp);
 			return cp;
@@ -65,7 +67,7 @@ public class Update {
 				}
 			}
 		} else {
-			success = computerService.update(computer.toDTO(""));			
+			success = computerService.update(mapperComputer.fromDTO(computer));			
 		}
 		
 		model.addAttribute("update", success);

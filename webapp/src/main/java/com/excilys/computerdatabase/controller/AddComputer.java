@@ -14,10 +14,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ModelAttribute;
 
+import com.excilys.computerdatabase.DTO.ComputerDTO;
+import com.excilys.computerdatabase.mapper.ComputerMapper;
 import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.Computer;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.service.ComputerService;
-import com.excilys.computerdatabase.validator.ComputerDTO;
 
 @Controller
 
@@ -25,6 +27,9 @@ public class AddComputer {
 	
 	@Autowired
 	private ComputerService computerService;
+	
+	@Autowired
+	ComputerMapper mapperComputer ;
 	public void setComputerService(ComputerService computerService){
 		this.computerService = computerService;
 	}
@@ -39,7 +44,7 @@ public class AddComputer {
 	public ComputerDTO get(ModelMap model){	
 		List<Company> companies = new ArrayList<Company>();
 		companies = companyService.getAll(0,0);
-		ComputerDTO computerdto = new  ComputerDTO();
+		ComputerDTO computerdto = mapperComputer.toDTO(new Computer.ComputerBuilder().build());
 		model.addAttribute("companies", companies);
 		model.addAttribute("computerdto", computerdto);
 		return computerdto; 
@@ -58,10 +63,8 @@ public class AddComputer {
 			}
 			return "/addComputer";
 		} else {
-			success = computerService.insert(computerdto.toDTO(""));				
+			success = computerService.insert(mapperComputer.fromDTO(computerdto));				
 		}
-		System.out.println(computerdto.getCompany().getId());
-		//return new ModelAndView("redirect:/dashboard?add="+success);
 		model.addAttribute("add", success);
 		return "forward:/dashboard";
 	}

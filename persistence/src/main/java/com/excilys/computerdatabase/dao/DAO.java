@@ -10,7 +10,7 @@ public interface DAO<T> {
 	
 	public abstract boolean create(T object) throws SQLException ;
 	
-	public abstract boolean update(T object) throws SQLException ;
+	public abstract void update(T object) throws SQLException ;
 	
 	public abstract boolean delete(long id) throws SQLException ;
 	
@@ -20,5 +20,5 @@ public interface DAO<T> {
 	
 	public abstract List<T> filterByName(String name, int order, int page) throws SQLException;
 	
-	int count(String name) throws SQLException;
+	long count(String name) throws SQLException;
 }

@@ -23,7 +23,6 @@ http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 	<context:component-scan base-package=" com.excilys.computerdatabase.model" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.dao" />
 	<context:component-scan base-package=" com.excilys.computerdatabase.service" />
-	
 	<tx:annotation-driven transaction-manager="txManager" />
 
 	<!-- Datasource Configuration -->
@@ -88,4 +87,8 @@ http://www.springframework.org/schema/util/spring-util-4.0.xsd">
 	</bean>
 	
 	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />
+	
+	<bean class="com.excilys.computerdatabase.util.Util" id="util"></bean>
+	<bean class="com.excilys.computerdatabase.mapper.ComputerMapper" id="ComputerMapper"></bean>
+	<bean class="com.excilys.computerdatabase.mapper.CompanyMapper" id="CompanyMapper"></bean>
 </beans>
