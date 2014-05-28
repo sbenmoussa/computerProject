@@ -4,24 +4,32 @@
 	<groupId>com.excilys</groupId>
 	<artifactId>computer-database</artifactId>
 	<packaging>pom</packaging>
-	<version>3.3.1</version>
+	<version>3.3.1-SNAPSHOT</version>
 	<name>Computer-database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<version>3.3.1</version>
+		
+<!-- 		Spring -->
 		<spring.version>4.0.4.RELEASE</spring.version>
 		<spring.data.version>1.4.3.RELEASE</spring.data.version>
+		
 		<hibernate.version>4.3.1.Final</hibernate.version>
+		
 		<logback.version>1.1.2</logback.version>
 		<slf4j.version>1.7.7</slf4j.version>
+		
 		<jodaTime.version>2.3</jodaTime.version>
 		<jadira.version>3.2.0.GA</jadira.version>
-		<jstl.version>1.2</jstl.version>
+		
 		<guava.version>17.0</guava.version>
 		<boneCP.version>0.8.0.RELEASE</boneCP.version>
 		<mysql.version>5.1.30</mysql.version>
+		
 		<javax.servlet.version>2.4</javax.servlet.version>
 		<javax.servlet.api.version>2.0</javax.servlet.api.version>
+		<jstl.version>1.2</jstl.version>
+		
 		<commons.logging.version>99.0-does-not-exist</commons.logging.version>
 	</properties>
 
@@ -30,10 +38,15 @@
 			<id>excilys</id>
 			<url>http://repository.excilys.com/content/repositories/thirdparty/</url>
 		</repository>
+		<repository>
+			<id>mysema</id>
+			<url>http://source.mysema.com/maven2/releases/</url>
+		</repository>
 	</repositories>
+	
 	<dependencyManagement>
 		<dependencies>
-			
+
 			<!-- Spring tools -->
 			<dependency>
 				<groupId>org.springframework</groupId>
@@ -68,7 +81,7 @@
 				<artifactId>joda-time</artifactId>
 				<version>${jodaTime.version}</version>
 			</dependency>
-			
+
 			<!-- Hibernate tools -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
@@ -85,15 +98,15 @@
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
-			
+
 			<!-- Persistence des données avec Hibernate et JPA -->
 			<dependency>
 				<groupId>org.jadira.usertype</groupId>
 				<artifactId>usertype.core</artifactId>
 				<version>${jadira.version}</version>
 			</dependency>
-			
-			<!-- View Tools-->
+
+			<!-- View Tools -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
@@ -104,7 +117,7 @@
 				<artifactId>jsp-api</artifactId>
 				<version>${javax.servlet.api.version}</version>
 			</dependency>
-			
+
 			<!-- Needed for taglib -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
@@ -162,13 +175,28 @@
 				<artifactId>commons-logging</artifactId>
 				<version>${commons.logging.version}</version>
 			</dependency>
+
+			<!-- QueryDSL Dependencies -->
+			<dependency>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-apt</artifactId>
+				<version>3.3.4</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.mysema.querydsl</groupId>
+				<artifactId>querydsl-hql</artifactId>
+				<version>1.9.7</version>
+			</dependency>
+
+
 		</dependencies>
 
 	</dependencyManagement>
 
 	<!-- Dependencies used by all modules -->
 	<dependencies>
-		<!-- Logging -->		
+		<!-- Logging -->
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
@@ -207,6 +235,24 @@
 					<source>1.7</source>
 					<target>1.7</target>
 				</configuration>
+			</plugin>
+
+			<!-- Used by Querydsl (uses the Annotation Processing Tool of Java 6) -->
+			<plugin>
+				<groupId>com.mysema.maven</groupId>
+				<artifactId>apt-maven-plugin</artifactId>
+				<version>1.1.1</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>process</goal>
+						</goals>
+						<configuration>
+							<outputDirectory>target/generated-sources/java</outputDirectory>
+							<processor>com.mysema.query.apt.hibernate.HibernateAnnotationProcessor</processor>
+						</configuration>
+					</execution>
+				</executions>
 			</plugin>
 		</plugins>
 	</build>

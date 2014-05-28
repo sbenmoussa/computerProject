@@ -21,17 +21,21 @@
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 		</dependency>
-		
-		<!-- Date JodaTime Persistence with  Hibernate  -->
+
+		<!-- Date JodaTime Persistence with Hibernate -->
 		<dependency>
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.core</artifactId>
 		</dependency>
-		
-		<!-- bean factory annotation -->
+
+		<!-- QueryDSL Dependencies -->
 		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context</artifactId>
+			<groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-apt</artifactId>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
+
+	
+	
 </project>

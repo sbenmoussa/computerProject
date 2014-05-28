@@ -1,7 +1,5 @@
 package com.excilys.computerdatabase.DTO;
 
-import javax.validation.constraints.NotNull;
-
 import org.springframework.stereotype.Component;
 
 @Component

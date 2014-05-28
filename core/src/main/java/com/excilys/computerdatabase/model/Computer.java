@@ -12,7 +12,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.*;
 
 @Entity
 @Table(name = "computer")
@@ -77,7 +76,6 @@ public class Computer {
 		return company;
 	}
 	
-	@Required
 	public void setCompany(Company company) {
 		this.company = company;
 	}
