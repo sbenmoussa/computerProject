@@ -9,13 +9,15 @@ import java.lang.annotation.RetentionPolicy;
 import javax.validation.Constraint;
 import javax.validation.Payload;
 
-@Constraint(validatedBy = DateValidator.class)
-@Documented
+@Constraint(validatedBy = ValidatorComputer.class )
+@Target({ElementType.ANNOTATION_TYPE, ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Target({ElementType.FIELD, ElementType.CONSTRUCTOR, ElementType.METHOD })
-public @interface ComputerDate {
-	String message() default "Invalid date";
-	Class<?>[] groups() default {};
-	Class<? extends Payload>[] payload() default {};
-	String value();
+@Documented
+public @interface ComputerValid {
+
+	String message() default "Computer data are invalid check that the discontinued date is before Introduced date";
+
+	Class<?>[] groups() default { };
+
+	Class<? extends Payload>[] payload() default { };
 }

@@ -43,6 +43,8 @@
 	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<form:hidden path="id" name="id" id="id" value='${id}' />
+<%-- 			<c:set var="pattern"><spring:message code="pattern.date.regex"/></c:set> --%>
+<%-- 			<input id="pattern" type="hidden" value="${pattern}"/> --%>
 			<div class="clearfix">
 				<label for="name"><spring:message code="computername" text="name" />:</label>
 				<div class="input">
@@ -135,12 +137,12 @@
 					},
 					"introduced": {
 						"date": true,
-						regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+						regex: /^[0-9]{2}(\/)[0-9]{2}(\/)[0-9]{4}$/,
 						greaterThan: true
 					},
 					"discontinued": {
 						"date": true,
-						regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+						regex: /^[0-9]{2}(\/)[0-9]{2}(\/)[0-9]{4}$/,
 						greaterThan: true
 					}
 				}

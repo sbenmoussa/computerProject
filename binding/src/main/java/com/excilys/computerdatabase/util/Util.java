@@ -1,14 +1,26 @@
 package com.excilys.computerdatabase.util;
 
+import java.util.Locale;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.MessageSource;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Util {
 
+	@Autowired
+    private MessageSource messageSource;
+	
 	public String dateToString(DateTime date){
 		String result ="";
-		DateTimeFormatter fmt = DateTimeFormat.forPattern("yyyy-MM-dd");
+		Locale locale = LocaleContextHolder.getLocale();
+		String pattern = messageSource.getMessage("date.pattern", null, locale); 
+		DateTimeFormatter fmt = DateTimeFormat.forPattern(pattern);
 		if(date !=null){
 			result = fmt.print(date);
 		}
@@ -16,10 +28,11 @@ public class Util {
 	}
 
 	public DateTime stringToDate(String date){
-		DateTime result = new DateTime();
-		//SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		DateTime result = null;
 		if((date != null) && (!date.equals(""))){
-			DateTimeFormatter formatter = DateTimeFormat.forPattern("yyyy-MM-dd");
+			Locale locale = LocaleContextHolder.getLocale();
+			String pattern = messageSource.getMessage("date.pattern", null, locale);
+			DateTimeFormatter formatter = DateTimeFormat.forPattern(pattern);
 			result = formatter.parseDateTime(date);
 		}	
 		return result;

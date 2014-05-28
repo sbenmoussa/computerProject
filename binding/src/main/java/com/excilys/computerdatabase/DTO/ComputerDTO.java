@@ -3,13 +3,12 @@ package com.excilys.computerdatabase.DTO;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-//import org.springframework.format.annotation.DateTimeFormat;
-//import org.hibernate.validator.constraints.NotEmpty;
-//import org.hibernate.validator.constraints.SafeHtml;
 import org.springframework.stereotype.Component;
 
-//import com.excilys.computerdatabase.validator.ComputerDate;
+import com.excilys.computerdatabase.validator.ComputerDate;
+import com.excilys.computerdatabase.validator.ComputerValid;
 
+@ComputerValid
 @Component
 public class ComputerDTO {
 
@@ -19,12 +18,12 @@ public class ComputerDTO {
 	@Size(min= 1, max = 255)
 	private String name;
 
-	//@Pattern(regexp = "", flags={})
+	@ComputerDate(value = "")
 	private  String introduced = "";
 	
 	final String introducedValue = introduced;
 
-	//@ComputerDate(value = "")
+	@ComputerDate(value = "")
 	private String discontinued;
 
 	@Valid
@@ -51,8 +50,7 @@ public class ComputerDTO {
 	}
 
 	public void setDiscontinued(String discontinued) {
-		//if(util.stringToDate(discontinued).isBefore(util.stringToDate(getIntroduced())))
-			this.discontinued = discontinued;
+		this.discontinued = discontinued;
 	}
 
 	public CompanyDTO getCompany() {

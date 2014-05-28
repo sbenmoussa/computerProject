@@ -29,7 +29,7 @@
 	<c:if test='${ (add != null)  && (add =="Fail") }' var="result">
 		<h2 style="color: red" ><spring:message code="failadd" text="fail" /><a href="dashboard" class="btn">dashboard</a></h2>
 	</c:if>
-	
+	<c:set var="pattern"><spring:message code="pattern.date.string"/></c:set>
 	<form:form action="addComputer" commandName="computerdto" method="POST" id="formulaire">
 	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
@@ -45,15 +45,15 @@
 			<div class="clearfix">
 				<label for="introducedDate"><spring:message code="introducedText" text="introduced" />:</label>
 				<div class="input">
-					<form:input  path="introduced" type="date" name="introduced" id="introduced"  placeholder="<spring:message code='pattern.date.string' text='YYYY-MM-DD' />"/>
+					<form:input  path="introduced" type="date" name="introduced" id="introduced"  placeholder="${pattern}"/>
 					<form:errors path="introduced" cssClass="error" />
 					<span class="help-inline"><spring:message code="pattern.date.string" text="YYYY-MM-DD" /></span>
 				</div>
 			</div>
 			<div class="clearfix">
 				<label for="discontinued"><spring:message code="discontinuedText" text="discontinued" />:</label>
-				<div class="input">
-					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" placeholder="<spring:message code='pattern.date.string' text='YYYY-MM-DD'/>"/>
+				<div class="input">				
+					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" placeholder="${pattern}"/>
 					<form:errors path="discontinued" cssClass="error" />
 					<span class="help-inline"><spring:message code="pattern.date.string" text="YYYY-MM-DD" /></span>
 				</div>
@@ -80,6 +80,9 @@
 	
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/jquery.validate.min.js"></script>
+	<script src="http://jquery.bassistance.de/validate/jquery.validate.js"></script>
+	<script src="http://jquery.bassistance.de/validate/additional-methods.js"></script>
+	<script type="text/javascript" src="js/jquery.i18n.properties-min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function(){
 			jQuery.validator.addMethod("regex", function(value, element, regexp) {
@@ -114,13 +117,13 @@
 							"required": true
 						},
 						"introduced": {
-							"date": true,
-							regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+							date: true,
+							regex: /^[0-9]{2}(\/)[0-9]{2}(\/)[0-9]{4}$/,
 							greaterThan: true
 						},
 						"discontinued": {
-							"date": true,
-							regex: /^[0-9]{4}(\-)[0-9]{2}(\-)[0-9]{2}$/,
+							date: true,
+							regex: /^[0-9]{2}(\/)[0-9]{2}(\/)[0-9]{4}$/,
 							greaterThan: true
 						}
 					}
