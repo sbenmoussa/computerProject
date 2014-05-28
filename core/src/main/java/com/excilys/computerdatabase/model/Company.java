@@ -70,12 +70,19 @@ public class Company {
 		}
 		
 		public CompanyBuilder id(long id){
-			this.id = id;
+			if(id!=0){
+				this.id = id;
+			}
 			return this;
 		}
 		
 		public CompanyBuilder name(String name){
-			this.setName(name);
+			if(!name.equals("Unknown")){
+				this.setName(name);
+			}
+			else{
+				this.name= null;
+			}		
 			return this;
 		}
 		public Company build(){

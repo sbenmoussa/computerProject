@@ -15,7 +15,7 @@ public class CompanyMapper {
 		mapped.setName(company.getName());
 		}catch(NullPointerException e){
 			mapped.setId(0L);
-			mapped.setName("Unoknown");
+			mapped.setName("Unknown");
 		}
 		return mapped;
 	}

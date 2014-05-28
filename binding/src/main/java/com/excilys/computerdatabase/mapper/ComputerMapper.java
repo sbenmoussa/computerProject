@@ -25,6 +25,11 @@ public class ComputerMapper {
 	}
 	
 	public Computer fromDTO(ComputerDTO computerdto){
+		if(computerdto.getCompany().getId() == 0){
+			return new Computer.ComputerBuilder().id(computerdto.getId()).name( computerdto.getName()).introduced(util.stringToDate(computerdto.getIntroduced())) 
+					.discontinued( util.stringToDate(computerdto.getDiscontinued())).company(null)
+					.build();
+		}
 		return new Computer.ComputerBuilder(computerdto.getId(), computerdto.getName(), 
 				util.stringToDate(computerdto.getIntroduced()), util.stringToDate(computerdto.getDiscontinued()), 
 				new CompanyMapper().fromDTO(computerdto.getCompany())).build();

@@ -37,7 +37,10 @@ public class ValidatorComputer  implements ConstraintValidator<ComputerValid, Co
 	 * @param d2
 	 */
 	public boolean dateOk(DateTime d1 , DateTime d2){
-		if((d2.toDate().getTime() - d1.toDate().getTime()) <= 0){
+		if((d2 == null) || (d1 == null) ){
+			return true;
+		}
+		else if((d2.toDate().getTime() - d1.toDate().getTime()) <= 0){
 			return false;
 		}
 		return true;

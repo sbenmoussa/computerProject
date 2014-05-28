@@ -9,7 +9,7 @@ public class CompanyDTO {
 
 	//@NotEmpty(message = "The Company name must not be null")
 	private String name ="";
-	@NotNull(message = "The Company id must not be NULL")
+	//@NotNull(message = "The Company id must not be NULL")
 	private Long id;
 
 	public String getName() {
