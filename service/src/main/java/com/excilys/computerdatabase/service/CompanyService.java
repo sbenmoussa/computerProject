@@ -19,78 +19,17 @@ import com.excilys.computerdatabase.model.Company;
 public class CompanyService {
 	
 	private static Logger logger = LoggerFactory.getLogger(ComputerDAO.class);
-
-	@Autowired
-	private ComputerDAO computerDao;
 	
 	@Autowired
 	private CompanyDAO companyDao;
 	
 	@Autowired
 	private LogDAO logDao;
-
-	@Transactional
-	public void insert(Company company) {	
-		try {
-			companyDao.create(company);
-			logDao.logInfo(" inséré avec succés");
-		} catch (SQLException e) {
-			logger.error("transaction annulée: "+e.getMessage());
-			System.out.println("transaction annulée: "+e.getMessage());
-			throw new RuntimeException("An error has occured",e);
-		}
-	}
-
-	@Transactional
-	public void update(Company o) {
-		try {
-			companyDao.update(o);
-			logDao.logInfo("mis a jour avec succés");
-		} catch (SQLException e) {	
-			logger.error("transaction annulée: "+e.getMessage());
-			System.out.println("transaction annulée: "+e.getMessage());
-			throw new RuntimeException("An error has occured",e);
-		}
-	}
-
-	@Transactional
-	public void delete(Long id) {
-		try {
-			companyDao.delete(id);
-			logDao.logInfo("supprimé avec succés");
-		} catch (SQLException e) {	
-			logger.error("transaction annulée: "+e.getMessage());
-			System.out.println("transaction annulée: "+e.getMessage());
-			throw new RuntimeException("An error has occured",e);
-		}
-	}
-
+	
 	@Transactional(readOnly = true)
 	public List<Company> getAll(int order, int page) {
 		try {
 			return  companyDao.getAll(order, page);	
-		}catch (SQLException e) {	
-			logger.error("transaction annulée: "+e.getMessage());
-			System.out.println("transaction annulée: "+e.getMessage());
-			throw new RuntimeException("An error has occured",e);
-		}
-	}
-
-	@Transactional(readOnly = true)
-	public List<Company> filterByName(String name, int order, int page) {
-		try {
-			return  companyDao.filterByName(name,order, page);
-		} catch (SQLException e) {	
-			logger.error("transaction annulée: "+e.getMessage());
-			System.out.println("transaction annulée: "+e.getMessage());
-			throw new RuntimeException("An error has occured",e);
-		}
-	}
-
-	@Transactional(readOnly = true)
-	public Company find(Long id)  {
-		try {
-			return  companyDao.find(id);
 		}catch (SQLException e) {	
 			logger.error("transaction annulée: "+e.getMessage());
 			System.out.println("transaction annulée: "+e.getMessage());

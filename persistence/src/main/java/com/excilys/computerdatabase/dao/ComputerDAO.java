@@ -4,13 +4,16 @@ import java.sql.SQLException;
 import java.util.List;
 
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Order;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.computerdatabase.model.Computer;
 
 @Repository
-public class ComputerDAO implements DAO<Computer>{
+public class ComputerDAO{
 	
 	@Autowired
 	private SessionFactory sessionFactory;
@@ -28,49 +31,47 @@ public class ComputerDAO implements DAO<Computer>{
 		return sessionFactory.getCurrentSession().createQuery("delete from Computer computer where computer.id= "+id).executeUpdate() ==1;
 	}
 
-	public Computer find(long id) throws SQLException {	
-		return (Computer) sessionFactory.getCurrentSession().get(Computer.class, id);
+	public Computer find(long id) throws SQLException {
+		return (Computer) sessionFactory.getCurrentSession().createCriteria(Computer.class).add(Restrictions.eq("id",id)).uniqueResult();
 	}
 
 	@SuppressWarnings("unchecked")
 	public List<Computer> getAll(int order, int page) throws SQLException {
-		StringBuilder query = new StringBuilder("from Computer as computer left outer join fetch computer.company as company ");
+		String search = "name";
 		switch(order){
-		case 0 : query.append(" order by computer.name");
+		case 0 :search = "name";
 		break;
-		case 1: query.append(" order by computer.introduced");
+		case 1: search = "introduced";
 		break;
-		case 2: query.append(" order by computer.discontinued");
+		case 2: search = "discontinued";
 		break;
-		case 3:query.append(" order by computer.company.name");
+		case 3: search = "company.name";
 		break;
 		}
-		return (List<Computer>) sessionFactory.getCurrentSession().createQuery(query.toString()).setFirstResult(page*10).setMaxResults(10).list();
+		return (List<Computer>) sessionFactory.getCurrentSession().createCriteria(Computer.class).addOrder( Order.asc(search)).setFirstResult(page*10).setMaxResults(10).list();
 	}
 
-	
 	@SuppressWarnings("unchecked")
 	public List<Computer> filterByName(String name, int order, int page) throws SQLException {
-		System.out.println("nom du computer recherché "+name);
-		StringBuilder query= new StringBuilder("from Computer as computer left outer join fetch computer.company as company where computer.name like '%"+name+"%' ");
+		String search = "name";
 		switch(order){
-		case 0 : query.append(" order by computer.name") ;
+		case 0 :search = "name";
 		break;
-		case 1: query.append(" order by computer.introduced");
+		case 1: search = "introduced";
 		break;
-		case 2: query.append(" order by computer.discontinued");
+		case 2: search = "discontinued";
 		break;
-		case 3:query.append(" order by computer.company.name");
+		case 3: search = "company";
 		break;
 		}
-		return (List<Computer>) sessionFactory.getCurrentSession().createQuery(query.toString()).setFirstResult(page*10).setMaxResults(10).list();
+		return (List<Computer>) sessionFactory.getCurrentSession().createCriteria(Computer.class).addOrder( Order.asc(search)).add(Restrictions.like("name","%"+name+"%")).setFirstResult(page*10).setMaxResults(10).list();
 	}
 
-	@Override
 	public long count(String name) throws SQLException {
+		
 		if(name.equals("") ||( name == null)){
-			return (long) sessionFactory.getCurrentSession().createQuery("select count(computer) from Computer as computer ").uniqueResult();
+			return (long) sessionFactory.getCurrentSession().createCriteria(Computer.class).setProjection( Projections.rowCount() ).uniqueResult();
 		}
-		return (long) sessionFactory.getCurrentSession().createQuery("select count(computer) from Computer as computer where computer.name like '%"+name+"%'").uniqueResult();
+		return (long) sessionFactory.getCurrentSession().createCriteria(Computer.class).setProjection( Projections.rowCount() ).add(Restrictions.like("name","%"+name+"%")).uniqueResult();
 	}
 }
