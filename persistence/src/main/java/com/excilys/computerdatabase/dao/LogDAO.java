@@ -3,10 +3,8 @@ package com.excilys.computerdatabase.dao;
 import java.sql.SQLException;
 import java.util.Date;
 
-import javax.sql.DataSource;
-
+import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 
@@ -14,14 +12,12 @@ import org.springframework.stereotype.Repository;
 public class LogDAO {
 	
 	@Autowired
-	DataSource datasource;
-
-	private JdbcTemplate jt ;
+	private SessionFactory sessionFactory;
 	
 	public void logInfo(String message) throws SQLException {
-		jt  = new JdbcTemplate(datasource);	
 		String query = "insert into log4j (priority, category, thread, message, layout_msg, timestamp, addon) VALUES(?,?,?,?,?,?,?)";
-		int result = jt.update(query, "INFO", "operation", message, "INFO", "INFO", new java.sql.Date(new Date().getTime())+"", "INFO");
-		System.out.println("resultat de l'insertion du log "+result);
+		int result = sessionFactory.getCurrentSession().createSQLQuery(query).setString(1, "INFO").setString(1, "operation").setString(1, message)
+		.setString(1, "INFO").setString(1, "INFO").setString(1,  new java.sql.Date(new Date().getTime())+"").setString(1, "INFO").executeUpdate();
+		System.out.println("result de l'insertion du log "+result);
 	}
 }
