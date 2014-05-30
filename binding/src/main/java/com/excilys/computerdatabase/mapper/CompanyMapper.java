@@ -21,6 +21,7 @@ public class CompanyMapper {
 	}
 	
 	public Company fromDTO(CompanyDTO companydto){
+		//return null;
 		return new Company.CompanyBuilder().id(companydto.getId()).name(companydto.getName()).build();
 	}
 	

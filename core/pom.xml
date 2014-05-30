@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.excilys</groupId>
 		<artifactId>computer-database</artifactId>
-		<version>3.3.1-RELEASE</version>
+		<version>3.4.0-RELEASE</version>
 	</parent>
 	<groupId>com.excilys.computerdatabase</groupId>
 	<artifactId>core</artifactId>
@@ -27,38 +27,12 @@
 			<groupId>org.jadira.usertype</groupId>
 			<artifactId>usertype.core</artifactId>
 		</dependency>
-
-		<!-- QueryDSL Dependencies -->
+		
+		<!-- Spring DATA JPA -->
 		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-apt</artifactId>
-			<scope>provided</scope>
+			<groupId>org.springframework.data</groupId>
+			<artifactId>spring-data-jpa</artifactId>
 		</dependency>
 		
-		
 	</dependencies>
-	<build>
-		<plugins>
-
-			<!-- Used by Querydsl (uses the Annotation Processing Tool of Java 6) -->
-			<plugin>
-				<groupId>com.mysema.maven</groupId>
-				<artifactId>apt-maven-plugin</artifactId>
-				<version>1.1.1</version>
-				<executions>
-					<execution>
-						<goals>
-							<goal>process</goal>
-						</goals>
-						<configuration>
-							<outputDirectory>target/generated-sources/java</outputDirectory>
-							<processor>com.mysema.query.apt.jpa.JPAAnnotationProcessor</processor>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
-
-
 </project>

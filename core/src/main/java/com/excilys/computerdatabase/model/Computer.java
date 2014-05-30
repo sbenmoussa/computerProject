@@ -15,10 +15,11 @@ import org.joda.time.DateTime;
 
 @Entity
 @Table(name = "computer")
-public class Computer {
+public class Computer{
 
 	@Id
 	@GeneratedValue( strategy = GenerationType.IDENTITY )
+	@Column(name = "id")
 	private long id;
 	
 	@Column( name = "name" )
@@ -48,7 +49,7 @@ public class Computer {
 		new Computer.ComputerBuilder().build();
 	}
 	
-	public long getId() {
+	public Long getId() {
 		return id;
 	}
 	public void setId(long id) {
