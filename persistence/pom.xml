@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.excilys</groupId>
 		<artifactId>computer-database</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.1-RELEASE</version>
 	</parent>
 	<groupId>com.excilys.computerdatabase</groupId>
 	<artifactId>persistence</artifactId>
@@ -58,14 +58,14 @@
 
 		<!-- QueryDSL Dependencies -->
 		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
+		    <groupId>com.mysema.querydsl</groupId>
 			<artifactId>querydsl-apt</artifactId>
 			<scope>provided</scope>
 		</dependency>
 
 		<dependency>
-			<groupId>com.mysema.querydsl</groupId>
-			<artifactId>querydsl-hql</artifactId>
+		     <groupId>com.mysema.querydsl</groupId>
+			<artifactId>querydsl-jpa</artifactId>
 		</dependency>
 	</dependencies>
 </project>

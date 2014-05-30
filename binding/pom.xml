@@ -6,7 +6,7 @@
 	<parent>
 		<groupId>com.excilys</groupId>
 		<artifactId>computer-database</artifactId>
-		<version>3.3.1</version>
+		<version>3.3.1-RELEASE</version>
 	</parent>
 	<groupId>com.excilys.computerdatabase</groupId>
 	<artifactId>binding</artifactId>
@@ -16,19 +16,19 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
-		
+
 		<!-- Use Joda Time -->
 		<dependency>
 			<groupId>joda-time</groupId>
 			<artifactId>joda-time</artifactId>
 		</dependency>
-		
-		<!-- Internal Dependancy-->
+
+		<!-- Internal Dependancy -->
 		<dependency>
 			<groupId>com.excilys.computerdatabase</groupId>
 			<artifactId>core</artifactId>
 		</dependency>
-		
+
 		<!-- Validation -->
 		<dependency>
 			<groupId>org.hibernate</groupId>

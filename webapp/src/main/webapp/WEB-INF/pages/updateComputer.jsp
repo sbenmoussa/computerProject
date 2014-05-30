@@ -57,7 +57,7 @@
 			<div class="clearfix">
 				<label for="introduced"><spring:message code="introducedText" text="introduced" />:</label>
 				<div class="input">
-					<form:input path="introduced" type="date" name="introduced" id="introduced" value='${comp.introduced}'/> 
+					<form:input path="introduced" type="text" name="introduced" id="introduced" value='${comp.introduced}'/> 
 					<form:errors path="introduced" cssClass="error" />
 					<span class="help-inline"><spring:message code="pattern.date.string" text="YYYY-MM-DD" /></span>
 				</div>
@@ -65,7 +65,7 @@
 			<div class="clearfix">
 				<label for="discontinued"><spring:message code="discontinuedText" text="discontinued" />:</label>
 				<div class="input">
-					<form:input path="discontinued" type="date" name="discontinued" id="discontinued" value='${comp.discontinued}'/>
+					<form:input path="discontinued" type="text" name="discontinued" id="discontinued" value='${comp.discontinued}'/>
 					<form:errors path="discontinued" cssClass="error" />
 					<span class="help-inline"><spring:message code="pattern.date.string" text="YYYY-MM-DD" /></span>
 				</div>
@@ -136,12 +136,10 @@
 						"required": true
 					},
 					"introduced": {
-						"date": true,
 						regex: /^[0-9]{2}(\/)[0-9]{2}(\/)[0-9]{4}$/,
 						greaterThan: true
 					},
 					"discontinued": {
-						"date": true,
 						regex: /^[0-9]{2}(\/)[0-9]{2}(\/)[0-9]{4}$/,
 						greaterThan: true
 					}
