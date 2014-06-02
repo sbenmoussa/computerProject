@@ -3,6 +3,7 @@
 <%@ page import="java.util.*" %>
 <%@ taglib uri="/WEB-INF/utile.tld" prefix="utile" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="security" uri="http://www.springframework.org/security/tags" %>
 
 <section id="main">
 
@@ -40,7 +41,9 @@
 				value=<spring:message code="filterbutton" text="filter" />
 				class="btn primary">
 		</form>
-		<a class="btn success" id="add" href="addComputer"><spring:message code="addsubtitle" text="add Computer" /></a>
+		<security:authorize ifAnyGranted="ROLE_ADMIN">
+			<a class="btn success" id="add" href="addComputer"><spring:message code="addsubtitle" text="add Computer" /></a>
+		</security:authorize>
 	</div>
 		<script>
 			function callServlet(monForm,idC){	 
@@ -66,12 +69,15 @@
 			<tbody>
 				<c:forEach items="${ computers }" var="computer"  begin='0' end='${computers.size()}'>
 					<tr>
-						<td><a href='updateComputer?idUpdate= ${ computer.id }' onclick="">${ computer.name }</a></td>
+						<td><a href='updateComputer?idUpdate= ${ computer.id }' >${ computer.name }</a></td>
 						<td>${ computer.introduced }</td>
 						<td>${ computer.discontinued}</td>
 						<td>${ computer.company.name }</td>
-						<td><input type="button" name=${ computer.id }
-							id=${ computer.id } value=<spring:message code="delete" text="delete" /> class="btn btn-ttc" style="color:red" onclick='callServlet(this.form,${ computer.id });' /></td>
+						<security:authorize ifAnyGranted="ROLE_ADMIN">
+							<td><input type="button" name=${ computer.id }
+								id=${ computer.id } value=<spring:message code="delete" text="delete" /> class="btn btn-ttc" style="color:red" onclick='callServlet(this.form,${ computer.id });' />
+							</td>
+						</security:authorize>			
 					</tr>
 				</c:forEach>
 

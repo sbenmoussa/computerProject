@@ -20,6 +20,9 @@ class CustomErrorController {
 		// retrieve some useful information from the request
 		Integer statusCode = (Integer) request.getAttribute("javax.servlet.error.status_code");
 		Throwable throwable = (Throwable) request.getAttribute("javax.servlet.error.exception");
+		System.out.println("--------------------------------------------- ");
+		System.out.println("L'UTILISATEUR CONNECTÉ EST "+request.getRemoteUser()+" si user "+request.isUserInRole("ROLE_USER")+" utilisateur principale "+request.getUserPrincipal()+" est secure "+request.isSecure());
+		System.out.println("--------------------------------------------- ");
 		// String servletName = (String) request.getAttribute("javax.servlet.error.servlet_name");
 		String exceptionMessage = getExceptionMessage(throwable, statusCode);
 
@@ -27,10 +30,13 @@ class CustomErrorController {
 		if (requestUri == null) {
 			requestUri = "Unknown";
 		}
-		String message = MessageFormat.format("{0} returned for {1} with message {3}",
-				statusCode, requestUri, exceptionMessage
+		String message = MessageFormat.format(" An error {0} returned for {1} with message {3}",
+				statusCode, requestUri, (!exceptionMessage.isEmpty())? exceptionMessage: "none"
 				);
-
+		
+		System.out.println("-------erreur--------------- ");
+		System.out.println(message);
+		System.out.println("--------------------------------------------- ");
 		model.addAttribute("errorMessage", message); 
 		request.setAttribute("errorMessage", message);
 		return "customError";

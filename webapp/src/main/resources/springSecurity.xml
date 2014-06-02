@@ -6,30 +6,30 @@
 						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 						http://www.springframework.org/schema/security
 						http://www.springframework.org/schema/security/spring-security-3.2.xsd">
-
-	<http auto-config='true'>
-		<intercept-url pattern="/**" access="ROLE_DEFAULT"/>
-		<http-basic/>
-		<logout logout-success-url="/"/>
+	
+	<http auto-config='true' access-denied-page="/index.jsp" >
+<!-- 		<session-management ><concurrency-control max-sessions="1" error-if-maximum-exceeded="true"/> </session-management> -->
+		
+		<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
+		<intercept-url pattern="/addComputer" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/updateComputer" access="ROLE_ADMIN"/>
+		<intercept-url pattern="/**" access="ROLE_DEFFAULT, ROLE_ADMIN, ROLE_USER"/>
+		<form-login login-page="/login.jsp" default-target-url="/index.jsp" always-use-default-target="true"/>
+		<logout logout-success-url="/login.jsp"/>
 	</http>
 	
-	<authentication-manager>
+	
+	
+	<authentication-manager>		
+		<!-- CONFIGURATION D'UN FOURNISSER D'IDENTITÉ = BASE DE DONNÉES -->
 		<authentication-provider>
-			<user-service>
-				<user password="root" name="admin" authorities="ROLE_DEFAULT, ROLE_ADMIN"/>
-				<user password="sana" name="sana" authorities="ROLE_DEFAULT"/>
-				<user password="user" name="user" authorities="ROLE_USER"/>
-			</user-service>
+			<jdbc-user-service data-source-ref="dataSource" 
+			users-by-username-query="SELECT username, password, enabled FROM user  where username=?"
+			authorities-by-username-query="SELECT username, role as 'authority' FROM user where username=?"/>
 		</authentication-provider>
 	</authentication-manager>
 	
 	<global-method-security secured-annotations="enabled" jsr250-annotations="enabled">
 		
 	</global-method-security>
-	
-	<!-- CONFIGURATION D'UN FOURNISSER D'IDENTITÉ = BASE DE DONNÉES -->
-<!-- 	<authentication-provider> -->
-<!-- 		<jdbc-user-service data-source-ref="dataSource"/> -->
-<!-- 	</authentication-provider> -->
-
 </beans:beans>	

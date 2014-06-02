@@ -27,7 +27,7 @@ public class Dashboard {
 
 	@RequestMapping(value="/dashboard",method = RequestMethod.GET)
 	public void get(ModelMap model, String order,  String search , Integer page){
-
+	
 		List<ComputerDTO> computers = new ArrayList<ComputerDTO>();
 		Page<Computer> pages;
 		long count ;

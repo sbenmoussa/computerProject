@@ -36,6 +36,13 @@
 	  <location>/error</location>
 	 </error-page>
 	  
+	  <error-page>
+	  <!-- Define error page to react on Java exception -->
+	  <exception-type>org.springframework.security.access.AccessDeniedException</exception-type>
+	  <!-- The location of the resource to display in response to the error will point to the Spring MVC handler method -->
+	  <location>/login.jsp</location>
+	 </error-page>
+	  
 	 <error-page>
 	  <error-code>404</error-code>
 	  <location>/error</location>

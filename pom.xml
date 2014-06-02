@@ -202,6 +202,11 @@
 		        <artifactId>spring-security-core</artifactId>
 		        <version>${springSecurityVersion}</version>
 		    </dependency>
+		    <dependency>
+			    <groupId>org.springframework.security</groupId>
+			    <artifactId>spring-security-taglibs</artifactId>
+			    <version>${springSecurityVersion}</version>
+		</dependency>
 		</dependencies>
 	</dependencyManagement>
 
