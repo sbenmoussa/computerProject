@@ -21,10 +21,38 @@
 		<dependency>
 			<groupId>com.excilys.computerdatabase</groupId>
 			<artifactId>core</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
 		<dependency>
 			<groupId>com.excilys.computerdatabase</groupId>
 			<artifactId>persistence</artifactId>
+			<exclusions>
+				<exclusion>
+					<artifactId>spring-core</artifactId>
+					<groupId>org.springframework</groupId>
+				</exclusion>
+			</exclusions>
 		</dependency>
+		
+		<!-- Spring security for annotatin Secured -->
+		 <dependency>
+		        <groupId>org.springframework.security</groupId>
+		        <artifactId>spring-security-core</artifactId>
+		        <exclusions>
+		        	<exclusion>
+		        		<artifactId>spring-core</artifactId>
+		        		<groupId>org.springframework</groupId>
+		        	</exclusion>
+		        </exclusions>
+		 </dependency>		 	   		
+		 <dependency>
+		 	<groupId>org.springframework</groupId>
+		 	<artifactId>spring-core</artifactId> 	
+		 </dependency>
 	</dependencies>
 </project>

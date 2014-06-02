@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib  uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,6 +13,7 @@
 </head>
 <body>
 	<header class="topbar">
+		<a href="<c:url value='j_spring_security_logout'/>" > <spring:message code="logout" text="Logout" /></a>
 		<h1 class="fill">
 			<a href="dashboard"><spring:message code="header" text="default text" /> </a>	<a href="?language=fr_FR"><img src="images/fr.jpg" style="position:relative;left:5px;" height="25" width="25" /> </a>  <a href="?language=en"><img src="images/en.jpeg" style="position:relative;left:5px;" height="25" width="25" /></a>
 		</h1>
