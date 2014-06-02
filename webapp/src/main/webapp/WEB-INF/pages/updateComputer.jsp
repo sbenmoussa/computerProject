@@ -110,7 +110,7 @@
 			else if (regexp.global)
 				regexp.lastIndex = 0;
 			return this.optional(element) || regexp.test(value);
-			},"erreur expression reguliere"
+			},"Invalid format Date"
 		);
 		
 		jQuery.validator.addMethod('greaterThan',function(value, element, param) {

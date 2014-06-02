@@ -55,12 +55,12 @@
 				<tr>
 					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
-					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="?page=${page}&order=0&search=${search}"><spring:message code="computername" text="name" /></a></th>
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="?page=${page}&order=1&search=${search}"><spring:message code="introducedText" text="introduced" /></a></th>
+					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="?page=${page}&order=name&search=${search}"><spring:message code="computername" text="name" /></a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="?page=${page}&order=introduced&search=${search}"><spring:message code="introducedText" text="introduced" /></a></th>
 					<!-- Table header for Discontinued Date -->
-					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=2&search=${search}"><spring:message code="discontinuedText" text="discontinued" /></a></th>
+					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=discontinued&search=${search}"><spring:message code="discontinuedText" text="discontinued" /></a></th>
 					<!-- Table header for Company -->
-					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=3&search=${search}"><spring:message code="company" text="company" /></a></th>
+					<th style="color:red; text-align: center; padding: 8px; background: #b9c9fe;" ><a href="?page=${page}&order=company_id&search=${search}"><spring:message code="company" text="company" /></a></th>
 				</tr>
 			</thead>
 			<tbody>

@@ -10,9 +10,5 @@ import com.excilys.computerdatabase.model.Computer;
 @Repository
 public interface ComputerDAO extends PagingAndSortingRepository<Computer, Long>{
 
-	public Computer findOne(Long id);
-
-	Page<Computer>  findAll(Pageable pageable);
-
 	public Page<Computer> findAllByName(String name, Pageable pageable) ;
 }

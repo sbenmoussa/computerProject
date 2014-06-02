@@ -4,35 +4,38 @@
 	<groupId>com.excilys</groupId>
 	<artifactId>computer-database</artifactId>
 	<packaging>pom</packaging>
-	<version>3.3.1-RELEASE</version>
+	<version>3.4.0-RELEASE</version>
 	<name>Computer-database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<version>3.3.1-RELEASE</version>
+		<version>3.4.0-RELEASE</version>
 
 		<!-- Spring -->
 		<spring.version>4.0.4.RELEASE</spring.version>
-		<spring.data.version>1.4.3.RELEASE</spring.data.version>
-
+		<spring.data.version>1.6.0.RELEASE</spring.data.version>
+		
+		<!-- Hibernate -->
 		<hibernate.version>4.3.1.Final</hibernate.version>
-
+		
+		<!-- Logging -->
 		<logback.version>1.1.2</logback.version>
 		<slf4j.version>1.7.7</slf4j.version>
-
+		<commons.logging.version>99.0-does-not-exist</commons.logging.version>
+		
+		<!--  JodaTime -->
 		<jodaTime.version>2.3</jodaTime.version>
 		<jadira.version>3.2.0.GA</jadira.version>
 
+		<!-- DB -->
 		<guava.version>17.0</guava.version>
 		<boneCP.version>0.8.0.RELEASE</boneCP.version>
 		<mysql.version>5.1.30</mysql.version>
-
+		
+		<!-- Web -->
 		<javax.servlet.version>2.4</javax.servlet.version>
 		<javax.servlet.api.version>2.0</javax.servlet.api.version>
 		<jstl.version>1.2</jstl.version>
-
-		<commons.logging.version>99.0-does-not-exist</commons.logging.version>
-
-		<querydsl.version>3.3.4</querydsl.version>
+		
 	</properties>
 
 	<repositories>
@@ -71,6 +74,8 @@
 				<artifactId>spring-orm</artifactId>
 				<version>${spring.version}</version>
 			</dependency>
+			
+			<!-- Spring DATA JPA -->
 			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-jpa</artifactId>
@@ -176,21 +181,7 @@
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
 				<version>${commons.logging.version}</version>
-			</dependency>
-
-
-			<!-- QueryDSL Dependencies -->
-			<dependency>
-				<groupId>com.mysema.querydsl</groupId>
-				<artifactId>querydsl-apt</artifactId>
-				<version>${querydsl.version}</version>
-			</dependency>
-			<dependency>
-				<groupId>com.mysema.querydsl</groupId>
-				<artifactId>querydsl-jpa</artifactId>
-				<version>${querydsl.version}</version>
-			</dependency>
-
+			</dependency>			
 		</dependencies>
 
 	</dependencyManagement>
