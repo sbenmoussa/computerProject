@@ -6,13 +6,13 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.computerdatabase.DTO.ComputerDTO;
+import com.excilys.computerdatabase.bindingUtil.DateUtil;
 import com.excilys.computerdatabase.model.Computer;
-import com.excilys.computerdatabase.util.Util;
 
 public class ComputerMapper {
 
 	@Autowired
-	private Util util;
+	private DateUtil util;
 	
 	public ComputerDTO toDTO(Computer computer){
 		ComputerDTO mapped = new ComputerDTO();
@@ -26,12 +26,12 @@ public class ComputerMapper {
 	
 	public Computer fromDTO(ComputerDTO computerdto){
 		if(computerdto.getCompany().getId() == 0){
-			return new Computer.ComputerBuilder().id(computerdto.getId()).name( computerdto.getName()).introduced(util.stringToDate(computerdto.getIntroduced())) 
-					.discontinued( util.stringToDate(computerdto.getDiscontinued())).company(null)
+			return  Computer.builder().id(computerdto.getId()).name( computerdto.getName()).introduced(util.stringToDate(computerdto.getIntroduced())) 
+					.discontinued(util.stringToDate(computerdto.getDiscontinued())).company(null)
 					.build();
 		}
-		return new Computer.ComputerBuilder(computerdto.getId(), computerdto.getName(), 
-				util.stringToDate(computerdto.getIntroduced()), util.stringToDate(computerdto.getDiscontinued()), 
+		return Computer.builder().id(computerdto.getId()).name( computerdto.getName())
+				.introduced(util.stringToDate(computerdto.getIntroduced())).discontinued(util.stringToDate(computerdto.getDiscontinued())).company( 
 				new CompanyMapper().fromDTO(computerdto.getCompany())).build();
 	}
 	
