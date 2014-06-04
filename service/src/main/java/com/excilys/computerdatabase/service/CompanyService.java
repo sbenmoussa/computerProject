@@ -17,7 +17,7 @@ public class CompanyService {
 	@Autowired
 	private CompanyDAO companyDao;
 	
-	@Secured(value={"IS_AUTHENTICATED_ANONYMOUSLY", "ROLE_ADMIN", "ROLE_USER"})
+	@Secured(value={ "ROLE_ADMIN", "ROLE_USER"})
 	@Transactional(readOnly = true)
 	public List<Company> getAll() {
 		return  companyDao.findAll();	

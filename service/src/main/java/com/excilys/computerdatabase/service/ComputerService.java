@@ -61,20 +61,20 @@ public class ComputerService {
 		return true;
 	}
 
-	@Secured(value={"IS_AUTHENTICATED_ANONYMOUSLY", "ROLE_ADMIN", "ROLE_USER"})
+	@Secured(value={"ROLE_ADMIN", "ROLE_USER"})
 	@Transactional (readOnly=true)
 	public   Page<Computer> getAll(String order, int page) {	
 		System.out.println("numéro de page "+page);
 		return computerDao.findAll(new PageRequest(page, 10, Sort.Direction.ASC, order));	
 	}
 
-	@Secured(value={"IS_AUTHENTICATED_ANONYMOUSLY", "ROLE_ADMIN", "ROLE_USER"})
+	@Secured(value={"ROLE_ADMIN", "ROLE_USER"})
 	@Transactional (readOnly = true)
 	public  Page<Computer> filterByName(String name, String order, int page) {
 		return computerDao.findAllByName(name,new PageRequest(page, 10, Sort.Direction.ASC, order));	
 	}
 
-	@Secured(value={"IS_AUTHENTICATED_ANONYMOUSLY", "ROLE_ADMIN", "ROLE_USER"})
+	@Secured(value={"ROLE_ADMIN", "ROLE_USER"})
 	@Transactional (readOnly = true)
 	public Computer find(Long id)  {
 		return computerDao.findOne(id);
