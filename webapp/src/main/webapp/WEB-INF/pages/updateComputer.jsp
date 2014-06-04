@@ -4,23 +4,7 @@
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
 
-<style>
-.error {
-	color: #ff0000;
-}
- 
-.errorblock {
-	color: #000;
-	background-color: #ffEEEE;
-	border: 3px solid #ff0000;
-	padding: 8px;
-	margin: 16px;
-}
-</style>
-
 <section id="main">
-
-
 
 	<c:if test="${ computer == null }" var="result">
 		<%
@@ -30,21 +14,11 @@
 
 	<h1><spring:message code="updatesubtitle" text="update computer" /></h1>
 
-	<c:if test='${ (update != null)  && (update =="true") }' var="result">
-		<h2 style="color: red"><spring:message code="successupdate" text="success" /><a href="dashboard" class="btn">return to dashboard</a></h2> 
-	</c:if>
-	
-	<c:if test='${ (update != null)  && (update=="false") }' var="result">
-		<h2 style="color: red" ><spring:message code="failupdate" text="fail" /><a href="dashboard" class="btn">dashboard</a></h2>
-	</c:if>
-
 	<c:if test="${ computer != null }" var="result">
 	<form:form action="updateComputer"  commandName="computer"  method="POST" id="formulaire">
 	<form:errors path="*" cssClass="errorblock" element="div" />
 		<fieldset>
 			<form:hidden path="id" name="id" id="id" value='${id}' />
-<%-- 			<c:set var="pattern"><spring:message code="pattern.date.regex"/></c:set> --%>
-<%-- 			<input id="pattern" type="hidden" value="${pattern}"/> --%>
 			<div class="clearfix">
 				<label for="name"><spring:message code="computername" text="name" />:</label>
 				<div class="input">
@@ -114,16 +88,11 @@
 		);
 		
 		jQuery.validator.addMethod('greaterThan',function(value, element, param) {
-			console.log("verification de validité de date discontinued");
-			console.log("discontinued entré = "+$(document.getElementById("discontinued")).val()+" ce qui donne apres parse: "+Date.parse($(document.getElementById("discontinued")).val()));
-
 			if ( (!(isNaN(Date.parse($(document.getElementById("introduced")).val())))) && (!(isNaN(Date.parse($(document.getElementById("discontinued")).val())))) ){
 				console.log("les deux dates sont rentré donc comparés");
 				return (Date.parse($(document.getElementById("introduced")).val()) <= Date.parse($(document.getElementById("discontinued")).val()));
 			}
 			else{
-				//Ici le cas ou un des champs date est null ou bien qu'elle n'a pas encore été rempli CEci est permis
-				console.log("une seule date entrée donc pas de comparaison");
 				return true;
 			}
 			},jQuery.validator.format('Discontinued date must be after introduced date')

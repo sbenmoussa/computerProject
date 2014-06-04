@@ -10,3 +10,15 @@
 .paginatorList li { float: left; padding: 2px 4px; font-size: 1.2em; }
 li.paginatorCurr { font-weight: bold; font-size: 1.5em; margin-top: -2px; }
 li.paginatorLast { float: none; }
+
+.error {
+	color: #ff0000;
+}
+
+.errorblock {
+	color: #000;
+	background-color: #ffEEEE;
+	border: 3px solid #ff0000;
+	padding: 8px;
+	margin: 16px;
+}
