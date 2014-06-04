@@ -15,7 +15,7 @@
 	
 	
 	<!-- Internal Beans -->
-	<bean class="com.excilys.computerdatabase.util.Util" id="util"></bean>
+	<bean class="com.excilys.computerdatabase.bindingUtil.DateUtil" id="util"></bean>
 	<bean class="com.excilys.computerdatabase.mapper.ComputerMapper" id="ComputerMapper"></bean>
 	<bean class="com.excilys.computerdatabase.mapper.CompanyMapper" id="CompanyMapper"></bean>
 	
@@ -23,6 +23,6 @@
 	<import resource="classpath:ValidationContext.xml"/>
 	<import resource="classpath:springSecurity.xml"/>
 <!-- 	<import resource="classpath:clientWebService.xml"/> -->
-	<import resource="classpath:WebServiceContext.xml"/>
+<!-- 	<import resource="classpath:WebServiceContext.xml"/> -->
 
 </beans>

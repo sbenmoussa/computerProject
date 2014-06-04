@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys</groupId>
 	<artifactId>computer-database</artifactId>
@@ -15,16 +16,16 @@
 		<springVersion>4.0.5.RELEASE</springVersion>
 		<springDataVersion>1.6.0.RELEASE</springDataVersion>
 		<springSecurityVersion>3.2.4.RELEASE</springSecurityVersion>
-		
+
 		<!-- Hibernate -->
 		<hibernateVersion>4.3.1.Final</hibernateVersion>
-		
+
 		<!-- Logging -->
 		<logbackVersion>1.1.2</logbackVersion>
 		<slf4jVersion>1.7.7</slf4jVersion>
 		<commonsLoggingVersion>99.0-does-not-exist</commonsLoggingVersion>
-		
-		<!--  JodaTime -->
+
+		<!-- JodaTime -->
 		<jodaTimeVersion>2.3</jodaTimeVersion>
 		<jadiraVersion>3.2.0.GA</jadiraVersion>
 
@@ -32,19 +33,19 @@
 		<guavaVersion>17.0</guavaVersion>
 		<boneCPVersion>0.8.0.RELEASE</boneCPVersion>
 		<mysqlVersion>5.1.30</mysqlVersion>
-		
+
 		<!-- Web -->
 		<javaxServletVersion>2.4</javaxServletVersion>
 		<javaxServletApiVersion>2.0</javaxServletApiVersion>
 		<jstlVersion>1.2</jstlVersion>
-		
+
 		<!-- WebService -->
 		<springRemoteVersion>2.0.8</springRemoteVersion>
-		<jaxWsVersion>2.2.10-b140319.1121</jaxWsVersion>
+		<jaxWsVersion>2.2.8</jaxWsVersion>
 		<springWebServiceVersion>2.2.0.RELEASE</springWebServiceVersion>
 		<cxfVersion>2.2.3</cxfVersion>
-		
-		
+
+
 	</properties>
 
 	<repositories>
@@ -79,19 +80,43 @@
 				<artifactId>spring-orm</artifactId>
 				<version>${springVersion}</version>
 			</dependency>
-			
+
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
 				<version>${springVersion}</version>
 			</dependency>
-			
+
 			<dependency>
-			  <groupId>org.springframework</groupId>
-			  <artifactId>spring-beans</artifactId>
-			  <version>${springVersion}</version>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-beans</artifactId>
+				<version>${springVersion}</version>
 			</dependency>
-			
+
+			<dependency>
+				<groupId>org.jvnet.jax-ws-commons.spring</groupId>
+				<artifactId>jaxws-spring</artifactId>
+				<version>1.8</version>
+				<exclusions>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-core</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.springframework</groupId>
+						<artifactId>spring-context</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>com.sun.xml.stream.buffer</groupId>
+						<artifactId>streambuffer</artifactId>
+					</exclusion>
+					<exclusion>
+						<groupId>org.jvnet.staxex</groupId>
+						<artifactId>stax-ex</artifactId>
+					</exclusion>
+				</exclusions>
+			</dependency>
+
 			<!-- Spring DATA JPA -->
 			<dependency>
 				<groupId>org.springframework.data</groupId>
@@ -194,40 +219,34 @@
 				<artifactId>persistence</artifactId>
 				<version>${version}</version>
 			</dependency>
-			<dependency>
-				<groupId>com.excilys.computerdatabase</groupId>
-				<artifactId>webservices</artifactId>
-				<version>${version}</version>
-			</dependency>
-		
-			<dependency>
-				<groupId>commons-logging</groupId>
-				<artifactId>commons-logging</artifactId>
-				<version>${commonsLoggingVersion}</version>
-			</dependency>			
-		
+			<!-- <dependency> -->
+			<!-- <groupId>com.excilys.computerdatabase</groupId> -->
+			<!-- <artifactId>webservices</artifactId> -->
+			<!-- <version>${version}</version> -->
+			<!-- </dependency> -->
+
 			<!-- Spring Security -->
-		    <dependency>
-		        <groupId>org.springframework.security</groupId>
-		        <artifactId>spring-security-web</artifactId>
-		        <version>${springSecurityVersion}</version>
-		    </dependency>
-		    <dependency>
-		        <groupId>org.springframework.security</groupId>
-		        <artifactId>spring-security-config</artifactId>
-		        <version>${springSecurityVersion}</version>
-		    </dependency>
-		    <dependency>
-		        <groupId>org.springframework.security</groupId>
-		        <artifactId>spring-security-core</artifactId>
-		        <version>${springSecurityVersion}</version>
-		    </dependency>
-		    <dependency>
-			    <groupId>org.springframework.security</groupId>
-			    <artifactId>spring-security-taglibs</artifactId>
-			    <version>${springSecurityVersion}</version>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-web</artifactId>
+				<version>${springSecurityVersion}</version>
 			</dependency>
-		
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-config</artifactId>
+				<version>${springSecurityVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-core</artifactId>
+				<version>${springSecurityVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.security</groupId>
+				<artifactId>spring-security-taglibs</artifactId>
+				<version>${springSecurityVersion}</version>
+			</dependency>
+
 			<!-- Web Service -->
 			<dependency>
 				<groupId>com.sun.xml.ws</groupId>
@@ -258,6 +277,7 @@
 		<dependency>
 			<groupId>commons-logging</groupId>
 			<artifactId>commons-logging</artifactId>
+			<version>${commonsLoggingVersion}</version>
 		</dependency>
 
 		<dependency>
@@ -302,6 +322,6 @@
 		<module>service</module>
 		<module>binding</module>
 		<module>webapp</module>
-    <module>webservices</module>
-  </modules>
+		<module>webservices</module>
+	</modules>
 </project>

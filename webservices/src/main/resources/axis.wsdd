@@ -1,0 +1,16 @@
+<deployment xmlns="http://xml.apache.org/axis/wsdd" 
+			xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
+	
+	<service name="ComputerWebServiceInterface" provider="java:WS" stylr="WS" use="encoded">
+		<parameter name="wsdlTargetNamespace" value="http://localhost:8080/webservices/computerWebService"></parameter>
+		<parameter name="className" value="ComputerWebServiceImpl"></parameter>
+		<parameter name="allowedMethods" value="*"></parameter>
+	</service>
+	
+	<service name="CompanyWebServiceInterface" provider="java:WS" stylr="WS" use="encoded">
+		<parameter name="wsdlTargetNamespace" value="http://localhost:8080/webservices/companyWebService"></parameter>
+		<parameter name="className" value="CompanyWebServiceImpl"></parameter>
+		<parameter name="allowedMethods" value="*"></parameter>
+	</service>
+	
+</deployment>
