@@ -1,9 +1,0 @@
-com/excilys/computerdatabase/mapper/CompanyMapper.class
-com/excilys/computerdatabase/DTO/ComputerDTO.class
-com/excilys/computerdatabase/validator/DateValidator.class
-com/excilys/computerdatabase/util/Util.class
-com/excilys/computerdatabase/validator/ValidatorComputer.class
-com/excilys/computerdatabase/DTO/CompanyDTO.class
-com/excilys/computerdatabase/validator/ComputerDate.class
-com/excilys/computerdatabase/mapper/ComputerMapper.class
-com/excilys/computerdatabase/validator/ComputerValid.class
