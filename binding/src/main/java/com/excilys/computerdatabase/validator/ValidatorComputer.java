@@ -8,14 +8,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computerdatabase.DTO.ComputerDTO;
-import com.excilys.computerdatabase.util.Util;
+import com.excilys.computerdatabase.bindingUtil.DateUtil;
 
 
 @Component
 public class ValidatorComputer  implements ConstraintValidator<ComputerValid, ComputerDTO>{
 
 	@Autowired
-	Util util;
+	DateUtil util;
 	
 	@Override
 	public void initialize(ComputerValid constraintAnnotation) {

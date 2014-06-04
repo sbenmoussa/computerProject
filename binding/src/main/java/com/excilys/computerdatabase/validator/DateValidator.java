@@ -6,7 +6,7 @@ import javax.validation.ConstraintValidatorContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.computerdatabase.util.Util;
+import com.excilys.computerdatabase.bindingUtil.DateUtil;
 
 @Component
 public class DateValidator implements ConstraintValidator<ComputerDate, String> {
@@ -14,7 +14,7 @@ public class DateValidator implements ConstraintValidator<ComputerDate, String> 
 	private String date;
 	
 	@Autowired
-	Util util;
+	DateUtil util;
 	
 	@Override
 	public void initialize(ComputerDate constraintAnnotation) {
