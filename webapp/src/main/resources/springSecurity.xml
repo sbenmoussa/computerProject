@@ -13,7 +13,7 @@
 		<intercept-url pattern="/login.jsp" access="IS_AUTHENTICATED_ANONYMOUSLY"/>
 		<intercept-url pattern="/addComputer" access="ROLE_ADMIN"/>
 		<intercept-url pattern="/updateComputer" access="ROLE_ADMIN"/>
-		<intercept-url pattern="/**" access="ROLE_DEFFAULT, ROLE_ADMIN, ROLE_USER"/>
+		<intercept-url pattern="/**" access="ROLE_DEFAULT, ROLE_ADMIN, ROLE_USER"/>
 		<form-login login-page="/login.jsp" default-target-url="/index.jsp" always-use-default-target="true"/>
 		<logout logout-success-url="/login.jsp"/>
 	</http>

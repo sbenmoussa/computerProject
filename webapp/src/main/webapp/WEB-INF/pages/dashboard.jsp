@@ -56,7 +56,6 @@
 		<table class="computers zebra-striped" style='font-family: "Lucida Sans Unicode", "Lucida Grande", Sans-Serif; font-size: 12px; margin: 10px 0; width: 100%; text-align: center; border-collapse: collapse;'>
 			<thead>
 				<tr>
-					<!-- Variable declarations for passing labels as parameters -->
 					<!-- Table header for Computer Name -->
 					<th style="color:green; text-align: center;  padding: 8px; background: #b9c9fe;" > <a href="?page=${page}&order=name&search=${search}"><spring:message code="computername" text="name" /></a></th>
 					<th style="color:green; text-align: center; padding: 8px; background: #b9c9fe; " ><a href="?page=${page}&order=introduced&search=${search}"><spring:message code="introducedText" text="introduced" /></a></th>
@@ -87,8 +86,6 @@
 				</tr> 
 			</tbody>
 		</table>
-		<!--  begin="${page * 10}" end="${page + 9}	-->
-		
 		
 		<c:choose>
 			<c:when test='${search != null}'>
@@ -104,5 +101,4 @@
 	</form>
 		
 </section>
-<%-- 						<h1>Current Locale : ${pageContext.response.locale}</h1> --%>
 <jsp:include page="include/footer.jsp" />
