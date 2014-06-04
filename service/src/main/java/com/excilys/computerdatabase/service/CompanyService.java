@@ -19,7 +19,7 @@ public class CompanyService {
 	
 	@Secured(value={"IS_AUTHENTICATED_ANONYMOUSLY", "ROLE_ADMIN", "ROLE_USER"})
 	@Transactional(readOnly = true)
-	public List<Company> getAll(int order, int page) {
+	public List<Company> getAll() {
 		return  companyDao.findAll();	
 	}
 }

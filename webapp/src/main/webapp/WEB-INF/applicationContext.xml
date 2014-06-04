@@ -22,5 +22,7 @@
 	<import resource="classpath:databaseContext.xml"/>
 	<import resource="classpath:ValidationContext.xml"/>
 	<import resource="classpath:springSecurity.xml"/>
+<!-- 	<import resource="classpath:clientWebService.xml"/> -->
+	<import resource="classpath:WebServiceContext.xml"/>
 
 </beans>

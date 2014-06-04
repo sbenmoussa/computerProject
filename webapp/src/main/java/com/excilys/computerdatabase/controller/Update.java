@@ -45,7 +45,7 @@ public class Update {
 		if((idUpdate != null) && (!idUpdate.equals(""))){
 			cp = computerService.find(idUpdate);
 			ComputerDTO comp  = mapperComputer.toDTO(cp);
-			companies = mapperCompany.toDTOList( companyService.getAll(0,0));
+			companies = mapperCompany.toDTOList( companyService.getAll());
 			model.addAttribute("companies", companies);
 			model.addAttribute("comp", comp);
 			return cp;

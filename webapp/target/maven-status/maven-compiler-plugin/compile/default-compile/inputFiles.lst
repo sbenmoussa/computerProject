@@ -1,5 +1,6 @@
 /home/sbenmoussa/workspace/computer-database/webapp/src/main/java/com/excilys/computerdatabase/controller/CustomErrorController.java
 /home/sbenmoussa/workspace/computer-database/webapp/src/main/java/com/excilys/computerdatabase/controller/AddComputer.java
+/home/sbenmoussa/workspace/computer-database/webapp/src/main/java/com/excilys/computerdatabase/webserviceTest/Test.java
 /home/sbenmoussa/workspace/computer-database/webapp/src/main/java/com/excilys/computerdatabase/controller/Update.java
 /home/sbenmoussa/workspace/computer-database/webapp/src/main/java/com/excilys/computerdatabase/controller/Dashboard.java
 /home/sbenmoussa/workspace/computer-database/webapp/src/main/java/com/excilys/computerdatabase/tags/Pagination.java

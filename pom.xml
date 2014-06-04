@@ -1,41 +1,49 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.excilys</groupId>
 	<artifactId>computer-database</artifactId>
 	<packaging>pom</packaging>
-	<version>3.6.0-RELEASE</version>
+	<version>3.7.0-RELEASE</version>
 	<name>Computer-database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
-		<version>3.6.0-RELEASE</version>
+		<!-- PROJECT VERSION -->
+		<version>3.7.0-RELEASE</version>
 
 		<!-- Spring -->
-		<spring.version>4.0.5.RELEASE</spring.version>
-		<spring.data.version>1.6.0.RELEASE</spring.data.version>
+		<springVersion>4.0.5.RELEASE</springVersion>
+		<springDataVersion>1.6.0.RELEASE</springDataVersion>
 		<springSecurityVersion>3.2.4.RELEASE</springSecurityVersion>
 		
 		<!-- Hibernate -->
-		<hibernate.version>4.3.1.Final</hibernate.version>
+		<hibernateVersion>4.3.1.Final</hibernateVersion>
 		
 		<!-- Logging -->
-		<logback.version>1.1.2</logback.version>
-		<slf4j.version>1.7.7</slf4j.version>
-		<commons.logging.version>99.0-does-not-exist</commons.logging.version>
+		<logbackVersion>1.1.2</logbackVersion>
+		<slf4jVersion>1.7.7</slf4jVersion>
+		<commonsLoggingVersion>99.0-does-not-exist</commonsLoggingVersion>
 		
 		<!--  JodaTime -->
-		<jodaTime.version>2.3</jodaTime.version>
-		<jadira.version>3.2.0.GA</jadira.version>
+		<jodaTimeVersion>2.3</jodaTimeVersion>
+		<jadiraVersion>3.2.0.GA</jadiraVersion>
 
 		<!-- DB -->
-		<guava.version>17.0</guava.version>
-		<boneCP.version>0.8.0.RELEASE</boneCP.version>
-		<mysql.version>5.1.30</mysql.version>
+		<guavaVersion>17.0</guavaVersion>
+		<boneCPVersion>0.8.0.RELEASE</boneCPVersion>
+		<mysqlVersion>5.1.30</mysqlVersion>
 		
 		<!-- Web -->
-		<javax.servlet.version>2.4</javax.servlet.version>
-		<javax.servlet.api.version>2.0</javax.servlet.api.version>
-		<jstl.version>1.2</jstl.version>
+		<javaxServletVersion>2.4</javaxServletVersion>
+		<javaxServletApiVersion>2.0</javaxServletApiVersion>
+		<jstlVersion>1.2</jstlVersion>
+		
+		<!-- WebService -->
+		<springRemoteVersion>2.0.8</springRemoteVersion>
+		<jaxWsVersion>2.2.10-b140319.1121</jaxWsVersion>
+		<springWebServiceVersion>2.2.0.RELEASE</springWebServiceVersion>
+		<cxfVersion>2.2.3</cxfVersion>
+		
 		
 	</properties>
 
@@ -53,110 +61,116 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-context</artifactId>
-				<version>${spring.version}</version>
+				<version>${springVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-tx</artifactId>
-				<version>${spring.version}</version>
+				<version>${springVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-webmvc</artifactId>
-				<version>${spring.version}</version>
+				<version>${springVersion}</version>
 			</dependency>
 
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
-				<version>${spring.version}</version>
+				<version>${springVersion}</version>
 			</dependency>
 			
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
-				<version>${spring.version}</version>
+				<version>${springVersion}</version>
+			</dependency>
+			
+			<dependency>
+			  <groupId>org.springframework</groupId>
+			  <artifactId>spring-beans</artifactId>
+			  <version>${springVersion}</version>
 			</dependency>
 			
 			<!-- Spring DATA JPA -->
 			<dependency>
 				<groupId>org.springframework.data</groupId>
 				<artifactId>spring-data-jpa</artifactId>
-				<version>${spring.data.version}</version>
+				<version>${springDataVersion}</version>
 			</dependency>
 
 			<!-- JodaTime -->
 			<dependency>
 				<groupId>joda-time</groupId>
 				<artifactId>joda-time</artifactId>
-				<version>${jodaTime.version}</version>
+				<version>${jodaTimeVersion}</version>
 			</dependency>
 
 			<!-- Hibernate tools -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-annotations</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernateVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernateVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernateVersion}</version>
 			</dependency>
 
 			<!-- Persistence des données avec Hibernate et JPA -->
 			<dependency>
 				<groupId>org.jadira.usertype</groupId>
 				<artifactId>usertype.core</artifactId>
-				<version>${jadira.version}</version>
+				<version>${jadiraVersion}</version>
 			</dependency>
 
 			<!-- View Tools -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>servlet-api</artifactId>
-				<version>${javax.servlet.version}</version>
+				<version>${javaxServletVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>javax.servlet.jsp</groupId>
 				<artifactId>jsp-api</artifactId>
-				<version>${javax.servlet.api.version}</version>
+				<version>${javaxServletApiVersion}</version>
 			</dependency>
 
 			<!-- Needed for taglib -->
 			<dependency>
 				<groupId>javax.servlet</groupId>
 				<artifactId>jstl</artifactId>
-				<version>${jstl.version}</version>
+				<version>${jstlVersion}</version>
 			</dependency>
 
 			<!-- Used by BoneCP -->
 			<dependency>
 				<groupId>com.jolbox</groupId>
 				<artifactId>bonecp</artifactId>
-				<version>${boneCP.version}</version>
+				<version>${boneCPVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>${guava.version}</version>
+				<version>${guavaVersion}</version>
 			</dependency>
 			<dependency>
 				<groupId>mysql</groupId>
 				<artifactId>mysql-connector-java</artifactId>
-				<version>${mysql.version}</version>
+				<version>${mysqlVersion}</version>
 			</dependency>
 
 			<!-- Data validation with hibernate -->
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate.version}</version>
+				<version>${hibernateVersion}</version>
 			</dependency>
 
 			<!-- Project internal dependencies -->
@@ -181,9 +195,15 @@
 				<version>${version}</version>
 			</dependency>
 			<dependency>
+				<groupId>com.excilys.computerdatabase</groupId>
+				<artifactId>webservices</artifactId>
+				<version>${version}</version>
+			</dependency>
+		
+			<dependency>
 				<groupId>commons-logging</groupId>
 				<artifactId>commons-logging</artifactId>
-				<version>${commons.logging.version}</version>
+				<version>${commonsLoggingVersion}</version>
 			</dependency>			
 		
 			<!-- Spring Security -->
@@ -206,7 +226,29 @@
 			    <groupId>org.springframework.security</groupId>
 			    <artifactId>spring-security-taglibs</artifactId>
 			    <version>${springSecurityVersion}</version>
-		</dependency>
+			</dependency>
+		
+			<!-- Web Service -->
+			<dependency>
+				<groupId>com.sun.xml.ws</groupId>
+				<artifactId>jaxws-rt</artifactId>
+				<version>${jaxWsVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-frontend-jaxws</artifactId>
+				<version>${cxfVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.apache.cxf</groupId>
+				<artifactId>cxf-rt-transports-http</artifactId>
+				<version>${cxfVersion}</version>
+			</dependency>
+			<dependency>
+				<groupId>org.springframework.ws</groupId>
+				<artifactId>spring-ws-core</artifactId>
+				<version>${springWebServiceVersion}</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 
@@ -221,22 +263,22 @@
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-core</artifactId>
-			<version>${logback.version}</version>
+			<version>${logbackVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>ch.qos.logback</groupId>
 			<artifactId>logback-classic</artifactId>
-			<version>${logback.version}</version>
+			<version>${logbackVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>jcl-over-slf4j</artifactId>
-			<version>${slf4j.version}</version>
+			<version>${slf4jVersion}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
-			<version>${slf4j.version}</version>
+			<version>${slf4jVersion}</version>
 		</dependency>
 	</dependencies>
 
@@ -252,8 +294,6 @@
 					<target>1.7</target>
 				</configuration>
 			</plugin>
-
-
 		</plugins>
 	</build>
 	<modules>
@@ -262,5 +302,6 @@
 		<module>service</module>
 		<module>binding</module>
 		<module>webapp</module>
-	</modules>
+    <module>webservices</module>
+  </modules>
 </project>
