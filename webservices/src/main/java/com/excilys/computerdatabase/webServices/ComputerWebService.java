@@ -9,9 +9,9 @@ import com.excilys.computerdatabase.model.Computer;
 public interface ComputerWebService{
 
 
-	public boolean insert(Computer o) throws java.rmi.RemoteException;
+	public Response insert(Computer o) throws java.rmi.RemoteException;
 
-	public boolean update(Computer o) throws java.rmi.RemoteException;
+	public Response update(Computer o) throws java.rmi.RemoteException;
 
 
 	public void delete(Long id) throws java.rmi.RemoteException;

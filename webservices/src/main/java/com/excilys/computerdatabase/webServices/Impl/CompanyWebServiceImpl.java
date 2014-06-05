@@ -4,6 +4,8 @@ import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.MediaType;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -21,6 +23,8 @@ public class CompanyWebServiceImpl  implements CompanyWebService{
 	
 	@GET
 	@Path("/getAll")
+	@Produces(MediaType.APPLICATION_JSON)
+	
 	public List<Company> getAll() {
 		return  companyService.getAll();	
 	}
