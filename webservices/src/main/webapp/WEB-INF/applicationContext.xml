@@ -11,17 +11,13 @@
         http://jax-ws.dev.java.net/spring/servlet.xsd"
 >
 
-    <wss:binding url="/hello">
+    <wss:binding url="/computerWebService">
         <wss:service>
-            <ws:service bean="#helloWs"/>
+            <ws:service bean="#computerWebService"/>
         </wss:service>
     </wss:binding>
  
     <!-- Web service methods -->
-    <bean id="helloWs" class="com.excilys.computerdatabase.webServices.Impl.ComputerWebServiceImpl">
-<!--     	<property name="computerService" ref="ComputerService" /> -->
+    <bean id="computerWebService" class="com.excilys.computerdatabase.webServices.Impl.ComputerWebServiceImpl">
     </bean>
- 
-<!--     <bean id="ComputerService" class="com.excilys.computerdatabase.service.ComputerService" /> -->
- 
 </beans>
