@@ -7,11 +7,6 @@
 						http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context-4.0.xsd">
-	
-	<import resource="classpath:coreContext.xml"/>
-	<import resource="classpath:databaseContext.xml"/>
-	<import resource="classpath:serviceContext.xml"/>
-	<import resource="classpath:ValidationContext.xml"/>
-	<import resource="classpath:springSecurity.xml"/>
-	
+						
+	<context:component-scan base-package=" com.excilys.computerdatabase.service" />
 </beans>

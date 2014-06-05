@@ -1,9 +1,9 @@
 package com.excilys.computerdatabase.webServices;
 
-import java.util.List;
 import javax.ws.rs.core.Response;
 
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.model.ComputerList;
 
 
 public interface ComputerWebService{
@@ -16,9 +16,9 @@ public interface ComputerWebService{
 
 	public void delete(Long id) throws java.rmi.RemoteException;
 
-	public   List<Computer> getAll(String order, int page) throws java.rmi.RemoteException;
+	public   ComputerList getAll(String order, int page) throws java.rmi.RemoteException;
 
-	public  List<Computer> filterByName(String name, String order, int page) throws java.rmi.RemoteException;
+	public  ComputerList filterByName(String name, String order, int page) throws java.rmi.RemoteException;
 
 	public Computer find(Long id) throws java.rmi.RemoteException;
 

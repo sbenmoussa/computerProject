@@ -5,12 +5,12 @@
 	<groupId>com.excilys</groupId>
 	<artifactId>computer-database</artifactId>
 	<packaging>pom</packaging>
-	<version>3.7.0-RELEASE</version>
+	<version>3.9.0-RELEASE</version>
 	<name>Computer-database Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<!-- PROJECT VERSION -->
-		<version>3.7.0-RELEASE</version>
+		<version>3.9.0-RELEASE</version>
 
 		<!-- Spring -->
 		<springVersion>4.0.5.RELEASE</springVersion>

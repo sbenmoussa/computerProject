@@ -7,12 +7,11 @@
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context-4.0.xsd"
 >
- 
-    <context:component-scan base-package="com.excilys.computerdatabase.webServices.Impl"/>
-    <context:component-scan base-package="com.excilys.computerdatabase.service"/>
-    <context:component-scan base-package="com.excilys.computerdatabase.persistence"/>
+	<context:component-scan base-package="com.excilys.computerdatabase.service"/>
     <bean id="ComputerWebServiceImpl" class="com.excilys.computerdatabase.webServices.Impl.ComputerWebServiceImpl"/>
 	<bean id="CompanyWebServiceImpl" class="com.excilys.computerdatabase.webServices.Impl.CompanyWebServiceImpl"/>
+	<import resource="coreContext.xml"/>
 	<import resource="databaseContext.xml"/>
+	<import resource="serviceContext.xml"/>
 	
 </beans>

@@ -1,11 +1,11 @@
 package com.excilys.computerdatabase.webServices.Impl;
 
 import java.rmi.RemoteException;
-import java.util.List;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.Consumes;
@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.excilys.computerdatabase.model.Computer;
+import com.excilys.computerdatabase.model.ComputerList;
 import com.excilys.computerdatabase.service.ComputerService;
 import com.excilys.computerdatabase.webServices.ComputerWebService;
 
@@ -37,7 +38,7 @@ public class ComputerWebServiceImpl   implements ComputerWebService{
 	@GET
 	@Path("/test")
 	public Response test(){
-		return Response.status(200).entity("JAX-RS MARCHE !!!").build();
+		return Response.status(200).entity("JAX-RS MARCHE avec Jackson!!!").build();
 	}
 
 	@Override
@@ -47,7 +48,6 @@ public class ComputerWebServiceImpl   implements ComputerWebService{
 	public Response update(Computer o) throws RemoteException {
 		return  Response.status(200).entity("Résultat de l'insertion:  "+computerService.update(o)).build() ;
 	}
-
 
 	@Override
 	@POST
@@ -62,8 +62,8 @@ public class ComputerWebServiceImpl   implements ComputerWebService{
 	@GET
 	@Path("/getAll")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Computer> getAll(String order, int page) throws RemoteException {
-		return computerService.getAll(order, page).getContent();
+	public ComputerList getAll(String order, int page) throws RemoteException {
+		return new ComputerList(computerService.getAll(order, page).getContent());
 	}
 
 
@@ -71,17 +71,19 @@ public class ComputerWebServiceImpl   implements ComputerWebService{
 	@GET
 	@Path("/filterByName")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<Computer> filterByName(String name, String order, int page)
+	public ComputerList filterByName(String name, String order, int page)
 			throws RemoteException {
-		return computerService.filterByName(name, order, page).getContent();
+		return new ComputerList(computerService.filterByName(name, order, page).getContent());
 	}
 
 
 	@Override
 	@GET
-	@Path("/find")
+	@Path("/find/{id}")
 	@Produces(MediaType.APPLICATION_JSON)
-	public Computer find(Long id) throws RemoteException {
+	public Computer find(@PathParam("id")  Long id) throws RemoteException {
+		if(computerService == null)
+			return new Computer.ComputerBuilder().build();
 		return computerService.find(id);
 	}
 	

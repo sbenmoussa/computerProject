@@ -1,6 +1,6 @@
 package com.excilys.computerdatabase.webServices.Impl;
 
-import java.util.List;
+
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -10,7 +10,7 @@ import javax.ws.rs.core.MediaType;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.CompanyList;
 import com.excilys.computerdatabase.service.CompanyService;
 import com.excilys.computerdatabase.webServices.CompanyWebService;
 
@@ -25,7 +25,7 @@ public class CompanyWebServiceImpl  implements CompanyWebService{
 	@Path("/getAll")
 	@Produces(MediaType.APPLICATION_JSON)
 	
-	public List<Company> getAll() {
-		return  companyService.getAll();	
+	public CompanyList getAll() {
+		return  new CompanyList(companyService.getAll());	
 	}
 }

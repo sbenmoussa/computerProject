@@ -13,8 +13,6 @@ import javax.persistence.Table;
 import org.hibernate.annotations.Type;
 import org.joda.time.DateTime;
 
-import com.excilys.computerdatabase.model.Company.CompanyBuilder;
-
 @Entity
 @Table(name = "computer")
 public class Computer{

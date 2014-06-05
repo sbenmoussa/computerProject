@@ -14,8 +14,7 @@
 						http://www.springframework.org/schema/context
 						http://www.springframework.org/schema/context/spring-context.xsd"
 						>
-	
-	<context:component-scan base-package="com.excilys.computerdatabase.dao" />
+
 	<jpa:repositories base-package="com.excilys.computerdatabase.dao" />					
 	<tx:annotation-driven transaction-manager="transactionManager" />
 	<!-- BoneCP configuration -->
@@ -65,5 +64,7 @@
  		<property name="packagesToScan" value="com.excilys.computerdatabase.model" /> 
 	</bean>
 	
-	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />					
+	<bean class="org.springframework.orm.jpa.support.PersistenceAnnotationBeanPostProcessor" />		
+	
+	<context:component-scan base-package="com.excilys.computerdatabase.dao" />			
 </beans>

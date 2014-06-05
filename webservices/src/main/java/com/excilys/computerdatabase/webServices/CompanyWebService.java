@@ -1,10 +1,8 @@
 package com.excilys.computerdatabase.webServices;
 
-import java.util.List;
-
-import com.excilys.computerdatabase.model.Company;
+import com.excilys.computerdatabase.model.CompanyList;
 
 public interface CompanyWebService {
 
-	public List<Company> getAll() throws java.rmi.RemoteException;
+	public CompanyList getAll() throws java.rmi.RemoteException;
 }
