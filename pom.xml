@@ -40,11 +40,7 @@
 		<jstlVersion>1.2</jstlVersion>
 
 		<!-- WebService -->
-		<springRemoteVersion>2.0.8</springRemoteVersion>
-		<jaxWsVersion>2.2.8</jaxWsVersion>
-		<springWebServiceVersion>2.2.0.RELEASE</springWebServiceVersion>
-		<cxfVersion>2.2.3</cxfVersion>
-
+		<JerseyVersion>1.8</JerseyVersion>
 
 	</properties>
 
@@ -52,6 +48,11 @@
 		<repository>
 			<id>excilys</id>
 			<url>http://repository.excilys.com/content/repositories/thirdparty/</url>
+		</repository>
+		<repository>
+			<id>maven2-repository.java.net</id>
+			<name>Java.net Repository for Maven</name>
+			<url>http://download.java.net/maven/2/</url>
 		</repository>
 	</repositories>
 
@@ -74,7 +75,7 @@
 				<artifactId>spring-webmvc</artifactId>
 				<version>${springVersion}</version>
 			</dependency>
-
+			
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-orm</artifactId>
@@ -84,12 +85,6 @@
 			<dependency>
 				<groupId>org.springframework</groupId>
 				<artifactId>spring-core</artifactId>
-				<version>${springVersion}</version>
-			</dependency>
-
-			<dependency>
-				<groupId>org.springframework</groupId>
-				<artifactId>spring-beans</artifactId>
 				<version>${springVersion}</version>
 			</dependency>
 
@@ -219,11 +214,6 @@
 				<artifactId>persistence</artifactId>
 				<version>${version}</version>
 			</dependency>
-			<!-- <dependency> -->
-			<!-- <groupId>com.excilys.computerdatabase</groupId> -->
-			<!-- <artifactId>webservices</artifactId> -->
-			<!-- <version>${version}</version> -->
-			<!-- </dependency> -->
 
 			<!-- Spring Security -->
 			<dependency>
@@ -248,26 +238,40 @@
 			</dependency>
 
 			<!-- Web Service -->
-			<dependency>
-				<groupId>com.sun.xml.ws</groupId>
-				<artifactId>jaxws-rt</artifactId>
-				<version>${jaxWsVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-rt-frontend-jaxws</artifactId>
-				<version>${cxfVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.apache.cxf</groupId>
-				<artifactId>cxf-rt-transports-http</artifactId>
-				<version>${cxfVersion}</version>
-			</dependency>
-			<dependency>
-				<groupId>org.springframework.ws</groupId>
-				<artifactId>spring-ws-core</artifactId>
-				<version>${springWebServiceVersion}</version>
-			</dependency>
+			<!-- Jersey + Spring -->
+		<dependency>
+			<groupId>com.sun.jersey.contribs</groupId>
+			<artifactId>jersey-spring</artifactId>
+			<version>${JerseyVersion}</version>
+			<exclusions>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-core</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-web</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-beans</artifactId>
+				</exclusion>
+				<exclusion>
+					<groupId>org.springframework</groupId>
+					<artifactId>spring-context</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!-- Jersey -->
+		<dependency>
+			<groupId>com.sun.jersey</groupId>
+			<artifactId>jersey-server</artifactId>
+			<version>${JerseyVersion}</version>
+		</dependency>
 		</dependencies>
 	</dependencyManagement>
 
